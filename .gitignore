@@ -1,0 +1,19 @@
+# Persönlicher Lernfortschritt – bleibt lokal
+fortschritt/*.md
+!fortschritt/_beispiel.md
+
+# Arbeitskopien der Übungen und generierte Fortschrittsseite
+arbeit/
+
+# Build-Reste
+build/
+.gradle/
+bin/
+out/
+.idea/
+.settings/
+.project
+.classpath
+
+# Maschinenlokale Claude-Einstellungen
+.claude/settings.local.json
