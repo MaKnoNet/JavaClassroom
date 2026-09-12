@@ -4,6 +4,8 @@
 
 1. Prüfen: `git config --global user.name` und `git config --global user.email` sind gesetzt.
    Wenn nicht, den Lernenden beide setzen lassen (eigener Name, dienstliche E-Mail).
+   Ebenso `git config --global init.defaultBranch` – wenn leer, auf `main` setzen lassen,
+   damit der erste Branch `main` heißt (ältere Git-Versionen nehmen sonst `master`).
 2. `mkdir -p arbeit/git/01-erstes-repo/spielwiese` – der Ordner ist noch **kein** Repository.
 
 ## Aufgabe

@@ -13,7 +13,8 @@ Führe die Schritte in dieser Reihenfolge aus. Sprich ab Schritt 2 in der Unterr
 1. `git config user.name` lesen. Daraus den Dateinamen bilden: Kleinbuchstaben, Leerzeichen
    → `-`, Umlaute → ae/oe/ue (z. B. `max-mustermann`). Fehlt der Name, nach dem Namen fragen.
 2. Existiert `fortschritt/<name>.md`? Wenn nein, **eine Frage nach der anderen** stellen:
-   - Wie heißt du? (Vorschlag aus Git anbieten)
+   - Wie heißt du? (Vorschlag aus Git anbieten; der Dateiname wird aus der **Antwort**
+     gebildet, nicht zwingend aus `git config user.name`)
    - In welcher Sprache sollen wir arbeiten? (Deutsch / English / Français / andere)
    - Bist du Azubi, Student oder neuer Kollege?
    - Welche IDE benutzt du? (Eclipse / IntelliJ / VS Code / noch keine)
@@ -79,9 +80,11 @@ Wiederhole, bis die Ziele der Lektion erreicht sind:
 2. **Prüfen** – eine Verständnisfrage stellen. Antwort abwarten. Bei Fehlern Gegenfrage
    oder kleineres Beispiel, nicht die Lösung.
 3. **Üben** (wenn `Übung:` in der Lektion steht):
-   - Übung kopieren: `themen/<thema>/<uebung>/` → `arbeit/<thema>/<NN-name>/`, **ohne**
-     `loesung/`. Existiert das Ziel schon, nicht überschreiben – fragen, ob weiterarbeiten
-     oder neu anfangen.
+   - Übung kopieren, **ohne** `loesung/`: Quelle ist der `Übung:`-Pfad aus dem Lehrplan,
+     Ziel `arbeit/<thema>/<NN-name>/` ohne das Segment `uebungen/`. Beispiel:
+     `cp -r themen/git/uebungen/01-erstes-repo arbeit/git/01-erstes-repo && rm -rf arbeit/git/01-erstes-repo/loesung`
+     (kein `rsync` – gibt es unter Windows nicht). Existiert das Ziel schon, nicht
+     überschreiben – fragen, ob weiterarbeiten oder neu anfangen.
    - `AUFGABE.md` lesen und in der Unterrichtssprache erklären; Abnahmekriterien nennen.
    - Sagen, wie die Übung in der eingestellten IDE geöffnet wird (IDE-Hinweise in `AGENTS.md`).
    - Warten. Der Lernende schreibt. Erst auf „fertig" oder eine Frage reagieren.

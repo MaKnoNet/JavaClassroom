@@ -38,7 +38,7 @@ Prüfe per Shell, was das Thema braucht. Melde jedes Ergebnis kurz, leite bei Fe
 | java, gradle, junit | JDK 21 | `java -version` | Zeile mit `21.` |
 | java, gradle, junit | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 9.6.1` |
 | html, css, javascript | JDK 21 (für `jwebserver`) und Browser-Ansicht von Claude Code oder ein Browser | `jwebserver -h` | Hilfetext erscheint |
-| je nach `ide` | Eclipse / IntelliJ / VS Code | Lernenden fragen | – |
+| alle, wenn `ide` nicht `keine` | Eclipse / IntelliJ / VS Code | Lernenden fragen | – |
 
 Installationshilfe, wenn etwas fehlt (immer den Befehl zeigen, ausführen lassen, danach
 erneut prüfen; die Installation selbst macht der Lernende, nicht Claude):
@@ -60,8 +60,9 @@ setzen; unter Linux/macOS die Proxy-Root-CA in den JDK-Truststore importieren. A
 Gradle-Distribution einmal aus dem Firmennetz laden lassen.
 
 Nach einer Installation ein **neues Terminal** öffnen lassen (PATH). Erst-Git-Konfiguration
-gehört in die Git-Lektion 01, nicht in die Umgebungsprüfung: `git config --global user.name`
-und `user.email`.
+gehört in die Git-Lektion 01, nicht in die Umgebungsprüfung: `git config --global user.name`,
+`user.email` und `init.defaultBranch main` (sonst heißt der erste Branch je nach Git-Version
+`master`, und die Übungen sprechen von `main`).
 
 ## Ordner
 

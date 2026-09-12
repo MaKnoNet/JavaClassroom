@@ -2,7 +2,7 @@
 
 ```bash
 cd arbeit/git/01-erstes-repo/spielwiese
-git init
+git init -b main
 echo "Erste Notiz" > notizen.txt
 git add notizen.txt
 git commit -m "Notizen angelegt"
