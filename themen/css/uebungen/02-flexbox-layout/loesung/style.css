@@ -1,0 +1,22 @@
+body {
+  font-family: system-ui, sans-serif;
+  margin: 2rem;
+}
+
+.karten {
+  display: flex;
+  gap: 1rem;
+}
+
+.karte {
+  flex: 1;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+@media (max-width: 600px) {
+  .karten {
+    flex-direction: column;
+  }
+}
