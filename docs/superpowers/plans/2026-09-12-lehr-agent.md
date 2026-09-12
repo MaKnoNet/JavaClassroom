@@ -6,7 +6,7 @@
 
 **Architecture:** Die Lehrerrolle steht in `AGENTS.md`, der Einstieg in zwei Skills. Inhalte sind Markdown (`themen/<thema>/lehrplan.md`, `fortschritt/<name>.md`). Ein Single-File-Java-Programm `tools/Fortschritt.java` parst beide und schreibt `arbeit/fortschritt.html` aus einer Vorlage; die Darstellung rechnet JavaScript im Browser. Java-Übungen sind eigenständige Gradle-Projekte aus einer Schablone. Vor jeder Lektion prüft Claude per Shell, ob JDK, Git und Browser vorhanden sind, und leitet sonst die Installation an.
 
-**Tech Stack:** Claude Code (Skills, AGENTS.md), Java 21 (Single-File-Launch, kein Build für das Tool), Gradle 8.9 Wrapper + JUnit 5 für Übungen, statisches HTML/CSS/JS ohne Bibliotheken.
+**Tech Stack:** Claude Code (Skills, AGENTS.md), Java 21 (Single-File-Launch, kein Build für das Tool), Gradle 9.6.1 Wrapper + JUnit 5 für Übungen, statisches HTML/CSS/JS ohne Bibliotheken.
 
 **Spec:** `docs/superpowers/specs/2026-09-12-lehr-agent-design.md`. Ergänzung vom 2026-09-12 (nach Spec-Freigabe): Lernende haben nichts installiert; die Umgebung wird vor jeder Lektion geprüft.
 
@@ -116,7 +116,7 @@ Prüfe per Shell, was das Thema braucht. Melde jedes Ergebnis kurz, leite bei Fe
 |---|---|---|---|
 | alle | Git | `git --version` | `git version 2.x` |
 | java, gradle, junit | JDK 21 | `java -version` | Zeile mit `21.` |
-| java, gradle, junit | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 8.9` |
+| java, gradle, junit | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 9.6.1` |
 | html, css, javascript | Browser-Ansicht von Claude Code oder ein Browser | – | Seite lässt sich öffnen |
 | je nach `ide` | Eclipse / IntelliJ / VS Code | Lernenden fragen | – |
 
@@ -335,12 +335,12 @@ oder Umgebungsvariable `FRAMEWORK_HOME`. Firmencode wird hier nicht abgelegt.
 - **Prüffrage:** …
 ```
 
-- [ ] **Step 2: Gradle-Wrapper aus XLSBuilder kopieren**
+- [ ] **Step 2: Gradle-Wrapper aus XMLViewer kopieren**
 
 ```bash
 mkdir -p themen/_schablone/uebung-java/gradle/wrapper themen/_schablone/uebung-java/src/main/java themen/_schablone/uebung-java/src/test/java
-cp ../XLSBuilder/gradlew ../XLSBuilder/gradlew.bat themen/_schablone/uebung-java/
-cp ../XLSBuilder/gradle/wrapper/gradle-wrapper.jar ../XLSBuilder/gradle/wrapper/gradle-wrapper.properties themen/_schablone/uebung-java/gradle/wrapper/
+cp ../XMLViewer/gradlew ../XMLViewer/gradlew.bat themen/_schablone/uebung-java/
+cp ../XMLViewer/gradle/wrapper/gradle-wrapper.jar ../XMLViewer/gradle/wrapper/gradle-wrapper.properties themen/_schablone/uebung-java/gradle/wrapper/
 touch themen/_schablone/uebung-java/src/main/java/.gitkeep themen/_schablone/uebung-java/src/test/java/.gitkeep
 ```
 
@@ -390,7 +390,7 @@ test {
 - [ ] **Step 4: Schablone bauen (leer, muss trotzdem durchlaufen)**
 
 Run: `cd themen/_schablone/uebung-java && ./gradlew test --no-daemon -q; echo EXIT=$?; cd ../../..`
-Expected: `EXIT=0` (beim ersten Lauf lädt der Wrapper Gradle 8.9 herunter).
+Expected: `EXIT=0` (beim ersten Lauf lädt der Wrapper Gradle 9.6.1 herunter).
 
 - [ ] **Step 5: Web-Schablone**
 
@@ -2299,7 +2299,7 @@ läuft und grün ist.
 ```markdown
 Warum so: `testImplementation` macht JUnit nur für Tests sichtbar, nicht für den
 Produktionscode. `testRuntimeOnly 'org.junit.platform:junit-platform-launcher'` braucht
-Gradle 8.9, um die Tests zu starten. `useJUnitPlatform()` schaltet den JUnit-5-Runner ein –
+Gradle 9.6.1, um die Tests zu starten. `useJUnitPlatform()` schaltet den JUnit-5-Runner ein –
 ohne ihn findet Gradle keinen einzigen Test und meldet trotzdem Erfolg.
 Die Datei ersetzt `build.gradle` im Projektordner.
 ```

@@ -36,7 +36,7 @@ Prüfe per Shell, was das Thema braucht. Melde jedes Ergebnis kurz, leite bei Fe
 |---|---|---|---|
 | alle | Git | `git --version` | `git version 2.x` |
 | java, gradle, junit | JDK 21 | `java -version` | Zeile mit `21.` |
-| java, gradle, junit | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 8.9` |
+| java, gradle, junit | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 9.6.1` |
 | html, css, javascript | Browser-Ansicht von Claude Code oder ein Browser | – | Seite lässt sich öffnen |
 | je nach `ide` | Eclipse / IntelliJ / VS Code | Lernenden fragen | – |
 
