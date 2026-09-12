@@ -9,6 +9,8 @@ public final class FortschrittTest {
     public static void main(String[] args) {
         lehrplanMitZweiLektionen();
         lehrplanOhneUebung();
+        standMitZweiThemen();
+        standOhneThemen();
         if (fehler > 0) {
             System.err.println(fehler + " Test(s) fehlgeschlagen");
             System.exit(1);
@@ -64,6 +66,54 @@ public final class FortschrittTest {
         Fortschritt.Lehrplan plan = Fortschritt.parseLehrplan(md);
         pruefe("leere voraussetzungen", List.of(), plan.voraussetzungen());
         pruefe("uebung fehlt", null, plan.lektionen().get(0).uebung());
+    }
+
+    static void standMitZweiThemen() {
+        String md = """
+            ---
+            name: Max Mustermann
+            sprache: de
+            rolle: azubi
+            ide: eclipse
+            vorwissen: "Erstes Lehrjahr, kein Git."
+            ---
+
+            ## java
+            - 01: fertig 2026-09-10
+            - 03: begonnen 2026-09-12
+            - notizen: Referenz vs. Wert wiederholen.
+
+            ## git
+            - 01: fertig 2026-09-11
+            """;
+        Fortschritt.Stand stand = Fortschritt.parseStand(md);
+        pruefe("name", "Max Mustermann", stand.profil().name());
+        pruefe("sprache", "de", stand.profil().sprache());
+        pruefe("ide", "eclipse", stand.profil().ide());
+        pruefe("vorwissen ohne anfuehrungszeichen", "Erstes Lehrjahr, kein Git.", stand.profil().vorwissen());
+        pruefe("anzahl themen", 2, stand.themen().size());
+        Fortschritt.ThemenStand java = stand.themen().get("java");
+        pruefe("java lektionen", 2, java.lektionen().size());
+        pruefe("java 01 status", "fertig", java.lektionen().get(0).status());
+        pruefe("java 01 datum", "2026-09-10", java.lektionen().get(0).datum());
+        pruefe("java 03 status", "begonnen", java.lektionen().get(1).status());
+        pruefe("java notizen", "Referenz vs. Wert wiederholen.", java.notizen());
+        pruefe("git notizen leer", null, stand.themen().get("git").notizen());
+    }
+
+    static void standOhneThemen() {
+        String md = """
+            ---
+            name: Neu
+            sprache: fr
+            rolle: student
+            ide: keine
+            vorwissen: "nichts"
+            ---
+            """;
+        Fortschritt.Stand stand = Fortschritt.parseStand(md);
+        pruefe("keine themen", 0, stand.themen().size());
+        pruefe("sprache fr", "fr", stand.profil().sprache());
     }
 
     static void pruefe(String name, Object erwartet, Object tatsaechlich) {

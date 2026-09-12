@@ -20,9 +20,17 @@ public final class Fortschritt {
 
     record Lektion(String nummer, String titel, String uebung) {}
     record Lehrplan(String thema, String titel, List<String> voraussetzungen, List<Lektion> lektionen) {}
+    record LektionsStand(String nummer, String status, String datum) {}
+    record ThemenStand(List<LektionsStand> lektionen, String notizen) {}
+    record Profil(String name, String sprache, String rolle, String ide, String vorwissen) {}
+    record Stand(Profil profil, Map<String, ThemenStand> themen) {}
 
     private static final Pattern LEKTION = Pattern.compile("^### (\\d{2}) (.+)$");
     private static final Pattern UEBUNG = Pattern.compile("^- \\*\\*Übung:\\*\\* (.+)$");
+    private static final Pattern THEMA = Pattern.compile("^## (\\S+)$");
+    private static final Pattern LEKTIONS_STAND =
+            Pattern.compile("^- (\\d{2}): (fertig|begonnen) (\\d{4}-\\d{2}-\\d{2})$");
+    private static final Pattern NOTIZEN = Pattern.compile("^- notizen: (.*)$");
 
     /** Liest die YAML-Frontmatter zwischen den beiden ersten `---`-Zeilen als flache Schlüssel/Wert-Paare. */
     static Map<String, String> parseFrontmatter(String markdown) {
@@ -106,5 +114,48 @@ public final class Fortschritt {
                 frontmatter.get("titel"),
                 parseListe(frontmatter.get("voraussetzungen")),
                 lektionen);
+    }
+
+    static Stand parseStand(String markdown) {
+        Map<String, String> frontmatter = parseFrontmatter(markdown);
+        Profil profil = new Profil(
+                frontmatter.get("name"),
+                frontmatter.get("sprache"),
+                frontmatter.get("rolle"),
+                frontmatter.get("ide"),
+                frontmatter.get("vorwissen"));
+        Map<String, ThemenStand> themen = new LinkedHashMap<>();
+        String thema = null;
+        List<LektionsStand> lektionen = null;
+        String notizen = null;
+        for (String rohZeile : markdown.split("\\R")) {
+            String zeile = rohZeile.strip();
+            Matcher themaZeile = THEMA.matcher(zeile);
+            if (themaZeile.matches()) {
+                if (thema != null) {
+                    themen.put(thema, new ThemenStand(lektionen, notizen));
+                }
+                thema = themaZeile.group(1);
+                lektionen = new ArrayList<>();
+                notizen = null;
+                continue;
+            }
+            if (thema == null) {
+                continue;
+            }
+            Matcher standZeile = LEKTIONS_STAND.matcher(zeile);
+            if (standZeile.matches()) {
+                lektionen.add(new LektionsStand(standZeile.group(1), standZeile.group(2), standZeile.group(3)));
+                continue;
+            }
+            Matcher notizZeile = NOTIZEN.matcher(zeile);
+            if (notizZeile.matches()) {
+                notizen = notizZeile.group(1).trim();
+            }
+        }
+        if (thema != null) {
+            themen.put(thema, new ThemenStand(lektionen, notizen));
+        }
+        return new Stand(profil, themen);
     }
 }
