@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Tests: Funktionen und Arrays</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    li { padding: .2rem 0; }
+    .ok { color: #16a34a; }
+    .fehler { color: #dc2626; }
+  </style>
+</head>
+<body>
+  <h1>Tests</h1>
+  <p id="ergebnis"></p>
+  <ul id="liste"></ul>
+  <script src="aufgabe.js"></script>
+  <script>
+    const faelle = [
+      ["summe([1, 2, 3]) ist 6", () => summe([1, 2, 3]) === 6],
+      ["summe([]) ist 0", () => summe([]) === 0],
+      ["nurGerade([1, 2, 3, 4]) ist [2, 4]", () => JSON.stringify(nurGerade([1, 2, 3, 4])) === "[2,4]"],
+      ["nurGerade([1, 3]) ist []", () => JSON.stringify(nurGerade([1, 3])) === "[]"],
+      ["groesste([3, 9, 2]) ist 9", () => groesste([3, 9, 2]) === 9],
+      ["groesste([]) ist undefined", () => groesste([]) === undefined],
+    ];
+    let bestanden = 0;
+    const liste = document.getElementById("liste");
+    for (const [name, pruefung] of faelle) {
+      let ok = false;
+      try { ok = pruefung(); } catch (e) { ok = false; }
+      if (ok) bestanden++;
+      const li = document.createElement("li");
+      li.className = ok ? "ok" : "fehler";
+      li.textContent = (ok ? "✔ " : "✘ ") + name;
+      liste.appendChild(li);
+    }
+    document.getElementById("ergebnis").textContent = `bestanden: ${bestanden}/${faelle.length}`;
+  </script>
+</body>
+</html>
