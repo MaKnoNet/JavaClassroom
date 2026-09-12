@@ -62,10 +62,20 @@ vom ersten Tag an, wie „fertig" definiert ist.
 - **Ziele:** `try`/`catch`/`finally`, checked vs. unchecked, eigene Exceptions; Fehler nicht verschlucken; try-with-resources
 - **Prüffrage:** Warum ist ein leerer `catch`-Block gefährlich?
 
-### 11 Records, Enums und Streams
-- **Ziele:** `record` für Datenklassen, `enum` statt Magic Strings, Streams für Filtern/Abbilden/Sammeln
+### 11 Records und Enums
+- **Ziele:** `record` für unveränderliche Datenklassen, `enum` statt Magic Strings, `switch` über Enums
 - **Prüffrage:** Was garantiert ein Record, das eine normale Klasse nicht garantiert?
 
-### 12 Clean Code im Kleinen
+### 12 Streams
+- **Ziele:** `stream()`, `filter`, `map`, `sorted`, `collect`; `Collectors.toList`, `joining`, `groupingBy`; `Optional` als Ergebnis von `max`/`findFirst`; wann eine Schleife lesbarer bleibt
+- **Übung:** uebungen/03-streams
+- **Prüffrage:** Was ist der Unterschied zwischen einer Zwischenoperation wie `filter` und einer Endoperation wie `collect` – und wann wird tatsächlich gerechnet?
+
+Leitfaden: Ein Stream ist eine Fließband-Beschreibung, keine Datenstruktur – erst die
+Endoperation setzt das Band in Gang. Mit einer vorhandenen Schleife beginnen und sie Schritt
+für Schritt in `filter`/`map`/`collect` übersetzen; dann zeigen, wo `groupingBy` eine ganze
+Map-Schleife ersetzt. `Optional` als Antwort auf „was, wenn die Liste leer ist" einführen.
+
+### 13 Clean Code im Kleinen
 - **Ziele:** Sprechende Namen, kleine Methoden, keine Magic Numbers, DRY; Code lesen und verbessern
 - **Prüffrage:** Woran erkennt man, dass eine Methode zu viel tut?
