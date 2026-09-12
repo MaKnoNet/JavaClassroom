@@ -1,0 +1,5 @@
+# Einheitliche Zeilenenden auf Windows, Linux und macOS
+* text=auto eol=lf
+*.bat text eol=crlf
+*.jar binary
+*.png binary
