@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lernfortschritt</title>
+<style>
+  :root { --bg:#f6f7f9; --karte:#fff; --text:#1f2933; --grau:#6b7280; --rand:#e5e7eb;
+          --fertig:#16a34a; --begonnen:#f59e0b; --offen:#d1d5db; }
+  body { margin:0; padding:2rem; font-family:system-ui,sans-serif; background:var(--bg); color:var(--text); }
+  header { display:flex; flex-wrap:wrap; gap:1rem 2rem; align-items:baseline; margin-bottom:1.5rem; }
+  h1 { margin:0; font-size:1.6rem; }
+  .profil { color:var(--grau); font-size:.95rem; }
+  .gesamt, .thema { background:var(--karte); border:1px solid var(--rand); border-radius:.75rem; padding:1rem 1.25rem; }
+  .gesamt { margin-bottom:1.5rem; }
+  .balken { height:.6rem; background:var(--offen); border-radius:999px; overflow:hidden; }
+  .balken > div { height:100%; background:var(--fertig); }
+  .themen { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1rem; }
+  .thema h2 { margin:0 0 .5rem; font-size:1.15rem; display:flex; justify-content:space-between; }
+  .thema .zahl { color:var(--grau); font-weight:normal; font-size:.95rem; }
+  .thema.gesperrt { opacity:.7; }
+  ul { list-style:none; padding:0; margin:.75rem 0 0; }
+  li { display:flex; gap:.5rem; padding:.2rem 0; font-size:.95rem; }
+  li .datum { margin-left:auto; color:var(--grau); font-size:.85rem; }
+  .status { width:1.2rem; text-align:center; }
+  .fertig .status { color:var(--fertig); }
+  .begonnen .status { color:var(--begonnen); }
+  .offen { color:var(--grau); }
+  .notizen { margin-top:.75rem; padding:.5rem .75rem; background:#fffbeb; border-left:3px solid var(--begonnen); font-size:.9rem; }
+  .hinweis { color:var(--grau); font-size:.85rem; margin-top:.5rem; }
+</style>
+</head>
+<body>
+<header><h1>Lernfortschritt</h1><div class="profil" id="profil"></div></header>
+<section class="gesamt" id="gesamt"></section>
+<section class="themen" id="themen"></section>
+<script>
+const DATEN = /*DATEN*/{};
+const SYMBOL = { fertig: "✔", begonnen: "▶", offen: "○" };
+
+function standVon(thema) {
+  return DATEN.stand[thema] || { lektionen: [], notizen: null };
+}
+
+function lektionenMitStatus(plan) {
+  const stand = standVon(plan.thema);
+  return plan.lektionen.map(l => {
+    const s = stand.lektionen.find(x => x.nummer === l.nummer);
+    return { ...l, status: s ? s.status : "offen", datum: s ? s.datum : null };
+  });
+}
+
+function istFertig(thema) {
+  const plan = DATEN.lehrplaene.find(p => p.thema === thema);
+  if (!plan) return true;
+  return lektionenMitStatus(plan).every(l => l.status === "fertig");
+}
+
+function fehlendeVoraussetzungen(plan) {
+  return plan.voraussetzungen.filter(v => !istFertig(v));
+}
+
+function letztesDatum(lektionen) {
+  return lektionen.map(l => l.datum).filter(Boolean).sort().pop() || null;
+}
+
+function escapeHtml(s) {
+  return String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+
+function karte(plan) {
+  const lektionen = lektionenMitStatus(plan);
+  const fertig = lektionen.filter(l => l.status === "fertig").length;
+  const fehlend = fehlendeVoraussetzungen(plan);
+  const prozent = lektionen.length ? Math.round(100 * fertig / lektionen.length) : 0;
+  const stand = standVon(plan.thema);
+  const datum = letztesDatum(lektionen);
+  const zeilen = lektionen.map(l =>
+    `<li class="${l.status}"><span class="status">${SYMBOL[l.status]}</span>` +
+    `<span>${l.nummer} ${escapeHtml(l.titel)}</span>` +
+    (l.datum ? `<span class="datum">${l.datum}</span>` : "") + `</li>`).join("");
+  return `<article class="thema ${fehlend.length ? "gesperrt" : ""}">
+    <h2><span>${fehlend.length ? "🔒 " : ""}${escapeHtml(plan.titel)}</span><span class="zahl">${fertig} / ${lektionen.length}</span></h2>
+    <div class="balken"><div style="width:${prozent}%"></div></div>
+    ${fehlend.length ? `<div class="hinweis">Voraussetzung noch offen: ${fehlend.map(escapeHtml).join(", ")}</div>` : ""}
+    ${datum ? `<div class="hinweis">Letzte Stunde: ${datum}</div>` : ""}
+    <ul>${zeilen}</ul>
+    ${stand.notizen ? `<div class="notizen">Nächstes Mal: ${escapeHtml(stand.notizen)}</div>` : ""}
+  </article>`;
+}
+
+function render() {
+  const p = DATEN.profil;
+  document.getElementById("profil").textContent = `${p.name} · ${p.rolle} · Sprache ${p.sprache} · IDE ${p.ide}`;
+  let gesamtFertig = 0, gesamtAlle = 0;
+  for (const plan of DATEN.lehrplaene) {
+    const lektionen = lektionenMitStatus(plan);
+    gesamtFertig += lektionen.filter(l => l.status === "fertig").length;
+    gesamtAlle += lektionen.length;
+  }
+  const gesamtProzent = gesamtAlle ? Math.round(100 * gesamtFertig / gesamtAlle) : 0;
+  document.getElementById("gesamt").innerHTML =
+    `<strong>Gesamt: ${gesamtFertig} von ${gesamtAlle} Lektionen (${gesamtProzent} %)</strong>` +
+    `<div class="balken" style="margin-top:.5rem"><div style="width:${gesamtProzent}%"></div></div>`;
+  document.getElementById("themen").innerHTML = DATEN.lehrplaene.map(karte).join("");
+}
+
+render();
+</script>
+</body>
+</html>

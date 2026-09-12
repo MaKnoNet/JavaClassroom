@@ -11,6 +11,8 @@ public final class FortschrittTest {
         lehrplanOhneUebung();
         standMitZweiThemen();
         standOhneThemen();
+        jsonEscaping();
+        jsonGesamt();
         if (fehler > 0) {
             System.err.println(fehler + " Test(s) fehlgeschlagen");
             System.exit(1);
@@ -114,6 +116,32 @@ public final class FortschrittTest {
         Fortschritt.Stand stand = Fortschritt.parseStand(md);
         pruefe("keine themen", 0, stand.themen().size());
         pruefe("sprache fr", "fr", stand.profil().sprache());
+    }
+
+    static void jsonEscaping() {
+        pruefe("null", "null", Fortschritt.json((String) null));
+        pruefe("anfuehrungszeichen", "\"a\\\"b\"", Fortschritt.json("a\"b"));
+        pruefe("backslash", "\"a\\\\b\"", Fortschritt.json("a\\b"));
+        pruefe("schraegstrich gegen </script>", "\"<\\/script>\"", Fortschritt.json("</script>"));
+        pruefe("zeilenumbruch", "\"a\\nb\"", Fortschritt.json("a\nb"));
+        pruefe("liste", "[\"git\",\"java\"]", Fortschritt.json(List.of("git", "java")));
+    }
+
+    static void jsonGesamt() {
+        Fortschritt.Lehrplan plan = new Fortschritt.Lehrplan("java", "Java", List.of("git"),
+                List.of(new Fortschritt.Lektion("01", "Erste Klasse", "uebungen/01-erste-klasse"),
+                        new Fortschritt.Lektion("02", "Variablen", null)));
+        Fortschritt.Stand stand = new Fortschritt.Stand(
+                new Fortschritt.Profil("Max", "de", "azubi", "eclipse", "nichts"),
+                java.util.Map.of("java", new Fortschritt.ThemenStand(
+                        List.of(new Fortschritt.LektionsStand("01", "fertig", "2026-09-10")), "Notiz")));
+        String json = Fortschritt.toJson(List.of(plan), stand);
+        String erwartet = "{\"profil\":{\"name\":\"Max\",\"sprache\":\"de\",\"rolle\":\"azubi\",\"ide\":\"eclipse\",\"vorwissen\":\"nichts\"},"
+                + "\"lehrplaene\":[{\"thema\":\"java\",\"titel\":\"Java\",\"voraussetzungen\":[\"git\"],\"lektionen\":["
+                + "{\"nummer\":\"01\",\"titel\":\"Erste Klasse\",\"uebung\":\"uebungen\\/01-erste-klasse\"},"
+                + "{\"nummer\":\"02\",\"titel\":\"Variablen\",\"uebung\":null}]}],"
+                + "\"stand\":{\"java\":{\"lektionen\":[{\"nummer\":\"01\",\"status\":\"fertig\",\"datum\":\"2026-09-10\"}],\"notizen\":\"Notiz\"}}}";
+        pruefe("json gesamt", erwartet, json);
     }
 
     static void pruefe(String name, Object erwartet, Object tatsaechlich) {
