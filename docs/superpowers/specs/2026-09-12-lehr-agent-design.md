@@ -104,6 +104,15 @@ Versuchen oder auf Wunsch gezeigt.
 - Fortschrittsseite neu erzeugen; auf Wunsch Hinweis, dass `arbeit/fortschritt.html`
   als einzelne Datei an den Ausbilder weitergegeben werden kann.
 
+### Umgebungsprüfung (Ergänzung 2026-09-12, nach Freigabe)
+
+Lernende haben zu Beginn nichts installiert. Vor **jeder** Lektion prüft Claude per Shell,
+was das Thema braucht (Git für alle; JDK 21 und Gradle-Wrapper für Java/Gradle/JUnit;
+Browser-Ansicht für HTML/CSS/JS; die eingestellte IDE), meldet das Ergebnis und leitet bei
+Fehlendem die Installation an – Befehl pro Betriebssystem zeigen, vom Lernenden ausführen
+lassen, neues Terminal, erneut prüfen. Die Tabelle mit Prüf- und Installationsbefehlen steht
+in `AGENTS.md`. Die Installation ist Teil der Stunde, nicht Voraussetzung dafür.
+
 ### Haltungsregeln (in `AGENTS.md`, gelten auch ohne `/lernen`)
 
 Fragen statt vorsagen; ein Schritt pro Nachricht; Fehler sind Lernanlass, kein Vorwurf;
