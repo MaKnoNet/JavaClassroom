@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anmeldung</title>
+</head>
+<body>
+  <h1>Anmeldung</h1>
+  <form method="post">
+    <p>
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" required>
+    </p>
+    <p>
+      <label for="email">E-Mail</label>
+      <input id="email" name="email" type="email" required>
+    </p>
+    <p>
+      <label for="rolle">Rolle</label>
+      <select id="rolle" name="rolle">
+        <option>Azubi</option>
+        <option>Student</option>
+        <option>Kollege</option>
+      </select>
+    </p>
+    <p>
+      <input id="newsletter" name="newsletter" type="checkbox">
+      <label for="newsletter">Newsletter</label>
+    </p>
+    <button type="submit">Absenden</button>
+  </form>
+</body>
+</html>
