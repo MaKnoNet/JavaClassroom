@@ -1,0 +1,14 @@
+body {
+  font-family: system-ui, sans-serif;
+  background: #f6f7f9;
+  padding: 2rem;
+}
+
+h1 {
+  color: #1d4ed8;
+}
+
+.hinweis {
+  background: #fef3c7;
+  padding: 1rem;
+}
