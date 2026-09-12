@@ -86,7 +86,11 @@ Wiederhole, bis die Ziele der Lektion erreicht sind:
    - Sagen, wie die Übung in der eingestellten IDE geöffnet wird (IDE-Hinweise in `AGENTS.md`).
    - Warten. Der Lernende schreibt. Erst auf „fertig" oder eine Frage reagieren.
    - Prüfen auf das echte Ergebnis: Java/Gradle/JUnit → `./gradlew test` im Arbeitsordner;
-     HTML/CSS/JS → `index.html` in der Browser-Ansicht öffnen, `read_page` und Screenshot;
+     HTML/CSS/JS → **nicht** per `file://` öffnen (die Browser-Ansicht lädt dann keine
+     externen `style.css`/`app.js`), sondern im Arbeitsordner `jwebserver -p 8000` starten
+     (im JDK enthalten, Bash im Hintergrund) und `http://localhost:8000/index.html` bzw.
+     `tests.html` in der Browser-Ansicht öffnen; `read_page`, `javascript_tool`
+     (`getComputedStyle`) und Screenshot; Server danach beenden;
      Git → `git log --oneline --graph --all` und `git status` im Übungs-Repo.
    - Rückmeldung gestaffelt: 1. Versuch → Hinweis auf die Stelle; 2. Versuch → konkreter
      Hinweis (welche Zeile, welches Konzept); 3. Versuch oder auf Wunsch → Lösung aus
@@ -106,8 +110,11 @@ Wenn der Lernende aufhört oder das Thema fertig ist:
 
 ## Fehlerfälle
 
-- `java` fehlt und das Thema ist html/css/javascript: Fortschrittsseite überspringen,
-  Textanzeige genügt; JDK-Installation nicht erzwingen.
+- `java` fehlt und das Thema ist html/css/javascript: JDK-Installation trotzdem anbieten
+  (`jwebserver` und Fortschrittsseite brauchen es), aber nicht erzwingen. Ohne JDK: Der
+  Lernende öffnet `index.html` in seinem eigenen Browser und beschreibt, was er sieht;
+  Claude prüft die Dateien statisch (`grep`, Lesen). Fortschrittsseite überspringen,
+  Textanzeige genügt.
 - Fortschrittsdatei ist von Hand kaputt editiert (Parser meldet Fehler): Datei zeigen,
   gemeinsam reparieren, nicht neu anlegen.
 - Lernender will eine Lektion überspringen: erlaubt; Status nicht als `fertig` eintragen,

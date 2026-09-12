@@ -3202,7 +3202,7 @@ hält die Untergrenze ohne `if`. Die Datei ersetzt `app.js`.
 
 - [ ] **Step 3: Prüfen (Browser-Ansicht)**
 
-01: Scratch-Kopie, `loesung/aufgabe.js` über `aufgabe.js`, `tests.html` öffnen, `find` „bestanden" → Text `bestanden: 6/6`. Mit dem Startcode muss `bestanden: 1/6` stehen (nur `summe([]) ist 0` besteht) – das ist der „rote" Zustand.
+01: Scratch-Kopie, `loesung/aufgabe.js` über `aufgabe.js`, `tests.html` öffnen, `find` „bestanden" → Text `bestanden: 6/6`. Mit dem Startcode muss `bestanden: 3/6` stehen (die drei Leerfälle bestehen zufällig) – das ist der „rote" Zustand.
 02: Scratch-Kopie mit Lösung, `index.html` öffnen; per `find`/`computer` dreimal `+`, einmal `−` klicken → `#anzeige` zeigt `2`; `Zurücksetzen` → `0`; `−` → `0`. `read_console_messages` ohne Fehler.
 
 - [ ] **Step 4: Commits**

@@ -37,7 +37,7 @@ Prüfe per Shell, was das Thema braucht. Melde jedes Ergebnis kurz, leite bei Fe
 | alle | Git | `git --version` | `git version 2.x` |
 | java, gradle, junit | JDK 21 | `java -version` | Zeile mit `21.` |
 | java, gradle, junit | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 9.6.1` |
-| html, css, javascript | Browser-Ansicht von Claude Code oder ein Browser | – | Seite lässt sich öffnen |
+| html, css, javascript | JDK 21 (für `jwebserver`) und Browser-Ansicht von Claude Code oder ein Browser | `jwebserver -h` | Hilfetext erscheint |
 | je nach `ide` | Eclipse / IntelliJ / VS Code | Lernenden fragen | – |
 
 Installationshilfe, wenn etwas fehlt (immer den Befehl zeigen, ausführen lassen, danach
@@ -50,6 +50,14 @@ erneut prüfen; die Installation selbst macht der Lernende, nicht Claude):
 | Eclipse | `winget install EclipseAdoptium.Temurin.21.JDK` ist **nicht** Eclipse; Eclipse IDE for Java Developers von eclipse.org laden | eclipse.org | eclipse.org oder Snap |
 | IntelliJ | `winget install JetBrains.IntelliJIDEA.Community` | `brew install --cask intellij-idea-ce` | Snap `intellij-idea-community` |
 | VS Code | `winget install Microsoft.VisualStudioCode` | `brew install --cask visual-studio-code` | Snap `code` |
+
+**Firmenproxy:** Bricht `./gradlew` beim ersten Lauf mit `PKIX path building failed` ab, prüft
+ein TLS-inspizierender Proxy die Verbindung. Abhilfe ist maschinenlokal, nie im Repo: unter
+Windows `~/.gradle/gradle.properties` mit
+`org.gradle.jvmargs=-Djavax.net.ssl.trustStoreType=Windows-ROOT` anlegen und für den
+Wrapper-Download zusätzlich `JAVA_TOOL_OPTIONS=-Djavax.net.ssl.trustStoreType=Windows-ROOT`
+setzen; unter Linux/macOS die Proxy-Root-CA in den JDK-Truststore importieren. Alternativ die
+Gradle-Distribution einmal aus dem Firmennetz laden lassen.
 
 Nach einer Installation ein **neues Terminal** öffnen lassen (PATH). Erst-Git-Konfiguration
 gehört in die Git-Lektion 01, nicht in die Umgebungsprüfung: `git config --global user.name`
