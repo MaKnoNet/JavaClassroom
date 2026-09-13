@@ -85,6 +85,7 @@ erneut prüfen; die Installation selbst macht der Lernende, nicht Claude):
 | Podman | `wsl --install --no-distribution` (Admin), dann `winget install RedHat.Podman` und `winget install Docker.DockerCompose`; `podman machine init`, `podman machine start` | `brew install podman docker-compose`, `podman machine init && podman machine start` | `sudo apt install podman podman-compose` |
 | H2 (Standard für `datenbanken`) | kein Installer: `curl -O https://repo1.maven.org/maven2/com/h2database/h2/2.3.232/h2-2.3.232.jar` in `arbeit/datenbanken/`; Konsole `java -jar h2-2.3.232.jar` | dito | dito |
 | PostgreSQL (Alternative) | `winget install PostgreSQL.PostgreSQL.16` oder als Container `podman run -d --name lern-db -e POSTGRES_USER=lernen -e POSTGRES_PASSWORD=lernen -e POSTGRES_DB=uebung -p 5432:5432 docker.io/library/postgres:16` | `brew install postgresql@16` oder derselbe Container | `sudo apt install postgresql` oder derselbe Container |
+| Flyway (nur `datenbanken` 08) | kein Installer: Zip von `download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/13.6.0/flyway-commandline-13.6.0.zip` nach `arbeit/datenbanken/` entpacken (~500 MB, bringt Java und Treiber mit) | dito | dito |
 | SQLite (Alternative) | `winget install SQLite.SQLite` | vorinstalliert (`sqlite3`) | `sudo apt install sqlite3` |
 | VS Code | `winget install Microsoft.VisualStudioCode` | `brew install --cask visual-studio-code` | Snap `code` |
 

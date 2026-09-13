@@ -1,0 +1,15 @@
+-- Übung 08: Schema-Evolution mit Flyway
+--
+-- Diese Übung hat KEINE aufgabe.sql zum Ausfüllen. Deine Arbeit ist eine neue
+-- Migrationsdatei:
+--
+--     migrationen/V2__telefonnummer.sql
+--
+-- Inhalt:
+--   1. Neue Spalte telefonnummer (Text bis 30 Zeichen, darf leer sein) an kunde.
+--   2. Datenmigration: alle vorhandenen E-Mail-Adressen in Kleinbuchstaben umwandeln
+--      (Fachabteilung: „Groß/klein hat uns Duplikate beschert").
+--   3. Anna Adler (id 1) bekommt die Telefonnummer '+49 30 1234560'.
+--
+-- Kein DROP, kein DELETE, kein neues CREATE TABLE – die sechs Kunden bleiben erhalten.
+-- Ablauf: start.sql → flyway migrate → pruefung.sql (siehe AUFGABE.md).

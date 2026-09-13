@@ -1,0 +1,20 @@
+-- Übung 10: Index-Fallen – wann ein Index trotz Existenz nicht hilft
+--
+-- 1. In der Konsole drei Ausführungspläne ansehen (PostgreSQL: EXPLAIN, SQLite:
+--    EXPLAIN QUERY PLAN, H2: EXPLAIN) und notieren, ob der Index idx_kunde_nachname
+--    verwendet wird:
+--      a) SELECT * FROM kunde WHERE nachname = 'Mueller421';
+--      b) SELECT * FROM kunde WHERE LOWER(nachname) = 'mueller421';
+--      c) SELECT * FROM kunde WHERE nachname LIKE '%421';
+--
+-- 2. Abfrage b) ist die, die eine Suchmaske wirklich braucht („egal wie geschrieben").
+--    Mach sie schnell – ohne die Daten zu ändern:
+--      PostgreSQL, SQLite: ein Index über den AUSDRUCK LOWER(nachname), Name idx_kunde_nachname_klein.
+--      H2 kann keine Ausdrucksindizes: stattdessen eine berechnete Spalte
+--        nachname_klein VARCHAR(100) GENERATED ALWAYS AS (LOWER(nachname))
+--      und darauf den Index idx_kunde_nachname_klein; die Abfrage nutzt dann
+--        WHERE nachname_klein = 'mueller421'.
+--    Danach EXPLAIN für b) (bzw. die H2-Variante) noch einmal.
+--
+-- 3. Zum Nachdenken (nicht geprüft): Warum kann für c) KEIN Index helfen – und was
+--    müsste man an der Fachlichkeit ändern, damit die Suche trotzdem schnell wird?

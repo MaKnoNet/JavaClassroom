@@ -27,9 +27,9 @@ curl -O https://repo1.maven.org/maven2/com/h2database/h2/2.3.232/h2-2.3.232.jar
 Dann je Datei – die Datenbank ist die Datei `uebung.mv.db` im Übungsordner:
 
 ```bash
-java -cp ../h2-2.3.232.jar org.h2.tools.RunScript -url jdbc:h2:./uebung -script start.sql -showResults -continueOnError
-java -cp ../h2-2.3.232.jar org.h2.tools.RunScript -url jdbc:h2:./uebung -script aufgabe.sql -showResults -continueOnError
-java -cp ../h2-2.3.232.jar org.h2.tools.RunScript -url jdbc:h2:./uebung -script pruefung.sql -showResults -continueOnError
+java -cp ../h2-2.3.232.jar org.h2.tools.RunScript -url jdbc:h2:./uebung -user sa -script start.sql -showResults -continueOnError
+java -cp ../h2-2.3.232.jar org.h2.tools.RunScript -url jdbc:h2:./uebung -user sa -script aufgabe.sql -showResults -continueOnError
+java -cp ../h2-2.3.232.jar org.h2.tools.RunScript -url jdbc:h2:./uebung -user sa -script pruefung.sql -showResults -continueOnError
 ```
 
 Ergebniszeilen beginnen mit `-->`; also ist `--> Fehler: …` das, wonach du suchst.
@@ -67,6 +67,22 @@ sqlite3 uebung.db < pruefung.sql
 
 Interaktiv: `sqlite3 uebung.db`; dort `.tables`, `.schema kunde`, `.quit`. Fremdschlüssel
 prüft SQLite nur nach `PRAGMA foreign_keys = ON;` – die Prüfdateien setzen das selbst.
+
+## Flyway (nur Übung 08)
+
+Übung 08 spielt ihre Migrationen mit der Flyway-Kommandozeile ein statt mit `aufgabe.sql`.
+Download (kostenlos, ~500 MB, bringt Java und alle Treiber mit), einmal nach
+`arbeit/datenbanken/` entpacken:
+<https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/13.6.0/flyway-commandline-13.6.0.zip>
+
+```bash
+../flyway-13.6.0/flyway -url=jdbc:h2:./uebung -user=sa -locations=filesystem:migrationen migrate
+../flyway-13.6.0/flyway -url=jdbc:h2:./uebung -user=sa -locations=filesystem:migrationen info
+```
+
+PostgreSQL: `-url=jdbc:postgresql://localhost:5432/uebung -user=lernen -password=lernen`
+(Podman unter Windows: `[::1]` statt `localhost`). SQLite: `-url=jdbc:sqlite:uebung.db`.
+Die Befehle stehen auch in der `AUFGABE.md` der Übung.
 
 ## Andere Datenbank (MySQL/MariaDB, SQL Server, Oracle)
 

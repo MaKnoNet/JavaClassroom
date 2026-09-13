@@ -13,7 +13,9 @@ wer Security-Lektion 02 (Injection) verstehen will, muss SQL lesen können. Dies
 ist der Unterbau dafür und braucht keine Programmierkenntnisse: Der Lernende schreibt nur
 `.sql`-Dateien und arbeitet in einer SQL-Konsole.
 
-Jede Übung hat drei Dateien – `start.sql` (Ausgangszustand), `aufgabe.sql` (die Datei des
+Zehn Lektionen: 01–07 die Sprache und das Modell, 08–10 (Stufe 3) das, was im Betrieb
+dazukommt – versionierte Schemaänderungen mit Flyway, Fensterfunktionen für Auswertungen,
+Index-Fallen. Jede Übung hat drei Dateien – `start.sql` (Ausgangszustand), `aufgabe.sql` (die Datei des
 Lernenden), `pruefung.sql` (Abnahme in reinem SQL: jede Ausgabezeile `Fehler: …` ist ein
 nicht erfülltes Kriterium, leere Ausgabe ist bestanden). Wie sie laufen, steht in
 [AUSFUEHREN.md](AUSFUEHREN.md).
@@ -137,3 +139,40 @@ Leitfaden: Erst `EXPLAIN` ohne Index, dann mit – die beiden Pläne nebeneinand
 Lektion. Den Baum als Telefonbuch erklären: sortiert nach Name findet man Müller sofort,
 nach Telefonnummer muss man alles lesen. Die Fremdschlüssel-Falle in PostgreSQL erwähnen –
 sie kostet im Betrieb mehr als jede andere Einstellung.
+
+### 08 Schema-Evolution mit Flyway
+- **Ziele:** Warum Schemaänderungen im Team versioniert sein müssen – kein SQL mehr von Hand auf Servern; **Flyway** als Werkzeug: nummerierte Migrationsdateien `V1__init.sql`, `V2__telefonnummer.sql` (Version, zwei Unterstriche, Beschreibung), `flyway migrate` führt genau die aus, die auf dieser Datenbank fehlen; die Verlaufstabelle `flyway_schema_history` (Version, Prüfsumme, Zeitpunkt, `success`); `flyway info` und `flyway validate`; eine eingespielte Migration wird **nie** geändert – Korrekturen sind neue Versionen; fehlgeschlagene Migrationen (`failed`, `flyway repair`); inkrementelle Änderungen ohne Datenverlust: `ALTER TABLE … ADD COLUMN`, Datenmigration per `UPDATE`; Flyway-CLI ohne Programmiersprache, Spring Boot führt dieselben Dateien beim Start aus (Spring-Lektion 05)
+- **Übung:** uebungen/08-flyway-migration
+- **Prüffrage:** Warum darf eine bereits auf einem Server ausgeführte Migrationsdatei nachträglich nie mehr verändert werden, und wie reagiert Flyway darauf? Und: Was steht in `flyway_schema_history`, und warum reicht der Befehl `flyway migrate` auf jedem Server gleich?
+- **Übersetzung:** en: Schema evolution with Flyway | fr: Évolution du schéma avec Flyway
+- **Stufe:** 3
+
+Leitfaden: Erst die Frage stellen: „Drei Entwickler, ein Testserver – wie weiß der Server,
+welche `ALTER TABLE` er schon hat?" Dann Flyway als die Antwort. Die Prüffrage nicht
+erzählen, sondern erleben lassen: `V1` um ein Leerzeichen ändern, `flyway validate`,
+„checksum mismatch". Die 500-MB-CLI ist der einzige Download des Themas – vorher laden.
+
+### 09 Business-Analysen: Fensterfunktionen
+- **Ziele:** Aggregieren, ohne Zeilen zusammenzufassen: die `OVER()`-Klausel; `PARTITION BY` als „Gruppe, aber jede Zeile bleibt"; `ORDER BY` im Fenster; `ROW_NUMBER()`, `RANK()`, `DENSE_RANK()`; `LAG()`/`LEAD()` für Vorperioden-Vergleiche; `SUM() OVER (ORDER BY …)` für laufende Summen, Rahmen (`ROWS BETWEEN … PRECEDING`) für gleitende Durchschnitte; Fensterfunktionen laufen nach `GROUP BY`/`HAVING`, vor `ORDER BY` – deshalb CTE davor und Filter auf den Rang in der nächsten Schicht; Top-N je Gruppe als Standardmuster; dialektneutrale Monatsbildung `SUBSTR(CAST(datum AS VARCHAR(10)), 1, 7)`; was sonst in Java-Schleifen landen würde, bleibt bei den Daten
+- **Übung:** uebungen/09-fensterfunktionen
+- **Prüffrage:** Was unterscheidet eine Abfrage mit `GROUP BY` grundlegend von einer mit einer Fensterfunktion (`OVER()`) bezüglich der Anzahl der Ergebniszeilen? Und: Warum kann `WHERE rang <= 3` nicht in derselben `SELECT`-Ebene stehen wie `ROW_NUMBER() … AS rang`?
+- **Übersetzung:** en: Business analytics: window functions | fr: Analyses métier : fonctions de fenêtrage
+- **Stufe:** 3
+
+Leitfaden: Mit dem Fehlversuch beginnen, der in `aufgabe_1` schon steht – `LIMIT 3` über
+alles. „Wie bekomme ich die Top 3 *je Kategorie*?" führt ohne Fensterfunktion in vier
+Abfragen oder in Java-Code; mit `PARTITION BY` in eine Zeile. Dann `LAG` als „eine Zeile
+zurückschauen" und die laufende Summe als Fenster, das mit jeder Zeile wächst.
+
+### 10 Index-Fallen: SARGable Queries
+- **Ziele:** Wann eine Datenbank einen vorhandenen Index ignoriert: Funktion auf der Spalte (`LOWER(nachname)`), Rechnung (`preis * 1.19`), Typumwandlung, führendes Wildcard (`LIKE '%text'`); **SARGable** – Spalte nackt auf der einen Seite, Wert auf der anderen; mit `EXPLAIN` beweisen statt vermuten; **Ausdrucksindizes** (`CREATE INDEX … ON kunde (LOWER(nachname))` in PostgreSQL und SQLite) und ihre Grenze (nur derselbe Ausdruck trifft sie); H2 ohne Ausdrucksindizes – berechnete Spalte `GENERATED ALWAYS AS` plus Index als Alternative, die auch sonst oft die bessere ist (normalisierte Suchspalte); Datumsbereiche statt `jahr(datum) =`; `LIKE 'abc%'` in PostgreSQL nur mit `text_pattern_ops`; Volltextsuche als Ausweg für `%text%`
+- **Übung:** uebungen/10-index-fallen
+- **Prüffrage:** Die Spalte `nachname` ist indiziert – warum führt `WHERE LOWER(nachname) = 'mueller'` trotzdem zu einem Seq Scan, und wie korrigierst du das? Und: Warum kann für `LIKE '%421'` kein B-Baum-Index helfen?
+- **Übersetzung:** en: Index pitfalls: SARGable queries | fr: Pièges des index : requêtes SARGable
+- **Stufe:** 3
+
+Leitfaden: Die drei Pläne nebeneinander – derselbe Index, einmal genutzt, zweimal nicht.
+Das Telefonbuch aus Lektion 07 weiterdenken: sortiert nach Nachname, aber die Suche
+fragt nach „irgendwie geschrieben" oder „endet auf". Nach der Übung die Regel an drei
+fremden Abfragen anwenden lassen (`WHERE YEAR(datum) = 2026`, `WHERE preis * 1.19 > 100`,
+`WHERE CAST(id AS VARCHAR) = '42'`) – wer alle drei umschreiben kann, hat es.
