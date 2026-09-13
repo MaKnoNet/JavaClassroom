@@ -18,6 +18,15 @@ Argumente (die Fortschrittsseite erzeugt sie per Klick, der Lernende fügt sie e
 - `sprache <code>` → `sprache:` in der Fortschrittsdatei auf den ISO-Code setzen, in der
   neuen Sprache bestätigen und fragen, ob es mit dem zuletzt begonnenen Thema weitergeht.
   Kein weiterer Schritt.
+- **Kein Argument, aber der Lernende schreibt nur „los", „weiter", „die hab ich
+  angeklickt" o. Ä.:** Den Befehl von der Fortschrittsseite lesen, statt nachzufragen.
+  Reihenfolge: (1) Browser-Ansicht von Claude Code – Tab mit Titel „Lernfortschritt",
+  `find` nach `/lernen` bzw. `javascript_tool` mit
+  `document.getElementById("befehl-text").textContent`; (2) sonst Chrome mit der
+  Erweiterung „Claude in Chrome" (`mcp__claude-in-chrome__*`, zuerst per ToolSearch
+  laden, `tabs_context` nach einem Tab „Lernfortschritt" durchsuchen, dann dasselbe
+  lesen). Gefundenen Befehl im Chat nennen („Du hast Java 06 angeklickt – los geht's")
+  und ausführen. Nichts gefunden → normal nachfragen.
 
 ## 1. Lernenden bestimmen
 

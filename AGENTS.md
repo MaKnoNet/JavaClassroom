@@ -66,6 +66,7 @@ Prüfe per Shell, was das Thema braucht. Melde jedes Ergebnis kurz, leite bei Fe
 | java, gradle, junit | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 9.6.1` |
 | html, css, javascript | JDK 21 (für `jwebserver`) und Browser-Ansicht von Claude Code oder ein Browser | `jwebserver -h` | Hilfetext erscheint |
 | alle, wenn `ide` nicht `keine` | Eclipse / IntelliJ / VS Code | Lernenden fragen | – |
+| optional | Chrome + Erweiterung „Claude in Chrome" – dann kann Claude die in Chrome geöffnete Fortschrittsseite lesen (Klick auf Lektion, dann „los" im Chat) | Lernenden fragen | – |
 
 Installationshilfe, wenn etwas fehlt (immer den Befehl zeigen, ausführen lassen, danach
 erneut prüfen; die Installation selbst macht der Lernende, nicht Claude):
@@ -85,6 +86,11 @@ Windows `~/.gradle/gradle.properties` mit
 Wrapper-Download zusätzlich `JAVA_TOOL_OPTIONS=-Djavax.net.ssl.trustStoreType=Windows-ROOT`
 setzen; unter Linux/macOS die Proxy-Root-CA in den JDK-Truststore importieren. Alternativ die
 Gradle-Distribution einmal aus dem Firmennetz laden lassen.
+
+**Fortschrittsseite in Chrome:** `file://`-Seiten sieht die Erweiterung nur, wenn in Chrome
+unter *Erweiterungen → Details → Zugriff auf Datei-URLs zulassen* aktiviert ist. Sonst die
+Seite über `jwebserver -p 8000 -d arbeit` unter `http://localhost:8000/fortschritt.html`
+öffnen.
 
 Nach einer Installation ein **neues Terminal** öffnen lassen (PATH). Erst-Git-Konfiguration
 gehört in die Git-Lektion 01, nicht in die Umgebungsprüfung: `git config --global user.name`,
