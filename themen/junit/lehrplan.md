@@ -112,7 +112,27 @@ Tests, die bei jedem Refactoring brechen, obwohl das Verhalten gleich blieb.
 - **Prüffrage:** Warum schreibt man den Test, bevor der Code existiert?
 - **Übersetzung:** en: TDD in the small | fr: TDD au quotidien
 
-### 10 Coverage lesen
-- **Ziele:** JaCoCo-Bericht öffnen, Zeilen- und Zweigabdeckung verstehen, Lücken finden; Coverage ist Hinweis, kein Ziel
-- **Prüffrage:** Warum beweist 100 % Coverage nicht, dass der Code richtig ist?
-- **Übersetzung:** en: Reading coverage | fr: Lire la couverture
+### 10 Coverage und Mutationstest
+- **Ziele:** JaCoCo-Bericht öffnen, Zeilen- und Zweigabdeckung verstehen, Lücken finden; Coverage ist Hinweis, kein Ziel. Mutationstest mit PIT: Code wird absichtlich verfälscht – überlebende Mutanten zeigen, was die Tests nicht prüfen
+- **Übung:** uebungen/06-mutationstest
+- **Prüffrage:** Warum beweist 100 % Coverage nicht, dass der Code richtig ist – und was sagt ein Mutation Score von 60 % bei 100 % Coverage?
+- **Übersetzung:** en: Coverage and mutation testing | fr: Couverture et tests de mutation
+
+### 11 Tests im Repository und in der Pipeline
+- **Ziele:** Wissen, wo welcher Test lebt und wer ihn startet: Unit-Tests in `src/test/java` bei jedem Commit; Integrationstests (`*IT`, Testcontainers) vor dem Deployment in die Testumgebung; statische Analyse (Checkstyle, SpotBugs, ArchUnit) als Build-Abbruch; API- und Vertragstests (RestAssured, Pact) gegen Schnittstellen; E2E (Playwright, Selenium) und Lasttests (Gatling, JMeter) als Code im Repo, ausgeführt gegen eine bereitgestellte Umgebung; außerhalb des Repos: manuelle Abnahme (UAT) auf Staging, zentrales Security-Scanning (SonarQube, Snyk)
+- **Übung:** uebungen/05-api-test
+- **Prüffrage:** Warum laufen Unit-Tests bei jedem Commit, E2E-Tests aber erst gegen eine Testumgebung – und was passiert, wenn man das umdreht?
+- **Übersetzung:** en: Tests in the repository and the pipeline | fr: Les tests dans le dépôt et le pipeline
+
+Leitfaden: Die Pipeline als Treppe zeichnen – Commit → Build mit Unit-Tests und
+statischer Analyse → Deployment auf Test → Integrations-, API- und E2E-Tests → Staging →
+UAT und Security-Scan → Produktion. Jede Stufe filtert, was die vorherige nicht sehen
+konnte; jede ist teurer und langsamer als die vorherige. Was **nicht** im Repo liegt
+(UAT, zentrale Scanner), trotzdem benennen: Der Entwickler sieht deren Ergebnisse als
+Ticket oder Bericht, nicht als roten Build.
+
+### 12 Architekturregeln als Test
+- **Ziele:** Mit ArchUnit Abhängigkeitsregeln zwischen Paketen und Schichten als JUnit-Test festhalten; Regeln laufen bei jedem Build statt im Kopf des Reviewers
+- **Übung:** uebungen/04-archunit
+- **Prüffrage:** Warum ist „service darf nicht von ui abhängen" als Test wertvoller als als Satz im Wiki?
+- **Übersetzung:** en: Architecture rules as tests | fr: Règles d'architecture sous forme de tests

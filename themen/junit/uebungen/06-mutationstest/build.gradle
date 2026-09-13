@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'info.solidsoft.pitest' version '1.19.0'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+// Quellen enthalten Umlaute; ohne diese Zeile nimmt javac unter Windows Cp1252.
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'failed', 'skipped'
+        exceptionFormat 'full'
+    }
+}
+
+pitest {
+    junit5PluginVersion = '1.2.1'
+    targetClasses = ['de.makno.lernen.*']
+    outputFormats = ['HTML']
+    timestampedReports = false
+    mutationThreshold = 90
+}

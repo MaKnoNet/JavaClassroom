@@ -40,11 +40,18 @@ in Eclipse oder IntelliJ importieren.
 - **Übersetzung:** en: Project layout, toolchain, encoding | fr: Structure du projet, toolchain, encodage
 
 ### 05 Tests und Berichte
-- **Ziele:** `useJUnitPlatform()`, Testbericht unter `build/reports/tests`, JaCoCo-Coverage einbinden und lesen
-- **Prüffrage:** Wo findet man nach `./gradlew test` heraus, welcher Test warum fehlgeschlagen ist?
+- **Ziele:** `useJUnitPlatform()`, Testbericht unter `build/reports/tests`, JaCoCo-Coverage einbinden und lesen; Unit- und Integrationstests (`*IT`) in getrennte Tasks legen, damit `test` schnell bleibt und `check` alles ausführt
+- **Übung:** uebungen/03-integrationstests
+- **Prüffrage:** Wo findet man nach `./gradlew test` heraus, welcher Test warum fehlgeschlagen ist – und warum laufen Integrationstests nicht bei jedem `test`?
 - **Übersetzung:** en: Tests and reports | fr: Tests et rapports
 
 ### 06 IDE-Integration und Multi-Projekt
 - **Ziele:** Import in Eclipse (Buildship) und IntelliJ; „Refresh Gradle Project" nach Änderungen; Grundidee Multi-Projekt (`include`)
 - **Prüffrage:** Warum sieht Eclipse eine neue Abhängigkeit erst nach dem Refresh?
 - **Übersetzung:** en: IDE integration and multi-project builds | fr: Intégration IDE et multi-projets
+
+### 07 Qualitätswächter im Build
+- **Ziele:** Statische Analyse als Teil des Builds: Checkstyle, PMD, SpotBugs einbinden; Regeln als Datei im Repository; `check` bricht bei Verstößen ab, damit Reviews sich um Inhalt statt Form kümmern
+- **Übung:** uebungen/04-checkstyle
+- **Prüffrage:** Was prüft Checkstyle, was ein Test nie prüfen kann – und was prüft ein Test, was Checkstyle nie sieht?
+- **Übersetzung:** en: Quality gates in the build | fr: Garde-fous qualité dans le build
