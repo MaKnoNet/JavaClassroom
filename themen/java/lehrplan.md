@@ -30,8 +30,8 @@ Leitfaden: Bauplan und Haus. Die Übung enthält bereits einen Test – so sieht
 vom ersten Tag an, wie „fertig" definiert ist.
 
 ### 02 Variablen, Typen und Operatoren
-- **Ziele:** Primitive Typen vs. `String`; `int`/`double`/`boolean`/`char`; Deklaration, Zuweisung; arithmetische, Vergleichs- und logische Operatoren (`&&`, `||`, `!`); `final`; Typumwandlung
-- **Prüffrage:** Warum ergibt `7 / 2` in Java `3`, und wie bekommt man `3.5`?
+- **Ziele:** Primitive Typen vs. `String`; `int`/`double`/`boolean`/`char`; Deklaration, Zuweisung; arithmetische, Vergleichs- und logische Operatoren (`&&`, `||`, `!`); `final`; Typumwandlung; zu jedem primitiven Typ gibt es eine Wrapper-Klasse (`int` → `Integer`, `double` → `Double`), Java wandelt automatisch um (Autoboxing) – warum es beides gibt, folgt in Lektion 08 und 13
+- **Prüffrage:** Warum ergibt `7 / 2` in Java `3`, und wie bekommt man `3.5`? Und: `int` oder `Integer` – was ist der Unterschied in einem Satz?
 - **Übersetzung:** en: Variables, types and operators | fr: Variables, types et opérateurs
 - **Stufe:** 1
 
@@ -78,8 +78,8 @@ warum: `einzahlen(-50)` darf nicht durchgehen – ein öffentliches Feld könnte
 verhindern.
 
 ### 08 Referenz und Wert
-- **Ziele:** Referenztypen vs. primitive Typen; `==` vs. `equals`; Objekte als Parameter; `null` und die `NullPointerException`
-- **Prüffrage:** Zwei Variablen zeigen auf dasselbe Objekt – was passiert, wenn man über eine davon ein Feld ändert?
+- **Ziele:** Referenztypen vs. primitive Typen; `==` vs. `equals`; Objekte als Parameter; `null` und die `NullPointerException`; **`int` vs. `Integer`** im Detail: `Integer` ist ein Objekt und darf `null` sein, `int` nie; Autoboxing/Unboxing; die zwei Fallen – `Integer a == Integer b` vergleicht Referenzen (funktioniert zufällig bis 127, danach nicht mehr) und Unboxing von `null` wirft `NullPointerException`
+- **Prüffrage:** Zwei Variablen zeigen auf dasselbe Objekt – was passiert, wenn man über eine davon ein Feld ändert? Und: Warum ist `Integer.valueOf(1000) == Integer.valueOf(1000)` `false`, `Integer.valueOf(100) == Integer.valueOf(100)` aber `true`?
 - **Übersetzung:** en: Reference and value | fr: Référence et valeur
 - **Stufe:** 1
 
@@ -122,7 +122,7 @@ erklären können.
 - **Stufe:** 2
 
 ### 13 Collections und Generics
-- **Ziele:** `List`, `Set`, `Map` und ihre Implementierungen (`ArrayList` vs. `LinkedList`, `HashSet`, `HashMap`) mit Kosten; Generics lesen **und** schreiben (`<T>`, `<T extends Comparable<T>>`); typsichere eigene Klassen und Methoden
+- **Ziele:** `List`, `Set`, `Map` und ihre Implementierungen (`ArrayList` vs. `LinkedList`, `HashSet`, `HashMap`) mit Kosten; warum `List<Integer>` und nicht `List<int>` (Generics brauchen Objekte – hier zahlt sich Lektion 08 aus); Generics lesen **und** schreiben (`<T>`, `<T extends Comparable<T>>`); typsichere eigene Klassen und Methoden
 - **Übung:** uebungen/04-generics
 - **Prüffrage:** Wann `Set` statt `List` – und was verhindert `<T>` gegenüber `Object`?
 - **Übersetzung:** en: Collections and generics | fr: Collections et génériques
