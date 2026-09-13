@@ -7,7 +7,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Ccircle cx=%278%27 cy=%278%27 r=%277%27 fill=%27%2316a34a%27/%3E%3C/svg%3E">
 <style>
   :root { --bg:#f6f7f9; --karte:#fff; --text:#1f2933; --grau:#6b7280; --rand:#e5e7eb;
-          --fertig:#16a34a; --begonnen:#f59e0b; --offen:#d1d5db; }
+          --fertig:#15803d; --begonnen:#b45309; --offen:#e5e7eb; --fokus:#2563eb; }
   body { margin:0; padding:2rem; font-family:system-ui,sans-serif; background:var(--bg); color:var(--text); }
   header { display:flex; flex-wrap:wrap; gap:1rem 2rem; align-items:baseline; margin-bottom:1.5rem; }
   h1 { margin:0; font-size:1.6rem; }
@@ -19,20 +19,24 @@
   .themen { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1rem; }
   .thema h2 { margin:0 0 .5rem; font-size:1.15rem; display:flex; justify-content:space-between; }
   .thema .zahl { color:var(--grau); font-weight:normal; font-size:.95rem; }
-  .thema.gesperrt { opacity:.7; }
+  .thema.gesperrt { border-style:dashed; }
+  .thema.gesperrt h2 { color:var(--grau); }
+  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
   ul { list-style:none; padding:0; margin:.75rem 0 0; }
   li { display:flex; gap:.5rem; padding:.2rem 0; font-size:.95rem; }
+  li.lektion { padding:0; }
+  li.lektion > button { all:unset; box-sizing:border-box; display:flex; gap:.5rem; align-items:center; width:100%; min-height:1.75rem; padding:.2rem .3rem; border-radius:.3rem; cursor:pointer; color:var(--text); }
+  li.lektion.offen > button { color:var(--grau); }
   li .datum { margin-left:auto; color:var(--grau); font-size:.85rem; }
   .status { width:1.2rem; text-align:center; }
   .stufe { font-size:.7rem; font-weight:600; padding:0 .35rem; border-radius:.3rem; margin-left:.4rem; color:#fff; align-self:center; }
-  .stufe-1 { background:#16a34a; } .stufe-2 { background:#2563eb; } .stufe-3 { background:#7c3aed; }
+  .stufe-1 { background:#15803d; } .stufe-2 { background:#2563eb; } .stufe-3 { background:#7c3aed; }
   .fertig .status { color:var(--fertig); }
   .begonnen .status { color:var(--begonnen); }
-  .offen { color:var(--grau); }
   .notizen { margin-top:.75rem; padding:.5rem .75rem; background:#fffbeb; border-left:3px solid var(--begonnen); font-size:.9rem; }
   .hinweis { color:var(--grau); font-size:.85rem; margin-top:.5rem; }
-  li.lektion { cursor:pointer; border-radius:.3rem; padding:.2rem .3rem; }
-  li.lektion:hover { background:#eef2ff; }
+  li.lektion > button:hover { background:#eef2ff; }
+  li.lektion > button:focus-visible, .befehl button:focus-visible, select:focus-visible { outline:2px solid var(--fokus); outline-offset:2px; }
   .profil select { font:inherit; color:inherit; border:1px solid var(--rand); border-radius:.3rem; padding:.1rem .3rem; background:var(--karte); }
   .befehl { display:none; align-items:center; gap:.75rem; flex-wrap:wrap; background:#eef2ff; border:1px solid #c7d2fe; border-radius:.75rem; padding:.75rem 1rem; margin-bottom:1.5rem; }
   .befehl.sichtbar { display:flex; }
@@ -43,43 +47,51 @@
 </head>
 <body>
 <header><h1>Lernfortschritt</h1><div class="profil" id="profil"></div></header>
-<section class="befehl" id="befehl"><span>In Claude Code eingeben:</span><code id="befehl-text"></code><button id="befehl-kopieren" type="button">Kopieren</button><span class="ok" id="befehl-ok"></span></section>
-<section class="gesamt" id="gesamt"></section>
-<section class="themen" id="themen"></section>
+<main>
+<section class="befehl" id="befehl" aria-labelledby="befehl-titel"><span id="befehl-titel">In Claude Code eingeben:</span><code id="befehl-text"></code><button id="befehl-kopieren" type="button">Kopieren</button><span class="ok" id="befehl-ok" role="status" aria-live="polite"></span></section>
+<section class="gesamt" id="gesamt" aria-label="Gesamt"></section>
+<section class="themen" id="themen" aria-label="Themen"></section>
+</main>
 <script>
 const DATEN = /*DATEN*/{};
 const TEXTE = {
-  de: { titel: "Lernfortschritt", stufe: "Stufe", eingeben: "In Claude Code eingeben:", kopieren: "Kopieren", sprache: "Sprache",
+  de: { gesperrt: "gesperrt", bereichGesamt: "Gesamtfortschritt", bereichThemen: "Themen", status: { fertig: "fertig", begonnen: "begonnen", offen: "offen" },
+        titel: "Lernfortschritt", stufe: "Stufe", eingeben: "In Claude Code eingeben:", kopieren: "Kopieren", sprache: "Sprache",
         klick: "Klicken: Lektion starten", wechsel: "Wechsel erzeugt einen Befehl für Claude Code",
         voraussetzung: "Voraussetzung noch offen", letzte: "Letzte Stunde", naechstes: "Nächstes Mal",
         gesamt: (f, a, p) => `Gesamt: ${f} von ${a} Lektionen (${p} %)`,
         gesendet: "an den Lehrer gesendet – schau in den Chat", nichtErreichbar: "Server nicht erreichbar – Befehl kopieren und im Chat einfügen",
         kopiert: "kopiert – im Chat einfügen", markiert: "markiert – mit Strg+C kopieren" },
-  en: { titel: "Learning progress", stufe: "Level", eingeben: "Type into Claude Code:", kopieren: "Copy", sprache: "Language",
+  en: { gesperrt: "locked", bereichGesamt: "Overall progress", bereichThemen: "Topics", status: { fertig: "done", begonnen: "started", offen: "open" },
+        titel: "Learning progress", stufe: "Level", eingeben: "Type into Claude Code:", kopieren: "Copy", sprache: "Language",
         klick: "Click to start this lesson", wechsel: "Changing creates a command for Claude Code",
         voraussetzung: "Prerequisite not finished", letzte: "Last session", naechstes: "Next time",
         gesamt: (f, a, p) => `Total: ${f} of ${a} lessons (${p} %)`,
         gesendet: "sent to the teacher – check the chat", nichtErreichbar: "Server not reachable – copy the command into the chat",
         kopiert: "copied – paste into the chat", markiert: "selected – copy with Ctrl+C" },
-  fr: { titel: "Progression", stufe: "Niveau", eingeben: "Saisir dans Claude Code :", kopieren: "Copier", sprache: "Langue",
+  fr: { gesperrt: "verrouillé", bereichGesamt: "Progression globale", bereichThemen: "Thèmes", status: { fertig: "terminée", begonnen: "commencée", offen: "ouverte" },
+        titel: "Progression", stufe: "Niveau", eingeben: "Saisir dans Claude Code :", kopieren: "Copier", sprache: "Langue",
         klick: "Cliquer pour démarrer cette leçon", wechsel: "Le changement crée une commande pour Claude Code",
         voraussetzung: "Prérequis non terminé", letzte: "Dernière séance", naechstes: "La prochaine fois",
         gesamt: (f, a, p) => `Total : ${f} sur ${a} leçons (${p} %)`,
         gesendet: "envoyé au professeur – regarde le chat", nichtErreichbar: "Serveur injoignable – copier la commande dans le chat",
         kopiert: "copié – coller dans le chat", markiert: "sélectionné – copier avec Ctrl+C" },
-  es: { titel: "Progreso", stufe: "Nivel", eingeben: "Escribir en Claude Code:", kopieren: "Copiar", sprache: "Idioma",
+  es: { gesperrt: "bloqueado", bereichGesamt: "Progreso total", bereichThemen: "Temas", status: { fertig: "terminada", begonnen: "empezada", offen: "abierta" },
+        titel: "Progreso", stufe: "Nivel", eingeben: "Escribir en Claude Code:", kopieren: "Copiar", sprache: "Idioma",
         klick: "Clic para empezar esta lección", wechsel: "El cambio crea un comando para Claude Code",
         voraussetzung: "Requisito previo pendiente", letzte: "Última sesión", naechstes: "La próxima vez",
         gesamt: (f, a, p) => `Total: ${f} de ${a} lecciones (${p} %)`,
         gesendet: "enviado al profesor – mira el chat", nichtErreichbar: "Servidor no disponible – copia el comando en el chat",
         kopiert: "copiado – pégalo en el chat", markiert: "seleccionado – copia con Ctrl+C" },
-  it: { titel: "Progressi", stufe: "Livello", eingeben: "Digita in Claude Code:", kopieren: "Copia", sprache: "Lingua",
+  it: { gesperrt: "bloccato", bereichGesamt: "Progresso complessivo", bereichThemen: "Temi", status: { fertig: "completata", begonnen: "iniziata", offen: "aperta" },
+        titel: "Progressi", stufe: "Livello", eingeben: "Digita in Claude Code:", kopieren: "Copia", sprache: "Lingua",
         klick: "Clicca per iniziare questa lezione", wechsel: "Il cambio crea un comando per Claude Code",
         voraussetzung: "Prerequisito non completato", letzte: "Ultima sessione", naechstes: "La prossima volta",
         gesamt: (f, a, p) => `Totale: ${f} di ${a} lezioni (${p} %)`,
         gesendet: "inviato all'insegnante – guarda la chat", nichtErreichbar: "Server non raggiungibile – copia il comando nella chat",
         kopiert: "copiato – incolla nella chat", markiert: "selezionato – copia con Ctrl+C" },
-  tr: { titel: "Öğrenme ilerlemesi", stufe: "Seviye", eingeben: "Claude Code'a yaz:", kopieren: "Kopyala", sprache: "Dil",
+  tr: { gesperrt: "kilitli", bereichGesamt: "Genel ilerleme", bereichThemen: "Konular", status: { fertig: "tamamlandı", begonnen: "başlandı", offen: "açık" },
+        titel: "Öğrenme ilerlemesi", stufe: "Seviye", eingeben: "Claude Code'a yaz:", kopieren: "Kopyala", sprache: "Dil",
         klick: "Dersi başlatmak için tıkla", wechsel: "Değişiklik Claude Code için bir komut oluşturur",
         voraussetzung: "Ön koşul tamamlanmadı", letzte: "Son ders", naechstes: "Bir dahaki sefere",
         gesamt: (f, a, p) => `Toplam: ${a} dersten ${f} (%${p})`,
@@ -129,13 +141,14 @@ function karte(plan) {
   const stand = standVon(plan.thema);
   const datum = letztesDatum(lektionen);
   const zeilen = lektionen.map(l =>
-    `<li class="lektion ${l.status}" data-befehl="/lernen ${plan.thema} ${l.nummer}" title="${t("klick")}"><span class="status">${SYMBOL[l.status]}</span>` +
+    `<li class="lektion ${l.status}"><button type="button" data-befehl="/lernen ${plan.thema} ${l.nummer}" title="${t("klick")}">` +
+    `<span class="status" role="img" aria-label="${t("status")[l.status]}">${SYMBOL[l.status]}</span>` +
     `<span>${l.nummer} ${escapeHtml(lektionsTitel(l))}</span>` +
-    (l.stufe ? `<span class="stufe stufe-${l.stufe}" title="${t("stufe")} ${l.stufe}">S${l.stufe}</span>` : "") +
-    (l.datum ? `<span class="datum">${l.datum}</span>` : "") + `</li>`).join("");
+    (l.stufe ? `<span class="stufe stufe-${l.stufe}" title="${t("stufe")} ${l.stufe}"><span aria-hidden="true">S${l.stufe}</span><span class="sr-only">${t("stufe")} ${l.stufe}</span></span>` : "") +
+    (l.datum ? `<span class="datum">${l.datum}</span>` : "") + `</button></li>`).join("");
   return `<article class="thema ${fehlend.length ? "gesperrt" : ""}">
-    <h2><span>${fehlend.length ? "🔒 " : ""}${escapeHtml(plan.titel)}</span><span class="zahl">${fertig} / ${lektionen.length}</span></h2>
-    <div class="balken"><div style="width:${prozent}%"></div></div>
+    <h2><span>${fehlend.length ? `<span aria-hidden="true">🔒 </span><span class="sr-only">${t("gesperrt")}: </span>` : ""}${escapeHtml(plan.titel)}</span><span class="zahl"><span class="sr-only">, </span>${fertig} / ${lektionen.length}</span></h2>
+    <div class="balken" aria-hidden="true"><div style="width:${prozent}%"></div></div>
     ${fehlend.length ? `<div class="hinweis">${t("voraussetzung")}: ${fehlend.map(escapeHtml).join(", ")}</div>` : ""}
     ${datum ? `<div class="hinweis">${t("letzte")}: ${datum}</div>` : ""}
     <ul>${zeilen}</ul>
@@ -148,14 +161,16 @@ function render() {
   document.title = t("titel");
   document.documentElement.lang = sprache;
   document.querySelector("h1").textContent = t("titel");
-  document.querySelector("#befehl > span").textContent = t("eingeben");
+  document.getElementById("befehl-titel").textContent = t("eingeben");
+  document.getElementById("gesamt").setAttribute("aria-label", t("bereichGesamt"));
+  document.getElementById("themen").setAttribute("aria-label", t("bereichThemen"));
   document.getElementById("befehl-kopieren").textContent = t("kopieren");
   const sprachen = [["de", "Deutsch"], ["en", "English"], ["fr", "Français"], ["es", "Español"], ["it", "Italiano"], ["tr", "Türkçe"]];
   if (p.sprache && !sprachen.some(s => s[0] === p.sprache)) sprachen.push([p.sprache, p.sprache]);
   const optionen = sprachen.map(([code, name]) => `<option value="${code}" ${code === sprache ? "selected" : ""}>${name}</option>`).join("");
   document.getElementById("profil").innerHTML =
     `${escapeHtml(p.name)} · ${escapeHtml(p.rolle)}${p.niveau ? " (" + escapeHtml(p.niveau) + ")" : ""} · ` +
-    `<label>${t("sprache")} <select id="sprache" title="${t("wechsel")}">${optionen}</select></label> · IDE ${escapeHtml(p.ide)}`;
+    `<label>${t("sprache")} <select id="sprache" aria-describedby="sprache-hinweis">${optionen}</select></label><span class="sr-only" id="sprache-hinweis">${t("wechsel")}</span> · IDE ${escapeHtml(p.ide)}`;
   let gesamtFertig = 0, gesamtAlle = 0;
   for (const plan of DATEN.lehrplaene) {
     const lektionen = lektionenMitStatus(plan);
@@ -165,15 +180,18 @@ function render() {
   const gesamtProzent = gesamtAlle ? Math.round(100 * gesamtFertig / gesamtAlle) : 0;
   document.getElementById("gesamt").innerHTML =
     `<strong>${t("gesamt")(gesamtFertig, gesamtAlle, gesamtProzent)}</strong>` +
-    `<div class="balken" style="margin-top:.5rem"><div style="width:${gesamtProzent}%"></div></div>`;
+    `<div class="balken" style="margin-top:.5rem" aria-hidden="true"><div style="width:${gesamtProzent}%"></div></div>`;
   document.getElementById("themen").innerHTML = DATEN.lehrplaene.map(karte).join("");
 }
 
-function zeigeBefehl(text) {
+function zeigeBefehl(text, fokusAufKopieren) {
   document.getElementById("befehl-text").textContent = text;
   document.getElementById("befehl-ok").textContent = "";
   document.getElementById("befehl").classList.add("sichtbar");
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  const ruhig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({ top: 0, behavior: ruhig ? "auto" : "smooth" });
+  // Tastatur- und Screenreader-Nutzer landen direkt beim nächsten sinnvollen Schritt.
+  if (fokusAufKopieren) document.getElementById("befehl-kopieren").focus({ preventScroll: true });
   sendeKlick(text);
 }
 
@@ -194,8 +212,8 @@ async function sendeKlick(text) {
 render();
 
 document.getElementById("themen").addEventListener("click", ev => {
-  const zeile = ev.target.closest("li.lektion");
-  if (zeile) zeigeBefehl(zeile.dataset.befehl);
+  const knopf = ev.target.closest("button[data-befehl]");
+  if (knopf) zeigeBefehl(knopf.dataset.befehl, true);
 });
 function bindeSprachwahl() {
   document.getElementById("sprache").addEventListener("change", ev => {
