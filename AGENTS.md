@@ -62,8 +62,8 @@ Prüfe per Shell, was das Thema braucht. Melde jedes Ergebnis kurz, leite bei Fe
 | Thema | Braucht | Prüfbefehl | Erwartung |
 |---|---|---|---|
 | alle | Git | `git --version` | `git version 2.x` |
-| java, gradle, junit, spring, vaadin | JDK 21 | `java -version` | Zeile mit `21.` |
-| java, gradle, junit, spring, vaadin | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 9.6.1` |
+| java, gradle, junit, spring, vaadin, datenformate, security | JDK 21 | `java -version` | Zeile mit `21.` |
+| java, gradle, junit, spring, vaadin, datenformate, security | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 9.6.1` |
 | html, css, javascript | JDK 21 (für `jwebserver`) und Browser-Ansicht von Claude Code oder ein Browser | `jwebserver -h` | Hilfetext erscheint |
 | frontend | Node.js LTS und npm | `node --version`, `npm --version` | `v22.` oder neuer; npm 10+ |
 | devops | Container-Laufzeit: Podman (oder Docker) mit Compose | `podman --version`, `podman compose version` | Podman 5.x; unter Windows vorher `podman machine start` |

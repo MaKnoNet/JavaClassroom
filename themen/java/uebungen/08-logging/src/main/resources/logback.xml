@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Konfiguration der Implementierung, nicht des Codes: Der Code kennt nur SLF4J. -->
+<configuration>
+    <appender name="KONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- INFO und höher erscheinen; DEBUG ist abgeschaltet. Zum Einschalten: level="DEBUG". -->
+    <root level="INFO">
+        <appender-ref ref="KONSOLE"/>
+    </root>
+</configuration>

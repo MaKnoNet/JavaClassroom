@@ -208,3 +208,18 @@ veränderlicher Zustand; wenn doch, dann atomar oder synchronisiert, und dokumen
 - **Prüffrage:** Woran erkennt man, dass eine Methode zu viel tut? Und: Nenne die vier goldenen Regeln mit je einem Beispiel aus deinen Übungen.
 - **Übersetzung:** en: Clean code in the small | fr: Clean code au quotidien
 - **Stufe:** 2
+
+### 19 Fehlersuche: Debugger und Logging
+- **Ziele:** Abschied von `System.out.println` als Suchwerkzeug – der **Debugger** zeigt den Zustand zur Laufzeit: Breakpoint setzen, *Step Over* / *Step Into* / *Resume*, Variablen und Aufrufstapel lesen, bedingter Breakpoint (`i == 42`), Ausdruck auswerten; in jeder IDE dieselben drei Tasten, nur anders belegt (Eclipse F6/F5/F8, IntelliJ F8/F7/F9, VS Code F10/F11/F5); **Logging** als das, was im Betrieb bleibt: SLF4J als Fassade im Code, Logback als Implementierung dahinter (`logback.xml`), ein `private static final Logger` je Klasse; die vier Level und ihr Publikum – DEBUG für den Entwickler, INFO für Meilensteine, WARN für „unerwartet, läuft aber", ERROR für „kaputt, jemand muss ran"; `{}`-Platzhalter statt `+` (der Text entsteht nur, wenn das Level aktiv ist); Exception als letztes Argument ergibt den Stacktrace; loggen ersetzt die Behandlung nicht (Lektion 14); keine Passwörter, Tokens oder Personendaten ins Log
+- **Übung:** uebungen/08-logging
+- **Prüffrage:** Du willst wissen, warum `entnimm` `false` liefert – Debugger oder Log, und warum? Und: Was ist an `LOG.debug("Wert: " + teuresObjekt)` schlechter als an `LOG.debug("Wert: {}", teuresObjekt)`?
+- **Übersetzung:** en: Troubleshooting: debugger and logging | fr: Recherche d'erreurs : débogueur et journalisation
+- **Stufe:** 1
+
+Leitfaden: Diese Lektion steht am Ende, weil sie später dazukam – inhaltlich gehört sie
+direkt hinter Lektion 14 (Exceptions), und für Anfänger darf sie dort eingeschoben
+werden. Erst den Debugger: Breakpoint in `entnimm`, Test im Debug-Modus starten, gemeinsam
+durchsteppen – wer das einmal gesehen hat, schreibt kein `println` mehr zum Suchen. Dann
+die Übung: Die Tests hängen sich an den Logger und verlangen das richtige Level. Bei
+`printStackTrace` fragen: „Wer liest das um drei Uhr nachts auf dem Server?" – die
+Antwort führt zu Logdatei, Level und Stacktrace als Argument.

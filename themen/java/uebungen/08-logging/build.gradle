@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+// Quellen enthalten Umlaute; ohne diese Zeile nimmt javac unter Windows Cp1252.
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // SLF4J ist die Fassade, gegen die der Code programmiert wird …
+    implementation 'org.slf4j:slf4j-api:2.0.19'
+    // … Logback die Implementierung, die zur Laufzeit dahintersteckt (konfiguriert in logback.xml).
+    runtimeOnly 'ch.qos.logback:logback-classic:1.6.3'
+
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // Der Test hängt sich mit einem ListAppender an den Logger – dafür braucht er Logback beim Kompilieren.
+    testImplementation 'ch.qos.logback:logback-classic:1.6.3'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'failed', 'skipped'
+        exceptionFormat 'full'
+        showStandardStreams = true
+    }
+}
