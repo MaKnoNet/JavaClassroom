@@ -1,6 +1,6 @@
 # Teacher – Lernen mit Claude Code
 
-Interaktiver Unterricht zu Git, Java, Gradle, JUnit, Spring Boot, Vaadin, HTML, CSS und JavaScript.
+Interaktiver Unterricht zu Git, Java, Gradle, JUnit, Spring Boot, Vaadin, HTML, CSS, JavaScript sowie modernem Frontend mit TypeScript.
 
 ## Für Lernende
 

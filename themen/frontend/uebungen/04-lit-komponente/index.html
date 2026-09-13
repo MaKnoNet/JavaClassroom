@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Preisanzeige</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    /* Dieses Selektor trifft NICHT in die Komponente hinein – das ist Absicht (Shadow DOM). */
+    .preis { color: red; }
+  </style>
+</head>
+<body>
+  <h1>Warenkorb</h1>
+  <preis-anzeige betrag="19.99"></preis-anzeige>
+  <preis-anzeige betrag="1250" waehrung="USD"></preis-anzeige>
+  <script type="module" src="/src/preis-anzeige.ts"></script>
+</body>
+</html>
