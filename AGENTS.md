@@ -66,6 +66,7 @@ Prüfe per Shell, was das Thema braucht. Melde jedes Ergebnis kurz, leite bei Fe
 | java, gradle, junit | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 9.6.1` |
 | html, css, javascript | JDK 21 (für `jwebserver`) und Browser-Ansicht von Claude Code oder ein Browser | `jwebserver -h` | Hilfetext erscheint |
 | alle, wenn `ide` nicht `keine` | Eclipse / IntelliJ / VS Code | Lernenden fragen | – |
+| vaadin | kostenloses Vaadin-Konto für den Dev-Modus (Lizenzprüfung ab 24.9); Tests brauchen es nicht | Lernenden fragen | – |
 | optional | Chrome + Erweiterung „Claude in Chrome" – dann kann Claude die in Chrome geöffnete Fortschrittsseite lesen (Klick auf Lektion, dann „los" im Chat) | Lernenden fragen | – |
 
 Installationshilfe, wenn etwas fehlt (immer den Befehl zeigen, ausführen lassen, danach

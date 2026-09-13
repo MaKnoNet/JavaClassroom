@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.16'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.vaadin' version '24.10.9'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "com.vaadin:vaadin-bom:24.10.9"
+    }
+}
+
+dependencies {
+    // Nur die kostenlosen Core-Komponenten: das volle `vaadin`-Paket enthaelt
+    // Pro-Komponenten mit Online-Lizenzpruefung.
+    implementation('com.vaadin:vaadin-spring-boot-starter') {
+        exclude group: 'com.vaadin', module: 'vaadin'
+    }
+    implementation 'com.vaadin:vaadin-core'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // Karibu: Vaadin-Views ohne Browser testen – schnell und stabil.
+    testImplementation 'com.github.mvysny.kaributesting:karibu-testing-v24:2.5.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+    // Karibu braucht keinen Dev-Modus; im Produktionsmodus entfaellt die Online-Lizenzpruefung.
+    systemProperty 'vaadin.productionMode', 'true'
+    testLogging {
+        events 'passed', 'failed', 'skipped'
+        exceptionFormat 'full'
+    }
+}
