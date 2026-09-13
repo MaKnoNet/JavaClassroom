@@ -30,10 +30,16 @@ Leitfaden: Bauplan und Haus. Die Übung enthält bereits einen Test – so sieht
 vom ersten Tag an, wie „fertig" definiert ist.
 
 ### 02 Variablen, Typen und Operatoren
-- **Ziele:** Primitive Typen vs. `String`; `int`/`double`/`boolean`/`char`; Deklaration, Zuweisung; arithmetische, Vergleichs- und logische Operatoren (`&&`, `||`, `!`); `final`; Typumwandlung; zu jedem primitiven Typ gibt es eine Wrapper-Klasse (`int` → `Integer`, `double` → `Double`), Java wandelt automatisch um (Autoboxing) – warum es beides gibt, folgt in Lektion 08 und 13
+- **Ziele:** Primitive Typen vs. `String`; alle acht primitiven Typen (`byte`, `short`, `int`, `long`, `float`, `double`, `boolean`, `char`) – im Alltag `int`, `long`, `double`, `boolean`, `char`; `float` bewusst meiden; `var` für lokale Variablen und wann es lesbar bleibt; Deklaration, Zuweisung; arithmetische, Vergleichs- und logische Operatoren (`&&`, `||`, `!`); `final`; Typumwandlung; zu jedem primitiven Typ gibt es eine Wrapper-Klasse (`int` → `Integer`, `double` → `Double`), Java wandelt automatisch um (Autoboxing) – warum es beides gibt, folgt in Lektion 08 und 13
 - **Prüffrage:** Warum ergibt `7 / 2` in Java `3`, und wie bekommt man `3.5`? Und: `int` oder `Integer` – was ist der Unterschied in einem Satz?
 - **Übersetzung:** en: Variables, types and operators | fr: Variables, types et opérateurs
 - **Stufe:** 1
+
+Leitfaden: Die Typtabelle mit Bitbreite und Wertebereich an die Tafel; `long` für
+Zeitstempel und IDs, `double` für Geld *nicht* (später `BigDecimal`). Zum Abschluss die
+Schlüsselwörter, die dem Lernenden begegnen werden, aber keine Rolle spielen: `const` und
+`goto` (reserviert, ohne Funktion), `native` (Methoden in C), `strictfp` (veraltet), `_`
+(ab Java 22 für unbenannte Variablen). Nennen, einordnen, weitergehen.
 
 ### 03 Eingabe und Ausgabe
 - **Ziele:** `System.out.println` und `printf`/`String.format`; Benutzereingaben mit `Scanner`; Zahlen aus Text parsen; was passiert bei falscher Eingabe (Vorgriff auf Exceptions)
@@ -64,7 +70,7 @@ sagt die Ausgabe voraus, dann ausführen.
 - **Stufe:** 1
 
 ### 07 Klassen und Objekte
-- **Ziele:** Felder, Konstruktoren, `new`, `this`; Zustand und Verhalten; **Kapselung**: Felder `private`, Zugriff nur über Methoden, die prüfen dürfen (Setter mit Validierung); `toString`; **Pakete und Sichtbarkeit**: `package`, `import`, die vier Stufen `private` → *package-private* (kein Schlüsselwort) → `protected` → `public`, Regel „so eng wie möglich"
+- **Ziele:** Felder, Konstruktoren, `new`, `this`; Zustand und Verhalten; **Kapselung**: Felder `private`, Zugriff nur über Methoden, die prüfen dürfen (Setter mit Validierung); `toString`; **Pakete und Sichtbarkeit**: `package`, `import`, die vier Stufen `private` → *package-private* (kein Schlüsselwort) → `protected` → `public`, Regel „so eng wie möglich"; das Modulsystem (`module-info.java`, `requires`, `exports`) als nächste Stufe über Paketen – wir nutzen es nicht, aber Bibliotheken tun es
 - **Übung:** uebungen/06-bankkonto
 - **Prüffrage:** Warum sind Felder `private`, wenn es doch Getter gibt – und was kann ein Setter, was ein öffentliches Feld nicht kann? Und: Eine Methode ohne Schlüsselwort davor – wer darf sie aufrufen?
 - **Übersetzung:** en: Classes and objects | fr: Classes et objets
@@ -97,13 +103,13 @@ Klasse, die sie testen.
 - **Stufe:** 1
 
 ### 09 Strings, Dateien und Zeit
-- **Ziele:** `String`-API (`split`, `substring`, `strip`, `StringBuilder`); Dateien lesen und schreiben mit `Path`/`Files` in UTF-8; `java.time` (`LocalDate`, `LocalDateTime`, `Duration`, Formatierung)
+- **Ziele:** `String`-API (`split`, `substring`, `strip`, `StringBuilder`); Dateien lesen und schreiben mit `Path`/`Files` in UTF-8; `java.time` (`LocalDate`, `LocalDateTime`, `Duration`, Formatierung); Objekte speichern: Java-Serialisierung (`Serializable`, `transient`, `serialVersionUID`) kennen, aber für Dateien und Schnittstellen JSON oder Text bevorzugen
 - **Prüffrage:** Warum sind Strings unveränderlich, und was bedeutet das für eine Schleife, die einen Text zusammenbaut?
 - **Übersetzung:** en: Strings, files and time | fr: Chaînes, fichiers et temps
 - **Stufe:** 2
 
 ### 10 Vererbung und Polymorphie
-- **Ziele:** **Vererbung**: `extends`, `super`, Überschreiben, `@Override`; `protected` – was Unterklassen sehen dürfen, und warum ein `protected`-Feld meist ein Warnzeichen ist (die Unterklasse hängt an Innereien der Oberklasse); `final` bei Klassen und Methoden; **Polymorphie**: ein Aufruf, unterschiedliche Reaktion je nach Laufzeittyp; wann Vererbung passt und wann Komposition besser ist
+- **Ziele:** **Vererbung**: `extends`, `super`, Überschreiben, `@Override`; `protected` – was Unterklassen sehen dürfen, und warum ein `protected`-Feld meist ein Warnzeichen ist (die Unterklasse hängt an Innereien der Oberklasse); `final` bei Klassen und Methoden; `instanceof` mit Pattern Matching (`if (tier instanceof Hund hund)`) – und warum eine Kette solcher Prüfungen meist ein Zeichen für fehlende Polymorphie ist; **Polymorphie**: ein Aufruf, unterschiedliche Reaktion je nach Laufzeittyp; wann Vererbung passt und wann Komposition besser ist
 - **Prüffrage:** Was ist Polymorphie – mit einem Beispiel? Und: Wann ist `protected` richtig, wann sollte es `private` mit einer `protected`-Methode sein?
 - **Übersetzung:** en: Inheritance and polymorphism | fr: Héritage et polymorphisme
 - **Stufe:** 2
@@ -142,14 +148,14 @@ erklären können.
 - **Stufe:** 2
 
 ### 14 Exceptions
-- **Ziele:** `try`/`catch`/`finally`, checked vs. unchecked, eigene Exceptions; Fehler nicht verschlucken; try-with-resources
+- **Ziele:** `try`/`catch`/`finally`, `throw`/`throws`, checked vs. unchecked, eigene Exceptions; Fehler nicht verschlucken; try-with-resources; `assert` – standardmäßig abgeschaltet, deshalb nie für Eingabeprüfung, höchstens für interne Annahmen
 - **Prüffrage:** Warum ist ein leerer `catch`-Block gefährlich?
 - **Übersetzung:** en: Exceptions | fr: Exceptions
 - **Stufe:** 2
 
 ### 15 Records und Enums
-- **Ziele:** `record` für unveränderliche Datenklassen, `enum` statt Magic Strings, `switch` über Enums
-- **Prüffrage:** Was garantiert ein Record, das eine normale Klasse nicht garantiert?
+- **Ziele:** `record` für unveränderliche Datenklassen, `enum` statt Magic Strings, `switch` über Enums; `sealed`/`permits`/`non-sealed` – eine geschlossene Menge von Untertypen; zusammen mit Records und `switch` mit Pattern Matching (`case Kreis k ->`) das Java-21-Idiom für Datenmodelle, bei dem der Compiler Vollständigkeit prüft
+- **Prüffrage:** Was garantiert ein Record, das eine normale Klasse nicht garantiert? Und: Was gewinnt man, wenn `Form` `sealed` ist und `Kreis` sowie `Rechteck` `permits`?
 - **Übersetzung:** en: Records and enums | fr: Records et enums
 - **Stufe:** 2
 
@@ -166,7 +172,7 @@ für Schritt in `filter`/`map`/`collect` übersetzen (Refactoring-Rätsel); dann
 `groupingBy` eine ganze Map-Schleife ersetzt.
 
 ### 17 Nebenläufigkeit
-- **Ziele:** `Thread` und `Runnable`; `ExecutorService` statt Threads von Hand; Race Conditions erkennen; Thread-Safety mit `synchronized`, `AtomicInteger`, `ConcurrentHashMap`; unveränderliche Objekte als sicherster Weg
+- **Ziele:** `Thread` und `Runnable`; `ExecutorService` statt Threads von Hand; Race Conditions erkennen; Thread-Safety mit `synchronized`, `AtomicInteger`, `ConcurrentHashMap`; `volatile` – nur Sichtbarkeit, keine Atomarität (reicht für ein Stopp-Flag, nicht für einen Zähler); unveränderliche Objekte als sicherster Weg
 - **Übung:** uebungen/05-nebenlaeufigkeit
 - **Prüffrage:** Warum ist `zaehler++` aus zwei Threads nicht sicher, obwohl es wie eine Operation aussieht?
 - **Übersetzung:** en: Concurrency | fr: Concurrence
