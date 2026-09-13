@@ -1,0 +1,49 @@
+# Vorlage für Lektion 03 – nach .github/workflows/ci.yml kopieren.
+# Läuft bei jedem Push und Pull Request; baut und veröffentlicht das Image nur bei einem Tag v*.
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      # Gradle-Cache (Wrapper, Abhängigkeiten, Build-Cache) zwischen Läufen – spart Minuten.
+      - uses: gradle/actions/setup-gradle@v4
+      - run: ./gradlew check --no-daemon
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: testberichte
+          path: build/reports/tests/
+
+  image:
+    needs: pruefen
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          # Nie im Klartext: GITHUB_TOKEN stellt die Plattform bereit, eigene Secrets liegen
+          # unter Settings → Secrets und erscheinen nur als ${{ secrets.NAME }}.
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}

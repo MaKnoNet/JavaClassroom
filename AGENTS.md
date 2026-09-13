@@ -66,6 +66,7 @@ Prüfe per Shell, was das Thema braucht. Melde jedes Ergebnis kurz, leite bei Fe
 | java, gradle, junit, spring, vaadin | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 9.6.1` |
 | html, css, javascript | JDK 21 (für `jwebserver`) und Browser-Ansicht von Claude Code oder ein Browser | `jwebserver -h` | Hilfetext erscheint |
 | frontend | Node.js LTS und npm | `node --version`, `npm --version` | `v22.` oder neuer; npm 10+ |
+| devops | Container-Laufzeit: Podman (oder Docker) mit Compose | `podman --version`, `podman compose version` | Podman 5.x; unter Windows vorher `podman machine start` |
 | alle, wenn `ide` nicht `keine` | Eclipse / IntelliJ / VS Code | Lernenden fragen | – |
 | vaadin | kostenloses Vaadin-Konto für den Dev-Modus (Lizenzprüfung ab 24.9); Tests brauchen es nicht | Lernenden fragen | – |
 | optional | Chrome + Erweiterung „Claude in Chrome" – dann kann Claude die in Chrome geöffnete Fortschrittsseite lesen (Klick auf Lektion, dann „los" im Chat) | Lernenden fragen | – |
@@ -80,6 +81,7 @@ erneut prüfen; die Installation selbst macht der Lernende, nicht Claude):
 | Eclipse | `winget install EclipseAdoptium.Temurin.21.JDK` ist **nicht** Eclipse; Eclipse IDE for Java Developers von eclipse.org laden | eclipse.org | eclipse.org oder Snap |
 | IntelliJ | `winget install JetBrains.IntelliJIDEA.Community` | `brew install --cask intellij-idea-ce` | Snap `intellij-idea-community` |
 | Node.js | `winget install OpenJS.NodeJS.LTS` | `brew install node@22` | `sudo apt install nodejs npm` (oder nodesource für aktuelles LTS) |
+| Podman | `wsl --install --no-distribution` (Admin), dann `winget install RedHat.Podman` und `winget install Docker.DockerCompose`; `podman machine init`, `podman machine start` | `brew install podman docker-compose`, `podman machine init && podman machine start` | `sudo apt install podman podman-compose` |
 | VS Code | `winget install Microsoft.VisualStudioCode` | `brew install --cask visual-studio-code` | Snap `code` |
 
 **Firmenproxy:** Bricht `./gradlew` beim ersten Lauf mit `PKIX path building failed` ab, prüft
