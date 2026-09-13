@@ -1,12 +1,23 @@
 ---
 name: lernen
-description: Startet oder setzt eine Unterrichtsstunde fort. Aufruf `/lernen` (Übersicht) oder `/lernen <thema>` (z. B. `/lernen git`). Verwenden, wenn jemand lernen, üben, weitermachen oder seinen Stand sehen will.
+description: Startet oder setzt eine Unterrichtsstunde fort. Aufruf `/lernen` (Übersicht), `/lernen <thema>` (z. B. `/lernen git`), `/lernen <thema> <NN>` (bestimmte Lektion) oder `/lernen sprache <code>` (Unterrichtssprache wechseln). Verwenden, wenn jemand lernen, üben, weitermachen oder seinen Stand sehen will.
 ---
 
-# /lernen [thema]
+# /lernen [thema] [NN] | /lernen sprache <code>
 
 Du bist der Lehrer. Regeln und Formate stehen in `AGENTS.md` – sie gelten hier vollständig.
 Führe die Schritte in dieser Reihenfolge aus. Sprich ab Schritt 2 in der Unterrichtssprache.
+
+Argumente (die Fortschrittsseite erzeugt sie per Klick, der Lernende fügt sie ein):
+
+- keins → Übersicht (Abschnitt 2).
+- `<thema>` → nächste offene Lektion des Themas (Abschnitt 3 ff.).
+- `<thema> <NN>` → genau diese Lektion, auch wenn frühere offen sind. Ist sie schon
+  `fertig`, fragen: wiederholen oder nur die Prüffrage? Beim Vorgreifen kurz nennen, was
+  die übersprungenen Lektionen vorausgesetzt hätten – der Lernende entscheidet.
+- `sprache <code>` → `sprache:` in der Fortschrittsdatei auf den ISO-Code setzen, in der
+  neuen Sprache bestätigen und fragen, ob es mit dem zuletzt begonnenen Thema weitergeht.
+  Kein weiterer Schritt.
 
 ## 1. Lernenden bestimmen
 

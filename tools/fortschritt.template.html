@@ -28,10 +28,19 @@
   .offen { color:var(--grau); }
   .notizen { margin-top:.75rem; padding:.5rem .75rem; background:#fffbeb; border-left:3px solid var(--begonnen); font-size:.9rem; }
   .hinweis { color:var(--grau); font-size:.85rem; margin-top:.5rem; }
+  li.lektion { cursor:pointer; border-radius:.3rem; padding:.2rem .3rem; }
+  li.lektion:hover { background:#eef2ff; }
+  .profil select { font:inherit; color:inherit; border:1px solid var(--rand); border-radius:.3rem; padding:.1rem .3rem; background:var(--karte); }
+  .befehl { display:none; align-items:center; gap:.75rem; flex-wrap:wrap; background:#eef2ff; border:1px solid #c7d2fe; border-radius:.75rem; padding:.75rem 1rem; margin-bottom:1.5rem; }
+  .befehl.sichtbar { display:flex; }
+  .befehl code { font-size:1.05rem; background:var(--karte); padding:.25rem .5rem; border-radius:.3rem; }
+  .befehl button { font:inherit; padding:.3rem .7rem; border:1px solid #c7d2fe; border-radius:.3rem; background:var(--karte); cursor:pointer; }
+  .befehl .ok { color:var(--fertig); font-size:.9rem; }
 </style>
 </head>
 <body>
 <header><h1>Lernfortschritt</h1><div class="profil" id="profil"></div></header>
+<section class="befehl" id="befehl"><span>In Claude Code eingeben:</span><code id="befehl-text"></code><button id="befehl-kopieren" type="button">Kopieren</button><span class="ok" id="befehl-ok"></span></section>
 <section class="gesamt" id="gesamt"></section>
 <section class="themen" id="themen"></section>
 <script>
@@ -76,7 +85,7 @@ function karte(plan) {
   const stand = standVon(plan.thema);
   const datum = letztesDatum(lektionen);
   const zeilen = lektionen.map(l =>
-    `<li class="${l.status}"><span class="status">${SYMBOL[l.status]}</span>` +
+    `<li class="lektion ${l.status}" data-befehl="/lernen ${plan.thema} ${l.nummer}" title="Klicken: Lektion starten"><span class="status">${SYMBOL[l.status]}</span>` +
     `<span>${l.nummer} ${escapeHtml(l.titel)}</span>` +
     (l.datum ? `<span class="datum">${l.datum}</span>` : "") + `</li>`).join("");
   return `<article class="thema ${fehlend.length ? "gesperrt" : ""}">
@@ -91,7 +100,12 @@ function karte(plan) {
 
 function render() {
   const p = DATEN.profil;
-  document.getElementById("profil").textContent = `${p.name} · ${p.rolle}${p.niveau ? " (" + p.niveau + ")" : ""} · Sprache ${p.sprache} · IDE ${p.ide}`;
+  const sprachen = [["de", "Deutsch"], ["en", "English"], ["fr", "Français"], ["es", "Español"], ["it", "Italiano"], ["tr", "Türkçe"]];
+  if (p.sprache && !sprachen.some(s => s[0] === p.sprache)) sprachen.push([p.sprache, p.sprache]);
+  const optionen = sprachen.map(([code, name]) => `<option value="${code}" ${code === p.sprache ? "selected" : ""}>${name}</option>`).join("");
+  document.getElementById("profil").innerHTML =
+    `${escapeHtml(p.name)} · ${escapeHtml(p.rolle)}${p.niveau ? " (" + escapeHtml(p.niveau) + ")" : ""} · ` +
+    `<label>Sprache <select id="sprache" title="Wechsel erzeugt einen Befehl für Claude Code">${optionen}</select></label> · IDE ${escapeHtml(p.ide)}`;
   let gesamtFertig = 0, gesamtAlle = 0;
   for (const plan of DATEN.lehrplaene) {
     const lektionen = lektionenMitStatus(plan);
@@ -105,7 +119,37 @@ function render() {
   document.getElementById("themen").innerHTML = DATEN.lehrplaene.map(karte).join("");
 }
 
+function zeigeBefehl(text) {
+  document.getElementById("befehl-text").textContent = text;
+  document.getElementById("befehl-ok").textContent = "";
+  document.getElementById("befehl").classList.add("sichtbar");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 render();
+
+document.getElementById("themen").addEventListener("click", ev => {
+  const zeile = ev.target.closest("li.lektion");
+  if (zeile) zeigeBefehl(zeile.dataset.befehl);
+});
+document.getElementById("sprache").addEventListener("change", ev => {
+  zeigeBefehl(`/lernen sprache ${ev.target.value}`);
+});
+document.getElementById("befehl-kopieren").addEventListener("click", async () => {
+  const text = document.getElementById("befehl-text").textContent;
+  const ok = document.getElementById("befehl-ok");
+  try {
+    await navigator.clipboard.writeText(text);
+    ok.textContent = "kopiert – im Chat einfügen";
+  } catch (e) {
+    const bereich = document.createRange();
+    bereich.selectNodeContents(document.getElementById("befehl-text"));
+    const auswahl = window.getSelection();
+    auswahl.removeAllRanges();
+    auswahl.addRange(bereich);
+    ok.textContent = "markiert – mit Strg+C kopieren";
+  }
+});
 </script>
 </body>
 </html>
