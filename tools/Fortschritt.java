@@ -18,7 +18,7 @@ import java.util.stream.Stream;
  */
 public final class Fortschritt {
 
-    record Lektion(String nummer, String titel, String uebung) {}
+    record Lektion(String nummer, String titel, String uebung, Map<String, String> uebersetzungen) {}
     record Lehrplan(String thema, String titel, List<String> voraussetzungen, List<Lektion> lektionen) {}
     record LektionsStand(String nummer, String status, String datum) {}
     record ThemenStand(List<LektionsStand> lektionen, String notizen) {}
@@ -27,6 +27,7 @@ public final class Fortschritt {
 
     private static final Pattern LEKTION = Pattern.compile("^### (\\d{2}) (.+)$");
     private static final Pattern UEBUNG = Pattern.compile("^- \\*\\*Übung:\\*\\* (.+)$");
+    private static final Pattern UEBERSETZUNG = Pattern.compile("^- \\*\\*Übersetzung:\\*\\* (.+)$");
     private static final Pattern THEMA = Pattern.compile("^## (\\S+)$");
     private static final Pattern LEKTIONS_STAND =
             Pattern.compile("^- (\\d{2}): (fertig|begonnen) (\\d{4}-\\d{2}-\\d{2})$");
@@ -84,30 +85,57 @@ public final class Fortschritt {
         return ergebnis;
     }
 
+    /** `en: Title | fr: Titre` → Map; Sprachcode ist alles vor dem ersten Doppelpunkt. */
+    static Map<String, String> parseUebersetzungen(String wert) {
+        Map<String, String> ergebnis = new LinkedHashMap<>();
+        for (String teil : wert.split("\\|")) {
+            int doppelpunkt = teil.indexOf(':');
+            if (doppelpunkt < 0) {
+                continue;
+            }
+            String code = teil.substring(0, doppelpunkt).trim();
+            String titel = teil.substring(doppelpunkt + 1).trim();
+            if (!code.isEmpty() && !titel.isEmpty()) {
+                ergebnis.put(code, titel);
+            }
+        }
+        return ergebnis;
+    }
+
     static Lehrplan parseLehrplan(String markdown) {
         Map<String, String> frontmatter = parseFrontmatter(markdown);
         List<Lektion> lektionen = new ArrayList<>();
         String nummer = null;
         String titel = null;
         String uebung = null;
+        Map<String, String> uebersetzungen = new LinkedHashMap<>();
         for (String zeile : markdown.split("\\R")) {
             Matcher lektion = LEKTION.matcher(zeile.strip());
             if (lektion.matches()) {
                 if (nummer != null) {
-                    lektionen.add(new Lektion(nummer, titel, uebung));
+                    lektionen.add(new Lektion(nummer, titel, uebung, uebersetzungen));
                 }
                 nummer = lektion.group(1);
                 titel = lektion.group(2).trim();
                 uebung = null;
+                uebersetzungen = new LinkedHashMap<>();
+                continue;
+            }
+            if (nummer == null) {
                 continue;
             }
             Matcher uebungsZeile = UEBUNG.matcher(zeile.strip());
-            if (uebungsZeile.matches() && nummer != null) {
+            if (uebungsZeile.matches()) {
                 uebung = uebungsZeile.group(1).trim();
+                continue;
+            }
+            Matcher uebersetzungsZeile = UEBERSETZUNG.matcher(zeile.strip());
+            if (uebersetzungsZeile.matches()) {
+                uebersetzungen = parseUebersetzungen(uebersetzungsZeile.group(1));
             }
         }
         if (nummer != null) {
-            lektionen.add(new Lektion(nummer, titel, uebung));
+            lektionen.add(new Lektion(nummer, titel, uebung, uebersetzungen));
         }
         return new Lehrplan(
                 frontmatter.get("thema"),
@@ -196,6 +224,19 @@ public final class Fortschritt {
         return sb.append(']').toString();
     }
 
+    static String jsonObjekt(Map<String, String> werte) {
+        StringBuilder sb = new StringBuilder("{");
+        boolean erstes = true;
+        for (Map.Entry<String, String> eintrag : werte.entrySet()) {
+            if (!erstes) {
+                sb.append(',');
+            }
+            erstes = false;
+            sb.append(json(eintrag.getKey())).append(':').append(json(eintrag.getValue()));
+        }
+        return sb.append('}').toString();
+    }
+
     static String toJson(List<Lehrplan> lehrplaene, Stand stand) {
         StringBuilder sb = new StringBuilder("{\"profil\":{");
         Profil p = stand.profil();
@@ -223,6 +264,7 @@ public final class Fortschritt {
                 sb.append("{\"nummer\":").append(json(l.nummer()))
                   .append(",\"titel\":").append(json(l.titel()))
                   .append(",\"uebung\":").append(json(l.uebung()))
+                  .append(",\"uebersetzungen\":").append(jsonObjekt(l.uebersetzungen()))
                   .append('}');
             }
             sb.append("]}");

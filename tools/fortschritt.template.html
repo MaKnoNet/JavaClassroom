@@ -86,6 +86,7 @@ const TEXTE = {
 };
 let sprache = DATEN.profil.sprache in TEXTE ? DATEN.profil.sprache : "de";
 function t(schluessel) { return TEXTE[sprache][schluessel]; }
+function lektionsTitel(l) { return (l.uebersetzungen && l.uebersetzungen[sprache]) || l.titel; }
 const SYMBOL = { fertig: "✔", begonnen: "▶", offen: "○" };
 
 function standVon(thema) {
@@ -127,7 +128,7 @@ function karte(plan) {
   const datum = letztesDatum(lektionen);
   const zeilen = lektionen.map(l =>
     `<li class="lektion ${l.status}" data-befehl="/lernen ${plan.thema} ${l.nummer}" title="${t("klick")}"><span class="status">${SYMBOL[l.status]}</span>` +
-    `<span>${l.nummer} ${escapeHtml(l.titel)}</span>` +
+    `<span>${l.nummer} ${escapeHtml(lektionsTitel(l))}</span>` +
     (l.datum ? `<span class="datum">${l.datum}</span>` : "") + `</li>`).join("");
   return `<article class="thema ${fehlend.length ? "gesperrt" : ""}">
     <h2><span>${fehlend.length ? "🔒 " : ""}${escapeHtml(plan.titel)}</span><span class="zahl">${fertig} / ${lektionen.length}</span></h2>
@@ -148,7 +149,7 @@ function render() {
   document.getElementById("befehl-kopieren").textContent = t("kopieren");
   const sprachen = [["de", "Deutsch"], ["en", "English"], ["fr", "Français"], ["es", "Español"], ["it", "Italiano"], ["tr", "Türkçe"]];
   if (p.sprache && !sprachen.some(s => s[0] === p.sprache)) sprachen.push([p.sprache, p.sprache]);
-  const optionen = sprachen.map(([code, name]) => `<option value="${code}" ${code === p.sprache ? "selected" : ""}>${name}</option>`).join("");
+  const optionen = sprachen.map(([code, name]) => `<option value="${code}" ${code === sprache ? "selected" : ""}>${name}</option>`).join("");
   document.getElementById("profil").innerHTML =
     `${escapeHtml(p.name)} · ${escapeHtml(p.rolle)}${p.niveau ? " (" + escapeHtml(p.niveau) + ")" : ""} · ` +
     `<label>${t("sprache")} <select id="sprache" title="${t("wechsel")}">${optionen}</select></label> · IDE ${escapeHtml(p.ide)}`;

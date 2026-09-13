@@ -21,6 +21,7 @@ mit Exceptions sauber behandeln.
 - **Ziele:** Klasse, Methode, `main`; Kompilieren und Starten; Unterschied Klasse/Objekt; ein Programm in der IDE ausführen
 - **Übung:** uebungen/01-erste-klasse
 - **Prüffrage:** Was unterscheidet eine Klasse von einem Objekt?
+- **Übersetzung:** en: First class | fr: Première classe
 
 Leitfaden: Bauplan und Haus. Die Übung enthält bereits einen Test – so sieht der Lernende
 vom ersten Tag an, wie „fertig" definiert ist.
@@ -28,48 +29,59 @@ vom ersten Tag an, wie „fertig" definiert ist.
 ### 02 Variablen, Typen und Operatoren
 - **Ziele:** Primitive Typen vs. `String`; `int`/`double`/`boolean`; Deklaration, Zuweisung; arithmetische und logische Operatoren; `final`
 - **Prüffrage:** Warum ergibt `7 / 2` in Java `3`?
+- **Übersetzung:** en: Variables, types and operators | fr: Variables, types et opérateurs
 
 ### 03 Kontrollfluss
 - **Ziele:** `if`/`else`, `switch`, `for`, `while`, `break`/`continue`; Schleifen lesbar halten
 - **Prüffrage:** Wann ist `while` die richtige Wahl statt `for`?
+- **Übersetzung:** en: Control flow | fr: Flux de contrôle
 
 ### 04 Methoden
 - **Ziele:** Parameter, Rückgabewert, `static` vs. Instanzmethode; Methoden klein halten; sprechende Namen; Überladen
 - **Übung:** uebungen/02-rechner
 - **Prüffrage:** Was ist der Unterschied zwischen Parameter und Argument?
+- **Übersetzung:** en: Methods | fr: Méthodes
 
 ### 05 Klassen und Objekte
 - **Ziele:** Felder, Konstruktoren, `this`; Kapselung mit `private` und Getter; `toString`
 - **Prüffrage:** Warum sind Felder `private`, wenn es doch Getter gibt?
+- **Übersetzung:** en: Classes and objects | fr: Classes et objets
 
 ### 06 Referenz und Wert
 - **Ziele:** Referenztypen vs. primitive Typen; `==` vs. `equals`; Objekte als Parameter; `null`
 - **Prüffrage:** Zwei Variablen zeigen auf dasselbe Objekt – was passiert, wenn man über eine davon ein Feld ändert?
+- **Übersetzung:** en: Reference and value | fr: Référence et valeur
 
 ### 07 Vererbung und Polymorphie
 - **Ziele:** `extends`, `super`, Überschreiben, `@Override`; wann Vererbung passt und wann nicht
 - **Prüffrage:** Was ist Polymorphie – mit einem Beispiel?
+- **Übersetzung:** en: Inheritance and polymorphism | fr: Héritage et polymorphisme
 
 ### 08 Interfaces und Abstraktion
 - **Ziele:** `interface`, `implements`; Programmieren gegen Schnittstellen; funktionale Interfaces und Lambdas
 - **Prüffrage:** Warum nimmt eine Methode lieber ein `List<String>` entgegen als ein `ArrayList<String>`?
+- **Übersetzung:** en: Interfaces and abstraction | fr: Interfaces et abstraction
 
 ### 09 Collections und Generics
 - **Ziele:** `List`, `Set`, `Map` und ihre Implementierungen; Generics lesen und schreiben; die richtige Struktur wählen
 - **Prüffrage:** Wann `Set` statt `List`?
+- **Übersetzung:** en: Collections and generics | fr: Collections et génériques
 
 ### 10 Exceptions
 - **Ziele:** `try`/`catch`/`finally`, checked vs. unchecked, eigene Exceptions; Fehler nicht verschlucken; try-with-resources
 - **Prüffrage:** Warum ist ein leerer `catch`-Block gefährlich?
+- **Übersetzung:** en: Exceptions | fr: Exceptions
 
 ### 11 Records und Enums
 - **Ziele:** `record` für unveränderliche Datenklassen, `enum` statt Magic Strings, `switch` über Enums
 - **Prüffrage:** Was garantiert ein Record, das eine normale Klasse nicht garantiert?
+- **Übersetzung:** en: Records and enums | fr: Records et enums
 
 ### 12 Streams
 - **Ziele:** `stream()`, `filter`, `map`, `sorted`, `collect`; `Collectors.toList`, `joining`, `groupingBy`; `Optional` als Ergebnis von `max`/`findFirst`; wann eine Schleife lesbarer bleibt
 - **Übung:** uebungen/03-streams
 - **Prüffrage:** Was ist der Unterschied zwischen einer Zwischenoperation wie `filter` und einer Endoperation wie `collect` – und wann wird tatsächlich gerechnet?
+- **Übersetzung:** en: Streams | fr: Streams
 
 Leitfaden: Ein Stream ist eine Fließband-Beschreibung, keine Datenstruktur – erst die
 Endoperation setzt das Band in Gang. Mit einer vorhandenen Schleife beginnen und sie Schritt
@@ -79,3 +91,4 @@ Map-Schleife ersetzt. `Optional` als Antwort auf „was, wenn die Liste leer ist
 ### 13 Clean Code im Kleinen
 - **Ziele:** Sprechende Namen, kleine Methoden, keine Magic Numbers, DRY; Code lesen und verbessern
 - **Prüffrage:** Woran erkennt man, dass eine Methode zu viel tut?
+- **Übersetzung:** en: Clean code in the small | fr: Clean code au quotidien

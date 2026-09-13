@@ -37,6 +37,7 @@ public final class FortschrittTest {
             - **Ziele:** Klasse verstehen
             - **Übung:** uebungen/01-erste-klasse
             - **Prüffrage:** Was ist eine Klasse?
+            - **Übersetzung:** en: First class | fr: Première classe
 
             ### 02 Variablen
             - **Ziele:** Typen
@@ -52,6 +53,9 @@ public final class FortschrittTest {
         pruefe("titel 01", "Erste Klasse", plan.lektionen().get(0).titel());
         pruefe("uebung 01", "uebungen/01-erste-klasse", plan.lektionen().get(0).uebung());
         pruefe("titel 02", "Variablen", plan.lektionen().get(1).titel());
+        pruefe("uebersetzung en", "First class", plan.lektionen().get(0).uebersetzungen().get("en"));
+        pruefe("uebersetzung fr", "Première classe", plan.lektionen().get(0).uebersetzungen().get("fr"));
+        pruefe("keine uebersetzung", 0, plan.lektionen().get(1).uebersetzungen().size());
     }
 
     static void lehrplanOhneUebung() {
@@ -132,8 +136,8 @@ public final class FortschrittTest {
 
     static void jsonGesamt() {
         Fortschritt.Lehrplan plan = new Fortschritt.Lehrplan("java", "Java", List.of("git"),
-                List.of(new Fortschritt.Lektion("01", "Erste Klasse", "uebungen/01-erste-klasse"),
-                        new Fortschritt.Lektion("02", "Variablen", null)));
+                List.of(new Fortschritt.Lektion("01", "Erste Klasse", "uebungen/01-erste-klasse", java.util.Map.of("en", "First class")),
+                        new Fortschritt.Lektion("02", "Variablen", null, java.util.Map.of())));
         Fortschritt.Stand stand = new Fortschritt.Stand(
                 new Fortschritt.Profil("Max", "de", "azubi", "anfaenger", "eclipse", "nichts"),
                 java.util.Map.of("java", new Fortschritt.ThemenStand(
@@ -141,8 +145,8 @@ public final class FortschrittTest {
         String json = Fortschritt.toJson(List.of(plan), stand);
         String erwartet = "{\"profil\":{\"name\":\"Max\",\"sprache\":\"de\",\"rolle\":\"azubi\",\"niveau\":\"anfaenger\",\"ide\":\"eclipse\",\"vorwissen\":\"nichts\"},"
                 + "\"lehrplaene\":[{\"thema\":\"java\",\"titel\":\"Java\",\"voraussetzungen\":[\"git\"],\"lektionen\":["
-                + "{\"nummer\":\"01\",\"titel\":\"Erste Klasse\",\"uebung\":\"uebungen\\/01-erste-klasse\"},"
-                + "{\"nummer\":\"02\",\"titel\":\"Variablen\",\"uebung\":null}]}],"
+                + "{\"nummer\":\"01\",\"titel\":\"Erste Klasse\",\"uebung\":\"uebungen\\/01-erste-klasse\",\"uebersetzungen\":{\"en\":\"First class\"}},"
+                + "{\"nummer\":\"02\",\"titel\":\"Variablen\",\"uebung\":null,\"uebersetzungen\":{}}]}],"
                 + "\"stand\":{\"java\":{\"lektionen\":[{\"nummer\":\"01\",\"status\":\"fertig\",\"datum\":\"2026-09-10\"}],\"notizen\":\"Notiz\"}}}";
         pruefe("json gesamt", erwartet, json);
     }
