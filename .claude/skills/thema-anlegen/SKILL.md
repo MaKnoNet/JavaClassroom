@@ -27,6 +27,8 @@ Du hilfst einem Ausbilder, ein Thema anzulegen. Formate und Konventionen: `AGENT
 3. Lehrplan-Entwurf mit 6–12 Lektionen schreiben, aufsteigend von Grundlagen zu Anwendung.
    Jede Lektion: Titel, `Ziele`, `Prüffrage`; `Übung` nur dort, wo eine Übung geplant ist,
    mit Pfad `uebungen/NN-name`. Unter jeder Lektion ein bis drei Sätze Leitfaden.
+   Im Frontmatter `reihenfolge:` setzen (Position auf der Fortschrittsseite, siehe
+   AGENTS.md – zwischen den Nachbarn im Lernpfad, z. B. 95 zwischen Datenbanken und Spring).
 4. Format prüfen: `java tools/Fortschritt.java _beispiel` muss durchlaufen und das Thema
    in `arbeit/fortschritt.html` erscheinen.
 5. Entwurf im Chat zeigen (Lektionsliste). **Warten auf Freigabe.** Änderungswünsche

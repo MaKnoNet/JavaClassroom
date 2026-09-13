@@ -13,6 +13,7 @@ public final class FortschrittTest {
         standOhneThemen();
         jsonEscaping();
         jsonGesamt();
+        reihenfolgeSortiert();
         if (fehler > 0) {
             System.err.println(fehler + " Test(s) fehlgeschlagen");
             System.exit(1);
@@ -59,6 +60,15 @@ public final class FortschrittTest {
         pruefe("keine uebersetzung", 0, plan.lektionen().get(1).uebersetzungen().size());
         pruefe("stufe 01", "1", plan.lektionen().get(0).stufe());
         pruefe("stufe 02 fehlt", null, plan.lektionen().get(1).stufe());
+        pruefe("ohne reihenfolge ans Ende", Fortschritt.OHNE_REIHENFOLGE, plan.reihenfolge());
+    }
+
+    static void reihenfolgeSortiert() {
+        Fortschritt.Lehrplan git = Fortschritt.parseLehrplan("---\nthema: git\ntitel: Git\nreihenfolge: 10\n---\n");
+        Fortschritt.Lehrplan java = Fortschritt.parseLehrplan("---\nthema: java\ntitel: Java\nreihenfolge: 60\n---\n");
+        Fortschritt.Lehrplan neu = Fortschritt.parseLehrplan("---\nthema: neu\ntitel: Neu\n---\n");
+        List<String> reihenfolge = Fortschritt.sortiert(List.of(neu, java, git)).stream().map(Fortschritt.Lehrplan::thema).toList();
+        pruefe("sortiert nach reihenfolge, ohne Angabe zuletzt", List.of("git", "java", "neu"), reihenfolge);
     }
 
     static void lehrplanOhneUebung() {
@@ -138,7 +148,7 @@ public final class FortschrittTest {
     }
 
     static void jsonGesamt() {
-        Fortschritt.Lehrplan plan = new Fortschritt.Lehrplan("java", "Java", List.of("git"),
+        Fortschritt.Lehrplan plan = new Fortschritt.Lehrplan("java", "Java", List.of("git"), 60,
                 List.of(new Fortschritt.Lektion("01", "Erste Klasse", "uebungen/01-erste-klasse", java.util.Map.of("en", "First class"), "1"),
                         new Fortschritt.Lektion("02", "Variablen", null, java.util.Map.of(), null)));
         Fortschritt.Stand stand = new Fortschritt.Stand(

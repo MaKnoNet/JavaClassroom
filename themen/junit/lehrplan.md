@@ -3,6 +3,7 @@ thema: junit
 titel: JUnit
 voraussetzungen: [java, gradle]
 zielgruppe: [azubi, student, kollege]
+reihenfolge: 80
 ---
 
 # JUnit

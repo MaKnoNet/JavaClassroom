@@ -3,6 +3,7 @@ thema: css
 titel: CSS
 voraussetzungen: [html]
 zielgruppe: [azubi, student]
+reihenfolge: 30
 ---
 
 # CSS

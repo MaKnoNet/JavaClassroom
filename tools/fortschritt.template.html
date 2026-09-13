@@ -6,8 +6,15 @@
 <title>Lernfortschritt</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Ccircle cx=%278%27 cy=%278%27 r=%277%27 fill=%27%2316a34a%27/%3E%3C/svg%3E">
 <style>
-  :root { --bg:#f6f7f9; --karte:#fff; --text:#1f2933; --grau:#6b7280; --rand:#e5e7eb;
-          --fertig:#15803d; --begonnen:#b45309; --offen:#e5e7eb; --fokus:#2563eb; }
+  :root { color-scheme:light; --bg:#f6f7f9; --karte:#fff; --text:#1f2933; --grau:#6b7280; --rand:#e5e7eb;
+          --fertig:#15803d; --begonnen:#b45309; --offen:#e5e7eb; --fokus:#2563eb;
+          --hover:#eef2ff; --befehl-bg:#eef2ff; --befehl-rand:#c7d2fe; --notiz-bg:#fffbeb;
+          --stufe-1:#15803d; --stufe-2:#2563eb; --stufe-3:#7c3aed; }
+  /* Dunkle Palette: alle Textkontraste >= 4,5:1 auf der Karte (#1f2937) nachgerechnet. */
+  :root[data-theme="dark"] { color-scheme:dark; --bg:#111827; --karte:#1f2937; --text:#e5e7eb; --grau:#9ca3af; --rand:#374151;
+          --fertig:#4ade80; --begonnen:#fbbf24; --offen:#374151; --fokus:#60a5fa;
+          --hover:#374151; --befehl-bg:#1e3a5f; --befehl-rand:#3b82f6; --notiz-bg:#3b2f0b;
+          --stufe-1:#15803d; --stufe-2:#2563eb; --stufe-3:#7c3aed; }
   body { margin:0; padding:2rem; font-family:system-ui,sans-serif; background:var(--bg); color:var(--text); }
   header { display:flex; flex-wrap:wrap; gap:1rem 2rem; align-items:baseline; margin-bottom:1.5rem; }
   h1 { margin:0; font-size:1.6rem; }
@@ -30,23 +37,26 @@
   li .datum { margin-left:auto; color:var(--grau); font-size:.85rem; }
   .status { width:1.2rem; text-align:center; }
   .stufe { font-size:.7rem; font-weight:600; padding:0 .35rem; border-radius:.3rem; margin-left:.4rem; color:#fff; align-self:center; }
-  .stufe-1 { background:#15803d; } .stufe-2 { background:#2563eb; } .stufe-3 { background:#7c3aed; }
+  .stufe-1 { background:var(--stufe-1); } .stufe-2 { background:var(--stufe-2); } .stufe-3 { background:var(--stufe-3); }
   .fertig .status { color:var(--fertig); }
   .begonnen .status { color:var(--begonnen); }
-  .notizen { margin-top:.75rem; padding:.5rem .75rem; background:#fffbeb; border-left:3px solid var(--begonnen); font-size:.9rem; }
+  .notizen { margin-top:.75rem; padding:.5rem .75rem; background:var(--notiz-bg); border-left:3px solid var(--begonnen); font-size:.9rem; }
   .hinweis { color:var(--grau); font-size:.85rem; margin-top:.5rem; }
-  li.lektion > button:hover { background:#eef2ff; }
+  li.lektion > button:hover { background:var(--hover); }
+  .theme { margin-left:auto; font:inherit; font-size:.9rem; padding:.25rem .6rem; border:1px solid var(--rand); border-radius:999px; background:var(--karte); color:var(--text); cursor:pointer; }
+  .theme:hover { background:var(--hover); }
+  .theme:focus-visible { outline:2px solid var(--fokus); outline-offset:2px; }
   li.lektion > button:focus-visible, .befehl button:focus-visible, select:focus-visible { outline:2px solid var(--fokus); outline-offset:2px; }
   .profil select { font:inherit; color:inherit; border:1px solid var(--rand); border-radius:.3rem; padding:.1rem .3rem; background:var(--karte); }
-  .befehl { display:none; align-items:center; gap:.75rem; flex-wrap:wrap; background:#eef2ff; border:1px solid #c7d2fe; border-radius:.75rem; padding:.75rem 1rem; margin-bottom:1.5rem; }
+  .befehl { display:none; align-items:center; gap:.75rem; flex-wrap:wrap; background:var(--befehl-bg); border:1px solid var(--befehl-rand); border-radius:.75rem; padding:.75rem 1rem; margin-bottom:1.5rem; }
   .befehl.sichtbar { display:flex; }
   .befehl code { font-size:1.05rem; background:var(--karte); padding:.25rem .5rem; border-radius:.3rem; }
-  .befehl button { font:inherit; padding:.3rem .7rem; border:1px solid #c7d2fe; border-radius:.3rem; background:var(--karte); cursor:pointer; }
+  .befehl button { color:var(--text); font:inherit; padding:.3rem .7rem; border:1px solid var(--befehl-rand); border-radius:.3rem; background:var(--karte); cursor:pointer; }
   .befehl .ok { color:var(--fertig); font-size:.9rem; }
 </style>
 </head>
 <body>
-<header><h1>Lernfortschritt</h1><div class="profil" id="profil"></div></header>
+<header><h1>Lernfortschritt</h1><div class="profil" id="profil"></div><button class="theme" id="theme-schalter" type="button" aria-pressed="false"></button></header>
 <main>
 <section class="befehl" id="befehl" aria-labelledby="befehl-titel"><span id="befehl-titel">In Claude Code eingeben:</span><code id="befehl-text"></code><button id="befehl-kopieren" type="button">Kopieren</button><span class="ok" id="befehl-ok" role="status" aria-live="polite"></span></section>
 <section class="gesamt" id="gesamt" aria-label="Gesamt"></section>
@@ -55,42 +65,42 @@
 <script>
 const DATEN = /*DATEN*/{};
 const TEXTE = {
-  de: { gesperrt: "gesperrt", bereichGesamt: "Gesamtfortschritt", bereichThemen: "Themen", status: { fertig: "fertig", begonnen: "begonnen", offen: "offen" },
+  de: { dunkel: "Dunkel", hell: "Hell", gesperrt: "gesperrt", bereichGesamt: "Gesamtfortschritt", bereichThemen: "Themen", status: { fertig: "fertig", begonnen: "begonnen", offen: "offen" },
         titel: "Lernfortschritt", stufe: "Stufe", eingeben: "In Claude Code eingeben:", kopieren: "Kopieren", sprache: "Sprache",
         klick: "Klicken: Lektion starten", wechsel: "Wechsel erzeugt einen Befehl für Claude Code",
         voraussetzung: "Voraussetzung noch offen", letzte: "Letzte Stunde", naechstes: "Nächstes Mal",
         gesamt: (f, a, p) => `Gesamt: ${f} von ${a} Lektionen (${p} %)`,
         gesendet: "an den Lehrer gesendet – schau in den Chat", nichtErreichbar: "Server nicht erreichbar – Befehl kopieren und im Chat einfügen",
         kopiert: "kopiert – im Chat einfügen", markiert: "markiert – mit Strg+C kopieren" },
-  en: { gesperrt: "locked", bereichGesamt: "Overall progress", bereichThemen: "Topics", status: { fertig: "done", begonnen: "started", offen: "open" },
+  en: { dunkel: "Dark", hell: "Light", gesperrt: "locked", bereichGesamt: "Overall progress", bereichThemen: "Topics", status: { fertig: "done", begonnen: "started", offen: "open" },
         titel: "Learning progress", stufe: "Level", eingeben: "Type into Claude Code:", kopieren: "Copy", sprache: "Language",
         klick: "Click to start this lesson", wechsel: "Changing creates a command for Claude Code",
         voraussetzung: "Prerequisite not finished", letzte: "Last session", naechstes: "Next time",
         gesamt: (f, a, p) => `Total: ${f} of ${a} lessons (${p} %)`,
         gesendet: "sent to the teacher – check the chat", nichtErreichbar: "Server not reachable – copy the command into the chat",
         kopiert: "copied – paste into the chat", markiert: "selected – copy with Ctrl+C" },
-  fr: { gesperrt: "verrouillé", bereichGesamt: "Progression globale", bereichThemen: "Thèmes", status: { fertig: "terminée", begonnen: "commencée", offen: "ouverte" },
+  fr: { dunkel: "Sombre", hell: "Clair", gesperrt: "verrouillé", bereichGesamt: "Progression globale", bereichThemen: "Thèmes", status: { fertig: "terminée", begonnen: "commencée", offen: "ouverte" },
         titel: "Progression", stufe: "Niveau", eingeben: "Saisir dans Claude Code :", kopieren: "Copier", sprache: "Langue",
         klick: "Cliquer pour démarrer cette leçon", wechsel: "Le changement crée une commande pour Claude Code",
         voraussetzung: "Prérequis non terminé", letzte: "Dernière séance", naechstes: "La prochaine fois",
         gesamt: (f, a, p) => `Total : ${f} sur ${a} leçons (${p} %)`,
         gesendet: "envoyé au professeur – regarde le chat", nichtErreichbar: "Serveur injoignable – copier la commande dans le chat",
         kopiert: "copié – coller dans le chat", markiert: "sélectionné – copier avec Ctrl+C" },
-  es: { gesperrt: "bloqueado", bereichGesamt: "Progreso total", bereichThemen: "Temas", status: { fertig: "terminada", begonnen: "empezada", offen: "abierta" },
+  es: { dunkel: "Oscuro", hell: "Claro", gesperrt: "bloqueado", bereichGesamt: "Progreso total", bereichThemen: "Temas", status: { fertig: "terminada", begonnen: "empezada", offen: "abierta" },
         titel: "Progreso", stufe: "Nivel", eingeben: "Escribir en Claude Code:", kopieren: "Copiar", sprache: "Idioma",
         klick: "Clic para empezar esta lección", wechsel: "El cambio crea un comando para Claude Code",
         voraussetzung: "Requisito previo pendiente", letzte: "Última sesión", naechstes: "La próxima vez",
         gesamt: (f, a, p) => `Total: ${f} de ${a} lecciones (${p} %)`,
         gesendet: "enviado al profesor – mira el chat", nichtErreichbar: "Servidor no disponible – copia el comando en el chat",
         kopiert: "copiado – pégalo en el chat", markiert: "seleccionado – copia con Ctrl+C" },
-  it: { gesperrt: "bloccato", bereichGesamt: "Progresso complessivo", bereichThemen: "Temi", status: { fertig: "completata", begonnen: "iniziata", offen: "aperta" },
+  it: { dunkel: "Scuro", hell: "Chiaro", gesperrt: "bloccato", bereichGesamt: "Progresso complessivo", bereichThemen: "Temi", status: { fertig: "completata", begonnen: "iniziata", offen: "aperta" },
         titel: "Progressi", stufe: "Livello", eingeben: "Digita in Claude Code:", kopieren: "Copia", sprache: "Lingua",
         klick: "Clicca per iniziare questa lezione", wechsel: "Il cambio crea un comando per Claude Code",
         voraussetzung: "Prerequisito non completato", letzte: "Ultima sessione", naechstes: "La prossima volta",
         gesamt: (f, a, p) => `Totale: ${f} di ${a} lezioni (${p} %)`,
         gesendet: "inviato all'insegnante – guarda la chat", nichtErreichbar: "Server non raggiungibile – copia il comando nella chat",
         kopiert: "copiato – incolla nella chat", markiert: "selezionato – copia con Ctrl+C" },
-  tr: { gesperrt: "kilitli", bereichGesamt: "Genel ilerleme", bereichThemen: "Konular", status: { fertig: "tamamlandı", begonnen: "başlandı", offen: "açık" },
+  tr: { dunkel: "Koyu", hell: "Açık", gesperrt: "kilitli", bereichGesamt: "Genel ilerleme", bereichThemen: "Konular", status: { fertig: "tamamlandı", begonnen: "başlandı", offen: "açık" },
         titel: "Öğrenme ilerlemesi", stufe: "Seviye", eingeben: "Claude Code'a yaz:", kopieren: "Kopyala", sprache: "Dil",
         klick: "Dersi başlatmak için tıkla", wechsel: "Değişiklik Claude Code için bir komut oluşturur",
         voraussetzung: "Ön koşul tamamlanmadı", letzte: "Son ders", naechstes: "Bir dahaki sefere",
@@ -99,6 +109,27 @@ const TEXTE = {
         kopiert: "kopyalandı – sohbete yapıştır", markiert: "seçildi – Ctrl+C ile kopyala" },
 };
 let sprache = DATEN.profil.sprache in TEXTE ? DATEN.profil.sprache : "de";
+
+// Hell/Dunkel: gespeicherte Wahl gewinnt, sonst die Systemeinstellung. Gesetzt vor dem
+// ersten Rendern, damit die Seite nicht hell aufblitzt.
+const THEME_SCHLUESSEL = "fortschritt-theme";
+function gespeichertesTheme() {
+  try { return localStorage.getItem(THEME_SCHLUESSEL); } catch (e) { return null; }
+}
+function aktuellesTheme() {
+  const gespeichert = gespeichertesTheme();
+  if (gespeichert === "dark" || gespeichert === "light") return gespeichert;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+function setzeTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  const schalter = document.getElementById("theme-schalter");
+  const dunkel = theme === "dark";
+  // Der Knopf zeigt, wohin er schaltet – nicht, was gerade ist.
+  schalter.textContent = dunkel ? "\u2600 " + t("hell") : "\u263E " + t("dunkel");
+  schalter.setAttribute("aria-pressed", String(dunkel));
+}
+setzeTheme(aktuellesTheme());
 function t(schluessel) { return TEXTE[sprache][schluessel]; }
 function lektionsTitel(l) { return (l.uebersetzungen && l.uebersetzungen[sprache]) || l.titel; }
 const SYMBOL = { fertig: "✔", begonnen: "▶", offen: "○" };
@@ -161,6 +192,7 @@ function render() {
   document.title = t("titel");
   document.documentElement.lang = sprache;
   document.querySelector("h1").textContent = t("titel");
+  setzeTheme(aktuellesTheme());
   document.getElementById("befehl-titel").textContent = t("eingeben");
   document.getElementById("gesamt").setAttribute("aria-label", t("bereichGesamt"));
   document.getElementById("themen").setAttribute("aria-label", t("bereichThemen"));
@@ -223,6 +255,11 @@ function bindeSprachwahl() {
   });
 }
 bindeSprachwahl();
+document.getElementById("theme-schalter").addEventListener("click", () => {
+  const neu = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  try { localStorage.setItem(THEME_SCHLUESSEL, neu); } catch (e) { /* privater Modus: Wahl gilt nur für diese Seite */ }
+  setzeTheme(neu);
+});
 document.getElementById("befehl-kopieren").addEventListener("click", async () => {
   const text = document.getElementById("befehl-text").textContent;
   const ok = document.getElementById("befehl-ok");

@@ -3,6 +3,7 @@ thema: git
 titel: Git
 voraussetzungen: []
 zielgruppe: [azubi, student, kollege]
+reihenfolge: 10
 ---
 
 # Git

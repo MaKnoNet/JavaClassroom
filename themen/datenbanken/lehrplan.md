@@ -3,6 +3,7 @@ thema: datenbanken
 titel: Datenbanken und SQL
 voraussetzungen: []
 zielgruppe: [azubi, student, kollege]
+reihenfolge: 90
 ---
 
 # Datenbanken und SQL

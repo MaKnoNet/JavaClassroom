@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -19,7 +20,10 @@ import java.util.stream.Stream;
 public final class Fortschritt {
 
     record Lektion(String nummer, String titel, String uebung, Map<String, String> uebersetzungen, String stufe) {}
-    record Lehrplan(String thema, String titel, List<String> voraussetzungen, List<Lektion> lektionen) {}
+    record Lehrplan(String thema, String titel, List<String> voraussetzungen, int reihenfolge, List<Lektion> lektionen) {}
+
+    /** Lehrpläne ohne {@code reihenfolge:} im Frontmatter landen hinter allen mit Angabe. */
+    static final int OHNE_REIHENFOLGE = Integer.MAX_VALUE;
     record LektionsStand(String nummer, String status, String datum) {}
     record ThemenStand(List<LektionsStand> lektionen, String notizen) {}
     record Profil(String name, String sprache, String rolle, String niveau, String ide, String vorwissen) {}
@@ -149,7 +153,27 @@ public final class Fortschritt {
                 frontmatter.get("thema"),
                 frontmatter.get("titel"),
                 parseListe(frontmatter.get("voraussetzungen")),
+                parseReihenfolge(frontmatter.get("reihenfolge")),
                 lektionen);
+    }
+
+    static int parseReihenfolge(String wert) {
+        if (wert == null || wert.isBlank()) {
+            return OHNE_REIHENFOLGE;
+        }
+        try {
+            return Integer.parseInt(wert.trim());
+        } catch (NumberFormatException e) {
+            abbruch("reihenfolge muss eine ganze Zahl sein, war: " + wert);
+            return OHNE_REIHENFOLGE;
+        }
+    }
+
+    /** Reihenfolge auf der Seite: erst nach {@code reihenfolge:}, bei Gleichstand nach Thema. */
+    static List<Lehrplan> sortiert(List<Lehrplan> lehrplaene) {
+        return lehrplaene.stream()
+                .sorted(Comparator.comparingInt(Lehrplan::reihenfolge).thenComparing(Lehrplan::thema))
+                .toList();
     }
 
     static Stand parseStand(String markdown) {
@@ -328,6 +352,7 @@ public final class Fortschritt {
                 lehrplaene.add(parseLehrplan(Files.readString(lehrplan, StandardCharsets.UTF_8)));
             }
         }
+        lehrplaene = sortiert(lehrplaene);
         Stand stand = parseStand(Files.readString(fortschrittDatei, StandardCharsets.UTF_8));
         String html = Files.readString(vorlage, StandardCharsets.UTF_8);
         if (!html.contains(PLATZHALTER)) {

@@ -3,6 +3,7 @@ thema: java
 titel: Java
 voraussetzungen: []
 zielgruppe: [azubi, student, kollege]
+reihenfolge: 60
 ---
 
 # Java

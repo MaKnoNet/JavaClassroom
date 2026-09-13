@@ -3,6 +3,7 @@ thema: frontend
 titel: Modernes Frontend und TypeScript
 voraussetzungen: [html, css, javascript]
 zielgruppe: [azubi, student, kollege]
+reihenfolge: 50
 ---
 
 # Modernes Frontend und TypeScript

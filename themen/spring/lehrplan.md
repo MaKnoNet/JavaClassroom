@@ -3,6 +3,7 @@ thema: spring
 titel: Spring Boot
 voraussetzungen: [java, gradle, junit, datenbanken]
 zielgruppe: [azubi, student, kollege]
+reihenfolge: 100
 ---
 
 # Spring Boot
