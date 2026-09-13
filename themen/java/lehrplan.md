@@ -136,6 +136,7 @@ in `Hund` und `Katze`, aufgerufen über eine `List<Tier>`). Dann die Grenze: Nic
 
 ### 11 Interfaces und abstrakte Klassen
 - **Ziele:** **Abstraktion**: nur festlegen, *was* etwas kann, nicht *wie*; `interface`, `implements`, Default- und statische Methoden; `abstract class`; wann Interface, wann abstrakte Klasse; Programmieren gegen Schnittstellen (Dependency Inversion); die fünf Eckpunkte der OOP zusammenfassen
+- **Übung:** uebungen/07-automat
 - **Prüffrage:** Warum nimmt eine Methode lieber ein `List<String>` entgegen als ein `ArrayList<String>`? Und: Nenne die fünf Eckpunkte der OOP mit je einem Beispiel aus den Lektionen 07 bis 11.
 - **Übersetzung:** en: Interfaces and abstract classes | fr: Interfaces et classes abstraites
 - **Stufe:** 2
@@ -147,6 +148,12 @@ senden(String text); }` – `EmailService` versteckt SMTP dahinter, der Aufrufer
 Vererbung, Polymorphie, Abstraktion – je eine Metapher, je ein Codebeispiel aus den
 Übungen. Das ist Prüfungs- und Vorstellungsgesprächs-Vokabular; der Lernende soll es frei
 erklären können.
+
+Die Übung ist der Klassiker der Dependency Inversion: Der Automat baut seine Bezahlung
+selbst und ist deshalb ohne Kartenterminal nicht testbar. Der Lernende zieht das
+Interface heraus und schiebt das `new` nach außen – im Test ersetzt es ein Mockito-Mock
+(JUnit-Lektion 08 sollte dafür bekannt sein; sonst reicht Hinweis 2 der Aufgabe). Genau
+dieser Automat kehrt in Spring-Lektion 01 zurück, wo der Container das `new` übernimmt.
 
 ### 12 Lambdas und Optional
 - **Ziele:** Funktionale Interfaces (`Predicate`, `Function`, `Supplier`, `Consumer`); Lambda-Ausdrücke und Methodenreferenzen; Code als Argument übergeben; `Optional` statt `null` als Rückgabe

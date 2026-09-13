@@ -62,8 +62,8 @@ Prüfe per Shell, was das Thema braucht. Melde jedes Ergebnis kurz, leite bei Fe
 | Thema | Braucht | Prüfbefehl | Erwartung |
 |---|---|---|---|
 | alle | Git | `git --version` | `git version 2.x` |
-| java, gradle, junit | JDK 21 | `java -version` | Zeile mit `21.` |
-| java, gradle, junit | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 9.6.1` |
+| java, gradle, junit, spring, vaadin | JDK 21 | `java -version` | Zeile mit `21.` |
+| java, gradle, junit, spring, vaadin | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 9.6.1` |
 | html, css, javascript | JDK 21 (für `jwebserver`) und Browser-Ansicht von Claude Code oder ein Browser | `jwebserver -h` | Hilfetext erscheint |
 | alle, wenn `ide` nicht `keine` | Eclipse / IntelliJ / VS Code | Lernenden fragen | – |
 | vaadin | kostenloses Vaadin-Konto für den Dev-Modus (Lizenzprüfung ab 24.9); Tests brauchen es nicht | Lernenden fragen | – |

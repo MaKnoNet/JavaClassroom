@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.16'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+// Quellen enthalten Umlaute; ohne diese Zeile nimmt javac unter Windows Cp1252.
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // JPA mit Hibernate; H2 ist eine Datenbank im Arbeitsspeicher – nichts zu installieren.
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
+    // Bringt JUnit 5, Mockito und die Spring-Testunterstuetzung mit.
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+    // Mockito lädt zur Laufzeit einen Agenten; ohne diesen Schalter warnt Java 21 davor.
+    jvmArgs '-XX:+EnableDynamicAgentLoading'
+    testLogging {
+        events 'passed', 'failed', 'skipped'
+        exceptionFormat 'full'
+    }
+}
