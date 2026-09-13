@@ -64,9 +64,9 @@ sagt die Ausgabe voraus, dann ausführen.
 - **Stufe:** 1
 
 ### 07 Klassen und Objekte
-- **Ziele:** Felder, Konstruktoren, `new`, `this`; Zustand und Verhalten; **Kapselung**: Felder `private`, Zugriff nur über Methoden, die prüfen dürfen (Setter mit Validierung); `toString`
+- **Ziele:** Felder, Konstruktoren, `new`, `this`; Zustand und Verhalten; **Kapselung**: Felder `private`, Zugriff nur über Methoden, die prüfen dürfen (Setter mit Validierung); `toString`; **Pakete und Sichtbarkeit**: `package`, `import`, die vier Stufen `private` → *package-private* (kein Schlüsselwort) → `protected` → `public`, Regel „so eng wie möglich"
 - **Übung:** uebungen/06-bankkonto
-- **Prüffrage:** Warum sind Felder `private`, wenn es doch Getter gibt – und was kann ein Setter, was ein öffentliches Feld nicht kann?
+- **Prüffrage:** Warum sind Felder `private`, wenn es doch Getter gibt – und was kann ein Setter, was ein öffentliches Feld nicht kann? Und: Eine Methode ohne Schlüsselwort davor – wer darf sie aufrufen?
 - **Übersetzung:** en: Classes and objects | fr: Classes et objets
 - **Stufe:** 1
 
@@ -76,6 +76,19 @@ geschlossene Motorhaube: Man fährt über das Gaspedal (Methode), man gießt kei
 mit dem Becher in den Motor (direkter Feldzugriff). Das Bankkonto in der Übung zeigt,
 warum: `einzahlen(-50)` darf nicht durchgehen – ein öffentliches Feld könnte das nicht
 verhindern.
+
+Sichtbarkeit an der Tafel, von eng nach weit:
+
+| Stufe | Schlüsselwort | Sichtbar für | Typischer Einsatz |
+|---|---|---|---|
+| privat | `private` | nur die eigene Klasse | Felder, Hilfsmethoden – der Normalfall |
+| package-private | *keins* | alle Klassen im selben Paket | Hilfsklassen eines Pakets, Testzugriff (Tests liegen im selben Paket) |
+| geschützt | `protected` | Paket **plus** Unterklassen, auch in anderen Paketen | selten sinnvoll – siehe Lektion 10 |
+| öffentlich | `public` | alle | die Schnittstelle der Klasse |
+
+Merksatz: Ohne Schlüsselwort ist es *nicht* öffentlich – ein häufiger Irrtum. Die Übungen
+nutzen package-private bewusst: Testklassen ohne `public` liegen im selben Paket wie die
+Klasse, die sie testen.
 
 ### 08 Referenz und Wert
 - **Ziele:** Referenztypen vs. primitive Typen; `==` vs. `equals`; Objekte als Parameter; `null` und die `NullPointerException`; **`int` vs. `Integer`** im Detail: `Integer` ist ein Objekt und darf `null` sein, `int` nie; Autoboxing/Unboxing; die zwei Fallen – `Integer a == Integer b` vergleicht Referenzen (funktioniert zufällig bis 127, danach nicht mehr) und Unboxing von `null` wirft `NullPointerException`
@@ -90,8 +103,8 @@ verhindern.
 - **Stufe:** 2
 
 ### 10 Vererbung und Polymorphie
-- **Ziele:** **Vererbung**: `extends`, `super`, Überschreiben, `@Override`; **Polymorphie**: ein Aufruf, unterschiedliche Reaktion je nach Laufzeittyp; wann Vererbung passt und wann Komposition besser ist
-- **Prüffrage:** Was ist Polymorphie – mit einem Beispiel? Und welches Problem löst Vererbung, das mit Kopieren nicht zu lösen wäre?
+- **Ziele:** **Vererbung**: `extends`, `super`, Überschreiben, `@Override`; `protected` – was Unterklassen sehen dürfen, und warum ein `protected`-Feld meist ein Warnzeichen ist (die Unterklasse hängt an Innereien der Oberklasse); `final` bei Klassen und Methoden; **Polymorphie**: ein Aufruf, unterschiedliche Reaktion je nach Laufzeittyp; wann Vererbung passt und wann Komposition besser ist
+- **Prüffrage:** Was ist Polymorphie – mit einem Beispiel? Und: Wann ist `protected` richtig, wann sollte es `private` mit einer `protected`-Methode sein?
 - **Übersetzung:** en: Inheritance and polymorphism | fr: Héritage et polymorphisme
 - **Stufe:** 2
 
