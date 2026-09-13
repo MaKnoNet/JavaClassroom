@@ -5,6 +5,11 @@ fortschritt/*.md
 # Arbeitskopien der Übungen und generierte Fortschrittsseite
 arbeit/
 
+# Datenbankdateien der SQL-Übungen (H2, SQLite)
+*.mv.db
+*.trace.db
+*.db
+
 # Build-Reste
 build/
 node_modules/

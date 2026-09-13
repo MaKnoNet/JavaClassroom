@@ -104,6 +104,11 @@ braucht. Jeden Befehl per Bash ausführen, Ergebnis in einem Satz melden:
    - `erfahren`: Stufe 1 und 2 per Prüffrage, Stufe 3 normal.
    Ohne `Stufe:`-Zeile gilt die Lektion als Stufe 2. Übersprungene Lektionen zählen als
    `fertig`, damit Fortschrittsseite und Voraussetzungen stimmen.
+   Beim Thema `datenbanken` gehört zum ersten Start die **Datenbankwahl** (Lehrplan,
+   Abschnitt „Datenbank wählen"): erst prüfen, ob eine Datenbank vorhanden ist, dann
+   fragen, ob sie verwendet werden darf, sonst H2 einrichten; Ergebnis als
+   `- datenbank: …` unter `## datenbanken` eintragen. Bei MySQL, SQL Server oder Oracle die
+   Übungsdateien beim Kopieren nach `arbeit/` anhand der Dialekttabelle im Lehrplan anpassen.
 6. Gibt es eine `notizen:`-Zeile, sie lesen und beim Einstieg berücksichtigen
    („Letztes Mal war Referenz vs. Wert noch wackelig – wir fangen mit einem Beispiel dazu an.").
 7. Beim erstmaligen Beginn einer Lektion: Zeile `- NN: begonnen <heute>` eintragen.
@@ -131,7 +136,11 @@ Wiederhole, bis die Ziele der Lektion erreicht sind:
      (im JDK enthalten, Bash im Hintergrund) und `http://localhost:8000/index.html` bzw.
      `tests.html` in der Browser-Ansicht öffnen; `read_page`, `javascript_tool`
      (`getComputedStyle`) und Screenshot; Server danach beenden;
-     Git → `git log --oneline --graph --all` und `git status` im Übungs-Repo.
+     Git → `git log --oneline --graph --all` und `git status` im Übungs-Repo;
+     SQL (`datenbanken`) → im Arbeitsordner `start.sql`, dann `aufgabe.sql`, dann
+     `pruefung.sql` gegen die gewählte Datenbank ausführen (Befehle je Datenbank in
+     `themen/datenbanken/AUSFUEHREN.md`); abgenommen, wenn keine Zeile `Fehler:` erscheint
+     und nur die in `pruefung.sql` als gewollt kommentierten Anweisungen scheitern.
    - Rückmeldung gestaffelt: 1. Versuch → Hinweis auf die Stelle; 2. Versuch → konkreter
      Hinweis (welche Zeile, welches Konzept); 3. Versuch oder auf Wunsch → Lösung aus
      `loesung/` zeigen und erklären. Nie den Code des Lernenden selbst ändern.

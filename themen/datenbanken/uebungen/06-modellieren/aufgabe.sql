@@ -1,0 +1,23 @@
+-- Übung 06: Modellierung und Constraints
+--
+-- Die Tabelle anmeldung aus start.sql hat ein Problem: Schau dir 'SQL Grundlagen' an –
+-- einmal 12 Plätze, einmal 15. Welche Zahl stimmt? Niemand weiß es. Das passiert, wenn
+-- dieselbe Tatsache an mehreren Stellen steht (Redundanz → Update-Anomalie).
+--
+-- Entwirf stattdessen drei Tabellen und lege sie hier an:
+--
+--   kurs        id (Primärschlüssel), titel (Pflicht, eindeutig), plaetze (Pflicht, > 0)
+--   teilnehmer  id (Primärschlüssel), name (Pflicht), email (eindeutig, darf fehlen)
+--   teilnahme   kurs_id, teilnehmer_id – beides Fremdschlüssel; zusammen der Primärschlüssel
+--               (ein Teilnehmer kann denselben Kurs nicht zweimal belegen).
+--               Wird ein Kurs gelöscht, verschwinden seine Teilnahmen mit (ON DELETE CASCADE).
+--
+-- Dann die Daten einfügen:
+--   kurs:        (1, 'SQL Grundlagen', 12), (2, 'Git für Einsteiger', 8), (3, 'Java Basics', 20)
+--   teilnehmer:  (1, 'Anna Adler', 'anna@example.org'), (2, 'Ben Berger', 'ben@example.org'),
+--                (3, 'Clara Cohen', 'clara@example.org')
+--   teilnahme:   (1,1), (1,2), (2,1), (3,2), (3,3)
+--
+-- Bonus (nicht geprüft): Fülle die Tabellen nicht von Hand, sondern mit
+-- INSERT INTO … SELECT DISTINCT … FROM anmeldung.
+

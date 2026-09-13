@@ -69,6 +69,7 @@ Prüfe per Shell, was das Thema braucht. Melde jedes Ergebnis kurz, leite bei Fe
 | devops | Container-Laufzeit: Podman (oder Docker) mit Compose | `podman --version`, `podman compose version` | Podman 5.x; unter Windows vorher `podman machine start` |
 | alle, wenn `ide` nicht `keine` | Eclipse / IntelliJ / VS Code | Lernenden fragen | – |
 | vaadin | kostenloses Vaadin-Konto für den Dev-Modus (Lizenzprüfung ab 24.9); Tests brauchen es nicht | Lernenden fragen | – |
+| datenbanken | eine relationale Datenbank mit SQL-Konsole. Vorhandene prüfen: `psql --version`, `sqlite3 --version`, `mysql --version`, `sqlcmd -?`, `sqlplus -v`. Gefunden → Lernenden fragen, ob sie verwendet werden darf (eigene Übungsdatenbank nötig). Sonst H2 – braucht nur das JDK. Wahl als `- datenbank: …` in die Fortschrittsdatei | siehe `themen/datenbanken/lehrplan.md`, Abschnitt „Datenbank wählen" | – |
 | optional | Chrome + Erweiterung „Claude in Chrome" – dann kann Claude die in Chrome geöffnete Fortschrittsseite lesen (Klick auf Lektion, dann „los" im Chat) | Lernenden fragen | – |
 
 Installationshilfe, wenn etwas fehlt (immer den Befehl zeigen, ausführen lassen, danach
@@ -82,6 +83,9 @@ erneut prüfen; die Installation selbst macht der Lernende, nicht Claude):
 | IntelliJ | `winget install JetBrains.IntelliJIDEA.Community` | `brew install --cask intellij-idea-ce` | Snap `intellij-idea-community` |
 | Node.js | `winget install OpenJS.NodeJS.LTS` | `brew install node@22` | `sudo apt install nodejs npm` (oder nodesource für aktuelles LTS) |
 | Podman | `wsl --install --no-distribution` (Admin), dann `winget install RedHat.Podman` und `winget install Docker.DockerCompose`; `podman machine init`, `podman machine start` | `brew install podman docker-compose`, `podman machine init && podman machine start` | `sudo apt install podman podman-compose` |
+| H2 (Standard für `datenbanken`) | kein Installer: `curl -O https://repo1.maven.org/maven2/com/h2database/h2/2.3.232/h2-2.3.232.jar` in `arbeit/datenbanken/`; Konsole `java -jar h2-2.3.232.jar` | dito | dito |
+| PostgreSQL (Alternative) | `winget install PostgreSQL.PostgreSQL.16` oder als Container `podman run -d --name lern-db -e POSTGRES_USER=lernen -e POSTGRES_PASSWORD=lernen -e POSTGRES_DB=uebung -p 5432:5432 docker.io/library/postgres:16` | `brew install postgresql@16` oder derselbe Container | `sudo apt install postgresql` oder derselbe Container |
+| SQLite (Alternative) | `winget install SQLite.SQLite` | vorinstalliert (`sqlite3`) | `sudo apt install sqlite3` |
 | VS Code | `winget install Microsoft.VisualStudioCode` | `brew install --cask visual-studio-code` | Snap `code` |
 
 **Firmenproxy:** Bricht `./gradlew` beim ersten Lauf mit `PKIX path building failed` ab, prüft
@@ -110,7 +114,7 @@ gehört in die Git-Lektion 01, nicht in die Umgebungsprüfung: `git config --glo
 |---|---|
 | `themen/<thema>/lehrplan.md` | Lehrplan mit Lektionen in Reihenfolge |
 | `themen/<thema>/uebungen/NN-name/` | Übung: `AUFGABE.md`, Projekt, `loesung/` |
-| `themen/_schablone/` | Vorlagen für neue Themen und Übungen |
+| `themen/_schablone/` | Vorlagen für neue Themen und Übungen (`uebung-java`, `uebung-web`, `uebung-sql`) |
 | `fortschritt/<name>.md` | persönlicher Fortschritt, nicht versioniert |
 | `fortschritt/_beispiel.md` | Schablone dafür |
 | `arbeit/<thema>/NN-name/` | Arbeitskopie einer Übung, nicht versioniert |
@@ -179,7 +183,9 @@ vorwissen: "Zwei Sätze."
 fortgeschritten | erfahren – steuert Schrittgröße und ob Grundlagen übersprungen werden
 dürfen; Azubis können `erfahren` sein, Studenten `anfaenger`.
 `ide`: eclipse | intellij | vscode | keine. Status je Lektion: `fertig` | `begonnen`, Datum
-ISO. Nicht erwähnte Lektionen sind offen. Der Dateiname ist der Name in Kleinbuchstaben
+ISO. Nicht erwähnte Lektionen sind offen. Themen dürfen weitere `- schlüssel: wert`-Zeilen
+führen, die die Fortschrittsseite ignoriert – `datenbanken` nutzt `- datenbank: h2|postgresql|sqlite|…`
+für die gewählte Datenbank. Der Dateiname ist der Name in Kleinbuchstaben
 ohne Leerzeichen (`max-mustermann.md`).
 
 ## Fortschrittsseite

@@ -1,0 +1,4 @@
+-- Ausgangszustand der Übung. Muss beliebig oft wiederholbar sein: erst alles entfernen,
+-- was die Übung anlegt (Sichten vor Tabellen, Tabellen in umgekehrter Abhängigkeitsfolge),
+-- dann Tabellen und Daten anlegen. Nur Standard-SQL: INTEGER, NUMERIC(10,2), VARCHAR(n),
+-- DATE (als '2026-01-31'), BOOLEAN (TRUE/FALSE); kein SERIAL, kein ::, kein ILIKE.

@@ -1,0 +1,2 @@
+-- Referenzlösung: die vollständige aufgabe.sql. Wird zur Prüfung an Stelle der Datei des
+-- Lernenden ausgeführt (start.sql → loesung/aufgabe.sql → pruefung.sql muss leer sein).

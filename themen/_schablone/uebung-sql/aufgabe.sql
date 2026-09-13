@@ -1,0 +1,5 @@
+-- Übung NN: Titel
+--
+-- Teilaufgaben als Kommentar; Abfragen als Sicht (CREATE VIEW aufgabe_1 AS …), damit die
+-- Prüfung sie ausführen kann. Gern ein absichtlich falscher Anfang, den der Lernende
+-- verbessern muss.

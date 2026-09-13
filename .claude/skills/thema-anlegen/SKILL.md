@@ -37,7 +37,8 @@ Du hilfst einem Ausbilder, ein Thema anzulegen. Formate und Konventionen: `AGENT
 Für jede Lektion mit `Übung:`:
 
 1. Gerüst kopieren: Java/Gradle/JUnit → `themen/_schablone/uebung-java/`;
-   HTML/CSS/JS → `themen/_schablone/uebung-web/`; Git → nur `AUFGABE.md`.
+   HTML/CSS/JS → `themen/_schablone/uebung-web/`; reines SQL → `themen/_schablone/uebung-sql/`
+   (`start.sql`, `aufgabe.sql`, `pruefung.sql`, Prüfung in SQL selbst); Git → nur `AUFGABE.md`.
    Ziel: `themen/<name>/uebungen/NN-name/`. In `settings.gradle` `rootProject.name`
    auf `NN-name` setzen.
 2. `AUFGABE.md` schreiben: Aufgabe, Abnahmekriterien (prüfbar!), Hinweise gestaffelt

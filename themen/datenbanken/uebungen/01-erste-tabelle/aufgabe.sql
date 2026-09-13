@@ -1,0 +1,17 @@
+-- Übung 01: Deine erste Tabelle
+--
+-- 1. Lege die Tabelle kunde an:
+--      id       ganze Zahl, Primärschlüssel
+--      name     Text bis 100 Zeichen, Pflichtfeld
+--      email    Text bis 100 Zeichen, darf leer bleiben
+--      geboren  Datum
+--      aktiv    Wahrheitswert, Pflichtfeld
+--
+-- 2. Füge drei Kunden ein:
+--      1, 'Anna Adler',   'anna@example.org',  1990-05-17, aktiv
+--      2, 'Ben Berger',   keine E-Mail,        1985-11-02, aktiv
+--      3, 'Clara Cohen',  'clara@example.org', 2001-03-30, nicht aktiv
+--
+-- Datumswerte schreibst du als Text in Anführungszeichen: '1990-05-17' (Jahr-Monat-Tag).
+-- Wahrheitswerte: TRUE / FALSE.
+

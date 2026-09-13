@@ -1,6 +1,6 @@
 # Teacher – Lernen mit Claude Code
 
-Interaktiver Unterricht zu Git, Java, Gradle, JUnit, Spring Boot, Vaadin, HTML, CSS, JavaScript, modernem Frontend mit TypeScript, Datenformaten (JSON, YAML, XML, CSV), Sicherheit (Injection, XSS, Passwort-Hashing) sowie Containern, Compose, CI/CD und OAuth2.
+Interaktiver Unterricht zu Git, Java, Gradle, JUnit, Spring Boot, Vaadin, HTML, CSS, JavaScript, modernem Frontend mit TypeScript, Datenbanken und SQL, Datenformaten (JSON, YAML, XML, CSV), Sicherheit (Injection, XSS, Passwort-Hashing) sowie Containern, Compose, CI/CD und OAuth2.
 
 ## Für Lernende
 

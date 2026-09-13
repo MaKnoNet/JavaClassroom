@@ -1,0 +1,11 @@
+-- Prüfung: reines SQL, dialektneutral. Jede Prüfung ist ein SELECT, das genau dann eine
+-- Zeile 'Fehler: …' liefert, wenn das Kriterium NICHT erfüllt ist. Leere Ausgabe = bestanden.
+-- Muster:
+--   SELECT 'Fehler: …' AS fehler WHERE (SELECT COUNT(*) FROM t) <> 3;
+--   SELECT 'Fehler: …' AS fehler WHERE NOT EXISTS (SELECT 1 FROM t WHERE …);
+--   SELECT 'Fehler: …' AS fehler WHERE EXISTS (SELECT * FROM aufgabe_1 EXCEPT SELECT … FROM t WHERE …);
+-- Anweisungen, die scheitern MÜSSEN (Constraint-Tests), als solche kommentieren und danach
+-- den Zustand prüfen. Braucht die Prüfung Fremdschlüssel in SQLite: erste Zeile
+-- PRAGMA foreign_keys = ON; (andere Datenbanken melden dafür einen Fehler und laufen weiter).
+-- Katalogabfragen sind dialektabhängig → eigene Dateien pruefung-postgresql.sql,
+-- pruefung-sqlite.sql, pruefung-h2.sql.
