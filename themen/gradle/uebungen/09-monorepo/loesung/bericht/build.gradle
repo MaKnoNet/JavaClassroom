@@ -1,0 +1,7 @@
+plugins {
+    id 'de.makno.java-konventionen'
+}
+
+dependencies {
+    implementation project(':kern')
+}

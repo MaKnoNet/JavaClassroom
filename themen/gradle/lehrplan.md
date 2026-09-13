@@ -20,14 +20,14 @@ wie aus dem Projekt eine lauffähige Datei wird – und wie man eine `build.grad
 ## Lektionen
 
 ### 01 Was ein Build-Tool tut, der Wrapper
-- **Ziele:** Warum nicht einfach `javac`; `gradlew` vs. installiertes Gradle; `./gradlew build` und `./gradlew test` ausführen; wo die Ausgabe landet (`build/`)
+- **Ziele:** Warum nicht einfach `javac`; `gradlew` vs. installiertes Gradle; `./gradlew build` und `./gradlew test` ausführen; wo die Ausgabe landet (`build/`); das Projekt in der IDE öffnen – Eclipse: *Import → Existing Gradle Project* (Buildship), IntelliJ: Ordner öffnen, VS Code: Extension Pack for Java – und verstehen, dass die IDE denselben Wrapper aufruft
 - **Übung:** uebungen/01-build-datei
 - **Prüffrage:** Warum liegt `gradlew` im Repository, Gradle selbst aber nicht?
 - **Übersetzung:** en: What a build tool does, the wrapper | fr: Ce que fait un outil de build, le wrapper
 - **Stufe:** 1
 
 ### 02 Aufbau von build.gradle
-- **Ziele:** `plugins`, `repositories`, `dependencies`; `implementation` vs. `testImplementation`; Versionen und Maven-Koordinaten lesen
+- **Ziele:** `plugins`, `repositories`, `dependencies`; `implementation` vs. `testImplementation`; Versionen und Maven-Koordinaten lesen; nach jeder Änderung an `build.gradle` die IDE nachziehen lassen (Eclipse: *Gradle → Refresh Gradle Project*, IntelliJ: Reload) – die IDE liest die Datei nicht von selbst neu
 - **Prüffrage:** Was bedeutet `org.junit.jupiter:junit-jupiter:5.10.2` Teil für Teil?
 - **Übersetzung:** en: Anatomy of build.gradle | fr: Structure de build.gradle
 - **Stufe:** 1
@@ -52,11 +52,38 @@ wie aus dem Projekt eine lauffähige Datei wird – und wie man eine `build.grad
 - **Übersetzung:** en: Tests and reports | fr: Tests et rapports
 - **Stufe:** 2
 
-### 06 IDE-Integration und Multi-Projekt
-- **Ziele:** Import in Eclipse (Buildship) und IntelliJ; „Refresh Gradle Project" nach Änderungen; Multi-Projekt: `settings.gradle` mit `include 'kern', 'app'`, je Teilprojekt eine `build.gradle`, `implementation project(':kern')` als Abhängigkeit zwischen Teilprojekten, `./gradlew :app:test` für ein einzelnes; Gemeinsames in `subprojects { }` oder – sauberer – in Convention-Plugins (Stufe 3)
-- **Prüffrage:** Warum sieht Eclipse eine neue Abhängigkeit erst nach dem Refresh? Und: Was passiert bei `./gradlew :app:build`, wenn `app` von `kern` abhängt?
-- **Übersetzung:** en: IDE integration and multi-project builds | fr: Intégration IDE et multi-projets
+### 06 Das Gradle-Monorepo: Multi-Projekt-Builds
+- **Ziele:** Aufbau eines Monorepos (Multi-Projekt-Build) verstehen; Teilprojekte in `settings.gradle` mit `include` registrieren; Abhängigkeiten zwischen lokalen Modulen mit `implementation project(':kern')` statt Maven-Koordinaten; Build-Logik zentralisieren: Konventions-Plugin unter `buildSrc/` (`groovy-gradle-plugin`, eine `.gradle`-Datei = ein Plugin) statt dreimal kopierter `build.gradle`; `subprojects { }` als älterer Weg kennen; einzelne Module bauen (`./gradlew :kern:test`); Gradle berechnet die Reihenfolge aus dem Abhängigkeitsgraphen (DAG) – zirkuläre Abhängigkeiten sind verboten und brechen den Build ab
+- **Übung:** uebungen/09-monorepo
+- **Prüffrage:** Warum deklariert man die Abhängigkeit zu einem anderen Modul im selben Monorepo mit `implementation project(':kern')` statt über Maven-Koordinaten (Group, Artifact, Version)? Und: `:konsole` hängt von `:kern` ab – wer entscheidet, dass `kern` zuerst kompiliert wird, und was passiert, wenn `kern` zusätzlich von `konsole` abhängt?
+- **Übersetzung:** en: The Gradle monorepo: multi-project builds | fr: Le monorepo Gradle : builds multi-projets
 - **Stufe:** 2
+
+Leitfaden: Visuell an der Tafel oder in der App mit einer Baumstruktur starten:
+
+```
+mein-monorepo/
+├── settings.gradle        <-- include 'core', 'api', 'ui'
+├── build.gradle           <-- globale Einstellungen (besser: buildSrc/)
+├── core/
+│   └── build.gradle       <-- reine Java-Logik
+├── api/
+│   └── build.gradle       <-- hängt von :core ab
+└── ui/
+    └── build.gradle       <-- hängt von :core ab (Vaadin)
+```
+
+So sehen unsere echten Projekte aus; in der Übung heißen die Module `kern`, `konsole`
+und `bericht` und bleiben reines Java, weil Gradle *vor* Spring und Vaadin unterrichtet
+wird. Zeige, wie Gradle die Build-Reihenfolge automatisch berechnet: Aus den
+Abhängigkeiten entsteht ein gerichteter Graph ohne Zyklen (DAG). Wenn `:ui` von `:core`
+abhängt, weiß Gradle von allein, dass `:core` zuerst kompiliert werden muss – und dass
+`:api` und `:ui` parallel laufen dürfen. Führe hier das Verbot zirkulärer Abhängigkeiten
+ein: A hängt von B ab und B von A – dann gibt es keine Reihenfolge mehr, und Gradle bricht
+ab mit `Circular dependency between the following tasks`, noch bevor ein Compiler
+startet. Die Übung lässt den Lernenden genau das am Ende absichtlich ausprobieren
+(Hinweis 4). Frage zum Einstieg in die Übung: „Was passiert bei `./gradlew :bericht:test`,
+wenn sich `kern` geändert hat?" – Antwort: `kern` wird neu gebaut, `konsole` nicht.
 
 ### 07 Qualitätswächter im Build
 - **Ziele:** Statische Analyse als Teil des Builds: Checkstyle, PMD, SpotBugs einbinden; Regeln als Datei im Repository; `check` bricht bei Verstößen ab, damit Reviews sich um Inhalt statt Form kümmern

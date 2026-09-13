@@ -1,0 +1,4 @@
+plugins {
+    // Macht aus jeder Datei unter src/main/groovy/*.gradle ein Plugin.
+    id 'groovy-gradle-plugin'
+}

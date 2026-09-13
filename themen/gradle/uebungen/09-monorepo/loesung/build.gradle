@@ -1,0 +1,2 @@
+// Das Wurzelprojekt hat keinen eigenen Code. Was alle Teilprojekte gemeinsam haben,
+// steht im Konventions-Plugin unter buildSrc/ – nicht hier und nicht dreimal kopiert.

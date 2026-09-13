@@ -1,0 +1,4 @@
+rootProject.name = 'monorepo'
+// Jedes Teilprojekt ist ein Ordner mit eigener build.gradle. Die Reihenfolge hier ist egal –
+// Gradle berechnet sie aus den Abhängigkeiten.
+include 'kern', 'konsole', 'bericht'

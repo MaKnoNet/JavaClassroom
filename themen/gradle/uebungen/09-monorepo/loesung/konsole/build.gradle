@@ -1,0 +1,13 @@
+plugins {
+    id 'de.makno.java-konventionen'
+    id 'application'
+}
+
+dependencies {
+    // Lokales Modul statt Maven-Koordinaten: immer der aktuelle Stand aus diesem Repository.
+    implementation project(':kern')
+}
+
+application {
+    mainClass = 'de.makno.lernen.Konsole'
+}
