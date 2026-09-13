@@ -18,7 +18,7 @@ import java.util.stream.Stream;
  */
 public final class Fortschritt {
 
-    record Lektion(String nummer, String titel, String uebung, Map<String, String> uebersetzungen) {}
+    record Lektion(String nummer, String titel, String uebung, Map<String, String> uebersetzungen, String stufe) {}
     record Lehrplan(String thema, String titel, List<String> voraussetzungen, List<Lektion> lektionen) {}
     record LektionsStand(String nummer, String status, String datum) {}
     record ThemenStand(List<LektionsStand> lektionen, String notizen) {}
@@ -28,6 +28,7 @@ public final class Fortschritt {
     private static final Pattern LEKTION = Pattern.compile("^### (\\d{2}) (.+)$");
     private static final Pattern UEBUNG = Pattern.compile("^- \\*\\*Übung:\\*\\* (.+)$");
     private static final Pattern UEBERSETZUNG = Pattern.compile("^- \\*\\*Übersetzung:\\*\\* (.+)$");
+    private static final Pattern STUFE = Pattern.compile("^- \\*\\*Stufe:\\*\\* ([123])$");
     private static final Pattern THEMA = Pattern.compile("^## (\\S+)$");
     private static final Pattern LEKTIONS_STAND =
             Pattern.compile("^- (\\d{2}): (fertig|begonnen) (\\d{4}-\\d{2}-\\d{2})$");
@@ -109,16 +110,18 @@ public final class Fortschritt {
         String titel = null;
         String uebung = null;
         Map<String, String> uebersetzungen = new LinkedHashMap<>();
+        String stufe = null;
         for (String zeile : markdown.split("\\R")) {
             Matcher lektion = LEKTION.matcher(zeile.strip());
             if (lektion.matches()) {
                 if (nummer != null) {
-                    lektionen.add(new Lektion(nummer, titel, uebung, uebersetzungen));
+                    lektionen.add(new Lektion(nummer, titel, uebung, uebersetzungen, stufe));
                 }
                 nummer = lektion.group(1);
                 titel = lektion.group(2).trim();
                 uebung = null;
                 uebersetzungen = new LinkedHashMap<>();
+                stufe = null;
                 continue;
             }
             if (nummer == null) {
@@ -132,10 +135,15 @@ public final class Fortschritt {
             Matcher uebersetzungsZeile = UEBERSETZUNG.matcher(zeile.strip());
             if (uebersetzungsZeile.matches()) {
                 uebersetzungen = parseUebersetzungen(uebersetzungsZeile.group(1));
+                continue;
+            }
+            Matcher stufenZeile = STUFE.matcher(zeile.strip());
+            if (stufenZeile.matches()) {
+                stufe = stufenZeile.group(1);
             }
         }
         if (nummer != null) {
-            lektionen.add(new Lektion(nummer, titel, uebung, uebersetzungen));
+            lektionen.add(new Lektion(nummer, titel, uebung, uebersetzungen, stufe));
         }
         return new Lehrplan(
                 frontmatter.get("thema"),
@@ -265,6 +273,7 @@ public final class Fortschritt {
                   .append(",\"titel\":").append(json(l.titel()))
                   .append(",\"uebung\":").append(json(l.uebung()))
                   .append(",\"uebersetzungen\":").append(jsonObjekt(l.uebersetzungen()))
+                  .append(",\"stufe\":").append(json(l.stufe()))
                   .append('}');
             }
             sb.append("]}");

@@ -22,11 +22,13 @@ Abhängigkeiten mit Mocks isolieren und Code so entwerfen, dass er testbar bleib
 - **Übung:** uebungen/01-erster-test
 - **Prüffrage:** Was ist der Unterschied zwischen einem Test, der fehlschlägt, und einem, der einen Fehler wirft?
 - **Übersetzung:** en: Why test, first test | fr: Pourquoi tester, premier test
+- **Stufe:** 1
 
 ### 02 Testverfahren im Überblick
 - **Ziele:** Testverfahren nach vier Dimensionen einordnen – Teststufe (Unit, Integration, System, Akzeptanz), Testmethode (Black-, White-, Grey-Box), Ausführungsart (statisch, dynamisch) und Testziel (funktional, nicht-funktional) – und für eine konkrete Anforderung sagen können, welche Tests auf welcher Ebene sie absichern; dazu TDD und BDD als Vorgehensweisen und Code Review als Ergänzung
 - **Prüffrage:** Ein Unit-Test mit Mockito – auf welcher Stufe steht er, ist er Black- oder White-Box, statisch oder dynamisch, funktional oder nicht-funktional? Und warum stehen Unit-Tests unten in der Pyramide und Systemtests oben?
 - **Übersetzung:** en: Testing methods at a glance | fr: Les méthodes de test en un coup d'œil
+- **Stufe:** 1
 
 Leitfaden: Mit dem ersten Test aus Lektion 01 beginnen und fragen, was er *nicht* prüft
 (Zusammenspiel mit anderen Klassen, Datenbank, Oberfläche, Geschwindigkeit). Daraus die
@@ -73,33 +75,39 @@ Test steht wo, und welche Lücke bleibt, wenn eine Ebene fehlt.
 - **Ziele:** Arrange – Act – Assert; `assertTrue`, `assertNull`, `assertAll`; sprechende Testnamen; ein Verhalten pro Test
 - **Prüffrage:** Warum ist `testAdd()` ein schlechter Name und `addiertZweiPositiveZahlen()` ein guter?
 - **Übersetzung:** en: Assertions and test structure | fr: Assertions et structure d'un test
+- **Stufe:** 1
 
 ### 04 Ausnahmen und Randfälle
 - **Ziele:** `assertThrows`; leere Eingaben, `null`, Grenzwerte; Tests als Spezifikation
 - **Prüffrage:** Welche drei Randfälle prüft man bei einer Methode, die eine Liste entgegennimmt?
 - **Übersetzung:** en: Exceptions and edge cases | fr: Exceptions et cas limites
+- **Stufe:** 1
 
 ### 05 Parametrisierte Tests
 - **Ziele:** `@ParameterizedTest` mit `@ValueSource` und `@CsvSource`; Wiederholung in Tests vermeiden
 - **Übung:** uebungen/02-parametrisierte-tests
 - **Prüffrage:** Wann lohnt ein parametrisierter Test, wann nicht?
 - **Übersetzung:** en: Parameterized tests | fr: Tests paramétrés
+- **Stufe:** 2
 
 ### 06 Lebenszyklus und Fixtures
 - **Ziele:** `@BeforeEach`, `@AfterEach`, `@BeforeAll`; Testdaten aufbauen; Tests unabhängig voneinander halten
 - **Prüffrage:** Warum darf ein Test nicht vom Ergebnis eines anderen abhängen?
 - **Übersetzung:** en: Lifecycle and fixtures | fr: Cycle de vie et fixtures
+- **Stufe:** 2
 
 ### 07 Testbarkeit und Abhängigkeiten
 - **Ziele:** Abhängigkeiten über Interfaces hereingeben (Dependency Inversion); einfache Test-Doubles von Hand; warum `new` in der Mitte der Logik Tests schwer macht
 - **Prüffrage:** Wie testet man eine Klasse, die die aktuelle Uhrzeit braucht?
 - **Übersetzung:** en: Testability and dependencies | fr: Testabilité et dépendances
+- **Stufe:** 2
 
 ### 08 Mocking mit Mockito
 - **Ziele:** `mock()`, `when(...).thenReturn(...)`, `verify(...)`, `never()`, `ArgumentMatchers`; Unterschied Mock, Stub, Spy, Fake; was man mockt (fremde Schnittstellen, langsame oder nicht deterministische Dinge) und was nicht (die Klasse unter Test, Wertobjekte)
 - **Übung:** uebungen/03-mocking
 - **Prüffrage:** Warum mockt man die Datenbankschnittstelle, aber nicht die Klasse, die man gerade testet?
 - **Übersetzung:** en: Mocking with Mockito | fr: Mocking avec Mockito
+- **Stufe:** 2
 
 Leitfaden: Erst mit dem handgeschriebenen Test-Double aus Lektion 07 beginnen und
 zeigen, wie viel Boilerplate es ist; dann dieselbe Klasse mit Mockito. Faustregel: Ein
@@ -111,18 +119,21 @@ Tests, die bei jedem Refactoring brechen, obwohl das Verhalten gleich blieb.
 - **Ziele:** Rot → Grün → Refactor an einem kleinen Beispiel durchlaufen
 - **Prüffrage:** Warum schreibt man den Test, bevor der Code existiert?
 - **Übersetzung:** en: TDD in the small | fr: TDD au quotidien
+- **Stufe:** 2
 
 ### 10 Coverage und Mutationstest
 - **Ziele:** JaCoCo-Bericht öffnen, Zeilen- und Zweigabdeckung verstehen, Lücken finden; Coverage ist Hinweis, kein Ziel. Mutationstest mit PIT: Code wird absichtlich verfälscht – überlebende Mutanten zeigen, was die Tests nicht prüfen
 - **Übung:** uebungen/06-mutationstest
 - **Prüffrage:** Warum beweist 100 % Coverage nicht, dass der Code richtig ist – und was sagt ein Mutation Score von 60 % bei 100 % Coverage?
 - **Übersetzung:** en: Coverage and mutation testing | fr: Couverture et tests de mutation
+- **Stufe:** 3
 
 ### 11 Tests im Repository und in der Pipeline
 - **Ziele:** Wissen, wo welcher Test lebt und wer ihn startet: Unit-Tests in `src/test/java` bei jedem Commit; Integrationstests (`*IT`, Testcontainers) vor dem Deployment in die Testumgebung; statische Analyse (Checkstyle, SpotBugs, ArchUnit) als Build-Abbruch; API- und Vertragstests (RestAssured, Pact) gegen Schnittstellen; E2E (Playwright, Selenium) und Lasttests (Gatling, JMeter) als Code im Repo, ausgeführt gegen eine bereitgestellte Umgebung; außerhalb des Repos: manuelle Abnahme (UAT) auf Staging, zentrales Security-Scanning (SonarQube, Snyk)
 - **Übung:** uebungen/05-api-test
 - **Prüffrage:** Warum laufen Unit-Tests bei jedem Commit, E2E-Tests aber erst gegen eine Testumgebung – und was passiert, wenn man das umdreht?
 - **Übersetzung:** en: Tests in the repository and the pipeline | fr: Les tests dans le dépôt et le pipeline
+- **Stufe:** 2
 
 Leitfaden: Die Pipeline als Treppe zeichnen – Commit → Build mit Unit-Tests und
 statischer Analyse → Deployment auf Test → Integrations-, API- und E2E-Tests → Staging →
@@ -136,3 +147,4 @@ Ticket oder Bericht, nicht als roten Build.
 - **Übung:** uebungen/04-archunit
 - **Prüffrage:** Warum ist „service darf nicht von ui abhängen" als Test wertvoller als als Satz im Wiki?
 - **Übersetzung:** en: Architecture rules as tests | fr: Règles d'architecture sous forme de tests
+- **Stufe:** 3

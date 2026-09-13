@@ -137,13 +137,16 @@ Worum es geht, was am Ende sitzen soll.
 - **Übung:** uebungen/01-erste-klasse
 - **Prüffrage:** …
 - **Übersetzung:** en: First class | fr: Première classe
+- **Stufe:** 1
 ```
 
 Konvention: Lektionsnummer zweistellig, Überschrift Ebene 3, die Aufzählungspunkte in
 dieser Reihenfolge. `Übung:` und `Übersetzung:` dürfen fehlen. `Übersetzung:` nennt den
 Lektionstitel in weiteren Sprachen (`code: Titel`, durch `|` getrennt) – die
 Fortschrittsseite zeigt ihn in der gewählten Sprache; ohne Eintrag bleibt der deutsche
-Titel. Der übrige Lehrplantext bleibt Deutsch. Weiterer Text ist frei und dient als Leitfaden –
+Titel. `Stufe:` ist 1 (Anfänger), 2 (Fortgeschritten) oder 3 (Erfahren) und steuert
+zusammen mit dem `niveau` des Lernenden, welche Lektionen nach bestandener Prüffrage
+übersprungen werden dürfen (siehe Skill `/lernen`). Der übrige Lehrplantext bleibt Deutsch. Weiterer Text ist frei und dient als Leitfaden –
 unterrichte *entlang*, nicht *aus* dem Text.
 
 ## Dateiformat Fortschritt (`fortschritt/<name>.md`)

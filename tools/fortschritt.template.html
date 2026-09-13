@@ -24,6 +24,8 @@
   li { display:flex; gap:.5rem; padding:.2rem 0; font-size:.95rem; }
   li .datum { margin-left:auto; color:var(--grau); font-size:.85rem; }
   .status { width:1.2rem; text-align:center; }
+  .stufe { font-size:.7rem; font-weight:600; padding:0 .35rem; border-radius:.3rem; margin-left:.4rem; color:#fff; align-self:center; }
+  .stufe-1 { background:#16a34a; } .stufe-2 { background:#2563eb; } .stufe-3 { background:#7c3aed; }
   .fertig .status { color:var(--fertig); }
   .begonnen .status { color:var(--begonnen); }
   .offen { color:var(--grau); }
@@ -47,37 +49,37 @@
 <script>
 const DATEN = /*DATEN*/{};
 const TEXTE = {
-  de: { titel: "Lernfortschritt", eingeben: "In Claude Code eingeben:", kopieren: "Kopieren", sprache: "Sprache",
+  de: { titel: "Lernfortschritt", stufe: "Stufe", eingeben: "In Claude Code eingeben:", kopieren: "Kopieren", sprache: "Sprache",
         klick: "Klicken: Lektion starten", wechsel: "Wechsel erzeugt einen Befehl für Claude Code",
         voraussetzung: "Voraussetzung noch offen", letzte: "Letzte Stunde", naechstes: "Nächstes Mal",
         gesamt: (f, a, p) => `Gesamt: ${f} von ${a} Lektionen (${p} %)`,
         gesendet: "an den Lehrer gesendet – schau in den Chat", nichtErreichbar: "Server nicht erreichbar – Befehl kopieren und im Chat einfügen",
         kopiert: "kopiert – im Chat einfügen", markiert: "markiert – mit Strg+C kopieren" },
-  en: { titel: "Learning progress", eingeben: "Type into Claude Code:", kopieren: "Copy", sprache: "Language",
+  en: { titel: "Learning progress", stufe: "Level", eingeben: "Type into Claude Code:", kopieren: "Copy", sprache: "Language",
         klick: "Click to start this lesson", wechsel: "Changing creates a command for Claude Code",
         voraussetzung: "Prerequisite not finished", letzte: "Last session", naechstes: "Next time",
         gesamt: (f, a, p) => `Total: ${f} of ${a} lessons (${p} %)`,
         gesendet: "sent to the teacher – check the chat", nichtErreichbar: "Server not reachable – copy the command into the chat",
         kopiert: "copied – paste into the chat", markiert: "selected – copy with Ctrl+C" },
-  fr: { titel: "Progression", eingeben: "Saisir dans Claude Code :", kopieren: "Copier", sprache: "Langue",
+  fr: { titel: "Progression", stufe: "Niveau", eingeben: "Saisir dans Claude Code :", kopieren: "Copier", sprache: "Langue",
         klick: "Cliquer pour démarrer cette leçon", wechsel: "Le changement crée une commande pour Claude Code",
         voraussetzung: "Prérequis non terminé", letzte: "Dernière séance", naechstes: "La prochaine fois",
         gesamt: (f, a, p) => `Total : ${f} sur ${a} leçons (${p} %)`,
         gesendet: "envoyé au professeur – regarde le chat", nichtErreichbar: "Serveur injoignable – copier la commande dans le chat",
         kopiert: "copié – coller dans le chat", markiert: "sélectionné – copier avec Ctrl+C" },
-  es: { titel: "Progreso", eingeben: "Escribir en Claude Code:", kopieren: "Copiar", sprache: "Idioma",
+  es: { titel: "Progreso", stufe: "Nivel", eingeben: "Escribir en Claude Code:", kopieren: "Copiar", sprache: "Idioma",
         klick: "Clic para empezar esta lección", wechsel: "El cambio crea un comando para Claude Code",
         voraussetzung: "Requisito previo pendiente", letzte: "Última sesión", naechstes: "La próxima vez",
         gesamt: (f, a, p) => `Total: ${f} de ${a} lecciones (${p} %)`,
         gesendet: "enviado al profesor – mira el chat", nichtErreichbar: "Servidor no disponible – copia el comando en el chat",
         kopiert: "copiado – pégalo en el chat", markiert: "seleccionado – copia con Ctrl+C" },
-  it: { titel: "Progressi", eingeben: "Digita in Claude Code:", kopieren: "Copia", sprache: "Lingua",
+  it: { titel: "Progressi", stufe: "Livello", eingeben: "Digita in Claude Code:", kopieren: "Copia", sprache: "Lingua",
         klick: "Clicca per iniziare questa lezione", wechsel: "Il cambio crea un comando per Claude Code",
         voraussetzung: "Prerequisito non completato", letzte: "Ultima sessione", naechstes: "La prossima volta",
         gesamt: (f, a, p) => `Totale: ${f} di ${a} lezioni (${p} %)`,
         gesendet: "inviato all'insegnante – guarda la chat", nichtErreichbar: "Server non raggiungibile – copia il comando nella chat",
         kopiert: "copiato – incolla nella chat", markiert: "selezionato – copia con Ctrl+C" },
-  tr: { titel: "Öğrenme ilerlemesi", eingeben: "Claude Code'a yaz:", kopieren: "Kopyala", sprache: "Dil",
+  tr: { titel: "Öğrenme ilerlemesi", stufe: "Seviye", eingeben: "Claude Code'a yaz:", kopieren: "Kopyala", sprache: "Dil",
         klick: "Dersi başlatmak için tıkla", wechsel: "Değişiklik Claude Code için bir komut oluşturur",
         voraussetzung: "Ön koşul tamamlanmadı", letzte: "Son ders", naechstes: "Bir dahaki sefere",
         gesamt: (f, a, p) => `Toplam: ${a} dersten ${f} (%${p})`,
@@ -129,6 +131,7 @@ function karte(plan) {
   const zeilen = lektionen.map(l =>
     `<li class="lektion ${l.status}" data-befehl="/lernen ${plan.thema} ${l.nummer}" title="${t("klick")}"><span class="status">${SYMBOL[l.status]}</span>` +
     `<span>${l.nummer} ${escapeHtml(lektionsTitel(l))}</span>` +
+    (l.stufe ? `<span class="stufe stufe-${l.stufe}" title="${t("stufe")} ${l.stufe}">S${l.stufe}</span>` : "") +
     (l.datum ? `<span class="datum">${l.datum}</span>` : "") + `</li>`).join("");
   return `<article class="thema ${fehlend.length ? "gesperrt" : ""}">
     <h2><span>${fehlend.length ? "🔒 " : ""}${escapeHtml(plan.titel)}</span><span class="zahl">${fertig} / ${lektionen.length}</span></h2>

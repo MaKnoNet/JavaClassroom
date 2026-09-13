@@ -19,6 +19,7 @@ oder Umgebungsvariable `FRAMEWORK_HOME`. Firmencode wird hier nicht abgelegt.
 - **Übung:** uebungen/01-name
 - **Prüffrage:** Eine Frage, die das Verständnis prüft
 - **Übersetzung:** en: Title of the first lesson | fr: Titre de la première leçon
+- **Stufe:** 1
 
 ### 02 Titel der zweiten Lektion
 - **Ziele:** …

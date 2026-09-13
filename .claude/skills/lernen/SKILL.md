@@ -97,10 +97,13 @@ braucht. Jeden Befehl per Bash ausführen, Ergebnis in einem Satz melden:
      ○ 07 Interfaces …
    ```
 5. Beim ersten Start eines Themas fragen: „Was kennst du von <Thema> schon?" – daraus und
-   aus `niveau` ergibt sich die Schrittgröße: `anfaenger` kleine Häppchen und jede Lektion
-   der Reihe nach; `fortgeschritten` zügiger, Grundlagenlektionen dürfen nach kurzer
-   Prüffrage übersprungen werden; `erfahren` Prüffrage zuerst, Lektion nur bei Bedarf.
-   Übersprungene Lektionen als `fertig` eintragen, wenn die Prüffrage sitzt.
+   aus `niveau` und der `Stufe:` jeder Lektion ergibt sich das Vorgehen:
+   - `anfaenger`: jede Lektion der Reihe nach, kleine Häppchen.
+   - `fortgeschritten`: Lektionen der Stufe 1 nur per Prüffrage – sitzt sie, Lektion als
+     `fertig` eintragen und weiter; sonst unterrichten. Stufe 2 und 3 normal.
+   - `erfahren`: Stufe 1 und 2 per Prüffrage, Stufe 3 normal.
+   Ohne `Stufe:`-Zeile gilt die Lektion als Stufe 2. Übersprungene Lektionen zählen als
+   `fertig`, damit Fortschrittsseite und Voraussetzungen stimmen.
 6. Gibt es eine `notizen:`-Zeile, sie lesen und beim Einstieg berücksichtigen
    („Letztes Mal war Referenz vs. Wert noch wackelig – wir fangen mit einem Beispiel dazu an.").
 7. Beim erstmaligen Beginn einer Lektion: Zeile `- NN: begonnen <heute>` eintragen.
