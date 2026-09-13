@@ -2,6 +2,7 @@
 name: Max Mustermann
 sprache: de
 rolle: azubi
+niveau: anfaenger
 ide: eclipse
 vorwissen: "Erstes Lehrjahr, Grundlagen Java aus der Berufsschule, kein Git."
 ---

@@ -91,7 +91,7 @@ function karte(plan) {
 
 function render() {
   const p = DATEN.profil;
-  document.getElementById("profil").textContent = `${p.name} · ${p.rolle} · Sprache ${p.sprache} · IDE ${p.ide}`;
+  document.getElementById("profil").textContent = `${p.name} · ${p.rolle}${p.niveau ? " (" + p.niveau + ")" : ""} · Sprache ${p.sprache} · IDE ${p.ide}`;
   let gesamtFertig = 0, gesamtAlle = 0;
   for (const plan of DATEN.lehrplaene) {
     const lektionen = lektionenMitStatus(plan);

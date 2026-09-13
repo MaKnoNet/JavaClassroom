@@ -16,9 +16,17 @@ Führe die Schritte in dieser Reihenfolge aus. Sprich ab Schritt 2 in der Unterr
    - Wie heißt du? (Vorschlag aus Git anbieten; der Dateiname wird aus der **Antwort**
      gebildet, nicht zwingend aus `git config user.name`)
    - In welcher Sprache sollen wir arbeiten? (Deutsch / English / Français / andere)
-   - Bist du Azubi, Student oder neuer Kollege?
+   - Wie bist du hier – in der Ausbildung, im Studium bzw. Praktikum oder als neuer
+     Kollege? (`rolle`: azubi | student | kollege – **nur Kontext**, sagt nichts über das
+     Können; Azubis können weit sein, Studenten Anfänger)
+   - Wie viel hast du schon programmiert? (`niveau`)
+     - noch gar nicht → `anfaenger`
+     - ein bisschen: Schule, Tutorials, kleine Skripte → `anfaenger`
+     - regelmäßig: eigene Programme, mehrere Sprachen oder ein größeres Projekt → `fortgeschritten`
+     - beruflich, schon in Projekten gearbeitet → `erfahren`
    - Welche IDE benutzt du? (Eclipse / IntelliJ / VS Code / noch keine)
-   - Was kannst du schon? Zwei Sätze reichen.
+   - Womit hast du bisher gearbeitet – Sprachen, Werkzeuge, Projekte? Zwei Sätze reichen
+     (`vorwissen`).
    Dann die Datei aus `fortschritt/_beispiel.md` anlegen: Frontmatter mit den Antworten,
    **keine** Themenabschnitte übernehmen.
 3. Existiert sie: Profil lesen. Kurz bestätigen: „Weiterhin mit Eclipse?" – bei Wechsel
@@ -67,9 +75,14 @@ braucht. Jeden Befehl per Bash ausführen, Ergebnis in einem Satz melden:
      ▶ 06 Vererbung (begonnen 2026-09-12)
      ○ 07 Interfaces …
    ```
-5. Gibt es eine `notizen:`-Zeile, sie lesen und beim Einstieg berücksichtigen
+5. Beim ersten Start eines Themas fragen: „Was kennst du von <Thema> schon?" – daraus und
+   aus `niveau` ergibt sich die Schrittgröße: `anfaenger` kleine Häppchen und jede Lektion
+   der Reihe nach; `fortgeschritten` zügiger, Grundlagenlektionen dürfen nach kurzer
+   Prüffrage übersprungen werden; `erfahren` Prüffrage zuerst, Lektion nur bei Bedarf.
+   Übersprungene Lektionen als `fertig` eintragen, wenn die Prüffrage sitzt.
+6. Gibt es eine `notizen:`-Zeile, sie lesen und beim Einstieg berücksichtigen
    („Letztes Mal war Referenz vs. Wert noch wackelig – wir fangen mit einem Beispiel dazu an.").
-6. Beim erstmaligen Beginn einer Lektion: Zeile `- NN: begonnen <heute>` eintragen.
+7. Beim erstmaligen Beginn einer Lektion: Zeile `- NN: begonnen <heute>` eintragen.
 
 ## 5. Kernschleife der Lektion
 

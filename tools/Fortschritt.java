@@ -22,7 +22,7 @@ public final class Fortschritt {
     record Lehrplan(String thema, String titel, List<String> voraussetzungen, List<Lektion> lektionen) {}
     record LektionsStand(String nummer, String status, String datum) {}
     record ThemenStand(List<LektionsStand> lektionen, String notizen) {}
-    record Profil(String name, String sprache, String rolle, String ide, String vorwissen) {}
+    record Profil(String name, String sprache, String rolle, String niveau, String ide, String vorwissen) {}
     record Stand(Profil profil, Map<String, ThemenStand> themen) {}
 
     private static final Pattern LEKTION = Pattern.compile("^### (\\d{2}) (.+)$");
@@ -122,6 +122,7 @@ public final class Fortschritt {
                 frontmatter.get("name"),
                 frontmatter.get("sprache"),
                 frontmatter.get("rolle"),
+                frontmatter.get("niveau"),
                 frontmatter.get("ide"),
                 frontmatter.get("vorwissen"));
         Map<String, ThemenStand> themen = new LinkedHashMap<>();
@@ -201,6 +202,7 @@ public final class Fortschritt {
         sb.append("\"name\":").append(json(p.name()))
           .append(",\"sprache\":").append(json(p.sprache()))
           .append(",\"rolle\":").append(json(p.rolle()))
+          .append(",\"niveau\":").append(json(p.niveau()))
           .append(",\"ide\":").append(json(p.ide()))
           .append(",\"vorwissen\":").append(json(p.vorwissen()))
           .append("},\"lehrplaene\":[");

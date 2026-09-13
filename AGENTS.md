@@ -116,6 +116,7 @@ unterrichte *entlang*, nicht *aus* dem Text.
 name: Max Mustermann
 sprache: de
 rolle: azubi
+niveau: fortgeschritten
 ide: eclipse
 vorwissen: "Zwei Sätze."
 ---
@@ -126,7 +127,10 @@ vorwissen: "Zwei Sätze."
 - notizen: Was beim nächsten Mal zu beachten ist.
 ```
 
-`sprache`: ISO-Code (de, en, fr, …). `rolle`: azubi | student | kollege.
+`sprache`: ISO-Code (de, en, fr, …). `rolle`: azubi | student | kollege – nur Kontext
+(Berufsschule, Studium, Firma), **kein** Maß fürs Können. `niveau`: anfaenger |
+fortgeschritten | erfahren – steuert Schrittgröße und ob Grundlagen übersprungen werden
+dürfen; Azubis können `erfahren` sein, Studenten `anfaenger`.
 `ide`: eclipse | intellij | vscode | keine. Status je Lektion: `fertig` | `begonnen`, Datum
 ISO. Nicht erwähnte Lektionen sind offen. Der Dateiname ist der Name in Kleinbuchstaben
 ohne Leerzeichen (`max-mustermann.md`).

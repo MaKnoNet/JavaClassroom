@@ -76,6 +76,7 @@ public final class FortschrittTest {
             name: Max Mustermann
             sprache: de
             rolle: azubi
+            niveau: fortgeschritten
             ide: eclipse
             vorwissen: "Erstes Lehrjahr, kein Git."
             ---
@@ -91,6 +92,7 @@ public final class FortschrittTest {
         Fortschritt.Stand stand = Fortschritt.parseStand(md);
         pruefe("name", "Max Mustermann", stand.profil().name());
         pruefe("sprache", "de", stand.profil().sprache());
+        pruefe("niveau", "fortgeschritten", stand.profil().niveau());
         pruefe("ide", "eclipse", stand.profil().ide());
         pruefe("vorwissen ohne anfuehrungszeichen", "Erstes Lehrjahr, kein Git.", stand.profil().vorwissen());
         pruefe("anzahl themen", 2, stand.themen().size());
@@ -116,6 +118,7 @@ public final class FortschrittTest {
         Fortschritt.Stand stand = Fortschritt.parseStand(md);
         pruefe("keine themen", 0, stand.themen().size());
         pruefe("sprache fr", "fr", stand.profil().sprache());
+        pruefe("niveau fehlt", null, stand.profil().niveau());
     }
 
     static void jsonEscaping() {
@@ -132,11 +135,11 @@ public final class FortschrittTest {
                 List.of(new Fortschritt.Lektion("01", "Erste Klasse", "uebungen/01-erste-klasse"),
                         new Fortschritt.Lektion("02", "Variablen", null)));
         Fortschritt.Stand stand = new Fortschritt.Stand(
-                new Fortschritt.Profil("Max", "de", "azubi", "eclipse", "nichts"),
+                new Fortschritt.Profil("Max", "de", "azubi", "anfaenger", "eclipse", "nichts"),
                 java.util.Map.of("java", new Fortschritt.ThemenStand(
                         List.of(new Fortschritt.LektionsStand("01", "fertig", "2026-09-10")), "Notiz")));
         String json = Fortschritt.toJson(List.of(plan), stand);
-        String erwartet = "{\"profil\":{\"name\":\"Max\",\"sprache\":\"de\",\"rolle\":\"azubi\",\"ide\":\"eclipse\",\"vorwissen\":\"nichts\"},"
+        String erwartet = "{\"profil\":{\"name\":\"Max\",\"sprache\":\"de\",\"rolle\":\"azubi\",\"niveau\":\"anfaenger\",\"ide\":\"eclipse\",\"vorwissen\":\"nichts\"},"
                 + "\"lehrplaene\":[{\"thema\":\"java\",\"titel\":\"Java\",\"voraussetzungen\":[\"git\"],\"lektionen\":["
                 + "{\"nummer\":\"01\",\"titel\":\"Erste Klasse\",\"uebung\":\"uebungen\\/01-erste-klasse\"},"
                 + "{\"nummer\":\"02\",\"titel\":\"Variablen\",\"uebung\":null}]}],"
