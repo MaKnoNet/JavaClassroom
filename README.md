@@ -9,7 +9,8 @@ Weitere (JDK, Git, IDE) prüft der Lehrer vor jeder Lektion und hilft bei der In
 
 1. Claude Code installieren (Desktop-App oder Terminal, siehe claude.com/claude-code).
 2. Dieses Repository klonen oder als ZIP herunterladen und entpacken.
-3. Im Repo-Ordner Claude Code starten und tippen: `/lernen`.
+3. Im Repo-Ordner Claude Code starten und einfach etwas schreiben – „hallo" reicht. Der
+   Lehrer stellt sich vor und erklärt, wie es weitergeht. Direkt loslegen: `/lernen`.
 4. Beim ersten Mal wirst du nach Name, Sprache, Rolle, IDE und Vorwissen gefragt.
    Das landet in `fortschritt/<dein-name>.md` – nur auf deinem Rechner.
 
