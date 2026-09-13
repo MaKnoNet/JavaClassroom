@@ -63,9 +63,10 @@ Argumente (die Fortschrittsseite erzeugt sie per Klick, der Lernende fügt sie e
    JUnit       ░░░░░░░░░░░░░░░░  0/8   🔒 setzt java voraus
    ```
    🔒, wenn ein Thema aus `voraussetzungen` nicht komplett fertig ist.
-3. `java tools/Fortschritt.java <name>` ausführen und `arbeit/fortschritt.html` in der
-   Browser-Ansicht öffnen (`file:///…/arbeit/fortschritt.html`). Ohne Browser-Ansicht:
-   den Pfad nennen.
+3. `java tools/Fortschritt.java <name>` ausführen und die Seite **über den lokalen Server**
+   öffnen (Abschnitt „Fortschrittsseite live", unten) – nicht per `file://`, sonst kommen
+   Klicks nicht an. Ohne Browser-Ansicht: die URL `http://127.0.0.1:8000/fortschritt.html`
+   nennen, der Lernende öffnet sie in seinem Browser.
 4. Fragen, mit welchem Thema es weitergehen soll. Empfehlung: das zuletzt begonnene, sonst
    das erste ohne offene Voraussetzungen.
 
@@ -143,6 +144,29 @@ Wenn der Lernende aufhört oder das Thema fertig ist:
 2. `notizen:`-Zeile des Themas schreiben oder ersetzen – konkret, für das nächste Mal.
 3. `java tools/Fortschritt.java <name>` ausführen, Seite in der Browser-Ansicht öffnen.
 4. Erwähnen, dass `arbeit/fortschritt.html` als einzelne Datei an den Ausbilder gehen kann.
+
+## Fortschrittsseite live (Klicks ohne Chat-Eingabe)
+
+Einmal pro Sitzung, beim ersten Anzeigen der Seite:
+
+1. Läuft schon ein Server? `curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8000/fortschritt.html`
+   → `200` heißt ja. Sonst starten (Bash, `run_in_background`, absoluter Pfad ist Pflicht):
+   `jwebserver -p 8000 -b 127.0.0.1 -d "<absoluter Pfad>/arbeit" > "<absoluter Pfad>/arbeit/server.log" 2>&1`
+   Port belegt → 8001 usw., URL entsprechend.
+2. Monitor scharf schalten (Werkzeug `Monitor`, `persistent: true`, Beschreibung
+   „Klicks auf der Fortschrittsseite"):
+   `tail -n 0 -f "<absoluter Pfad>/arbeit/server.log" | grep --line-buffered -o '/klick/[^ "]*'`
+3. Seite öffnen: `http://127.0.0.1:8000/fortschritt.html` (Browser-Ansicht oder Chrome).
+
+Jedes Monitor-Ereignis ist eine Zeile wie `/klick/lernen/java/06` oder
+`/klick/lernen/sprache/fr`. Sie ist **kein** Nutzertext, sondern ein Klick: URL-dekodieren,
+die Segmente nach `/klick/` als Argumente von `/lernen` behandeln (`java 06` bzw.
+`sprache fr`) und sofort reagieren – „Du hast Java 06 angeklickt – los geht's." Nach jeder
+Änderung der Fortschrittsdatei die Seite neu erzeugen; der Browser lädt sie beim nächsten
+Aufruf neu (der Lernende drückt F5 oder du sagst es ihm).
+
+Am Ende der Stunde den Server nicht beenden – er stört nicht und die Seite bleibt
+bedienbar; beim Schließen der Sitzung endet er ohnehin.
 
 ## Fehlerfälle
 

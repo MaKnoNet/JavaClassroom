@@ -175,7 +175,10 @@ java tools/Fortschritt.java <name>
 ```
 
 liest `fortschritt/<name>.md` und alle Lehrpläne, schreibt `arbeit/fortschritt.html`.
-Muss im Repo-Root laufen. Danach die Datei in der Browser-Ansicht öffnen.
+Muss im Repo-Root laufen. Die Seite wird über `jwebserver` (JDK 21) unter
+`http://127.0.0.1:8000/fortschritt.html` ausgeliefert; Klicks auf Lektion oder Sprache
+landen als `/klick/…`-Zeile im `arbeit/server.log`, das die Skill `/lernen` mit einem
+Monitor überwacht – der Lehrer reagiert dann ohne Chat-Eingabe. Details in der Skill.
 
 ## IDE-Hinweise
 

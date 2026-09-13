@@ -124,6 +124,21 @@ function zeigeBefehl(text) {
   document.getElementById("befehl-ok").textContent = "";
   document.getElementById("befehl").classList.add("sichtbar");
   window.scrollTo({ top: 0, behavior: "smooth" });
+  sendeKlick(text);
+}
+
+// Läuft die Seite über den lokalen Server (jwebserver), landet jeder Klick als Zeile im
+// Server-Log; Claude Code überwacht das Log und reagiert ohne Chat-Eingabe.
+async function sendeKlick(text) {
+  if (!location.protocol.startsWith("http")) return;
+  const pfad = "/klick/" + text.replace(/^\//, "").split(/\s+/).map(encodeURIComponent).join("/");
+  const ok = document.getElementById("befehl-ok");
+  try {
+    await fetch(pfad, { cache: "no-store" });
+    ok.textContent = "an den Lehrer gesendet – schau in den Chat";
+  } catch (e) {
+    ok.textContent = "Server nicht erreichbar – Befehl kopieren und im Chat einfügen";
+  }
 }
 
 render();
