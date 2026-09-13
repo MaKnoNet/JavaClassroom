@@ -41,6 +41,20 @@ Schlüsselwörter, die dem Lernenden begegnen werden, aber keine Rolle spielen: 
 `goto` (reserviert, ohne Funktion), `native` (Methoden in C), `strictfp` (veraltet), `_`
 (ab Java 22 für unbenannte Variablen). Nennen, einordnen, weitergehen.
 
+**Namenskonventionen – ab hier in jeder Rückmeldung einfordern:**
+
+| Element | Schreibweise | Beispiel | Regel |
+|---|---|---|---|
+| Klasse, Interface, Record, Enum | UpperCamelCase | `Rechnungsverwaltung` | Substantiv, groß beginnen |
+| Methode | lowerCamelCase | `berechneSteuer()` | Verb, klein beginnen |
+| Variable, Parameter, Feld | lowerCamelCase | `kundenEmail` | Substantiv, klein beginnen |
+| Konstante (`static final`) | UPPER_SNAKE_CASE | `MAX_GESCHWINDIGKEIT` | nur Großbuchstaben und `_` |
+| Paket | kleinbuchstaben | `de.makno.lernen` | umgedrehte Domain, bei uns immer `de.makno.…` |
+| Typparameter | ein Großbuchstabe | `T`, `K`, `V` | Lektion 13 |
+
+Der Name sagt, *was* etwas ist oder tut – nicht, wie es umgesetzt ist (`kundenListe` statt
+`arrayList`). Die Checkstyle-Übung in Gradle 07 prüft genau diese Regeln maschinell.
+
 ### 03 Eingabe und Ausgabe
 - **Ziele:** `System.out.println` und `printf`/`String.format`; Benutzereingaben mit `Scanner`; Zahlen aus Text parsen; was passiert bei falscher Eingabe (Vorgriff auf Exceptions)
 - **Prüffrage:** Was liefert `scanner.nextLine()` nach einem `nextInt()` – und warum?
@@ -103,7 +117,7 @@ Klasse, die sie testen.
 - **Stufe:** 1
 
 ### 09 Strings, Dateien und Zeit
-- **Ziele:** `String`-API (`split`, `substring`, `strip`, `StringBuilder`); Dateien lesen und schreiben mit `Path`/`Files` in UTF-8; `java.time` (`LocalDate`, `LocalDateTime`, `Duration`, Formatierung); Objekte speichern: Java-Serialisierung (`Serializable`, `transient`, `serialVersionUID`) kennen, aber für Dateien und Schnittstellen JSON oder Text bevorzugen
+- **Ziele:** `String`-API (`split`, `substring`, `strip`); `StringBuilder` in Schleifen (einfache Verkettung mit `+` optimiert der Compiler selbst – erst in einer Schleife entsteht bei jedem Durchlauf ein neuer String); Dateien lesen und schreiben mit `Path`/`Files` in UTF-8; `java.time` (`LocalDate`, `LocalDateTime`, `Duration`, Formatierung); Objekte speichern: Java-Serialisierung (`Serializable`, `transient`, `serialVersionUID`) kennen, aber für Dateien und Schnittstellen JSON oder Text bevorzugen
 - **Prüffrage:** Warum sind Strings unveränderlich, und was bedeutet das für eine Schleife, die einen Text zusammenbaut?
 - **Übersetzung:** en: Strings, files and time | fr: Chaînes, fichiers et temps
 - **Stufe:** 2
@@ -183,7 +197,7 @@ erleben (Übung: Zähler verliert Erhöhungen), dann die Werkzeuge. Regel: kein 
 veränderlicher Zustand; wenn doch, dann atomar oder synchronisiert, und dokumentiert.
 
 ### 18 Clean Code im Kleinen
-- **Ziele:** Sprechende Namen, kleine Methoden, keine Magic Numbers, DRY; Code lesen und verbessern
-- **Prüffrage:** Woran erkennt man, dass eine Methode zu viel tut?
+- **Ziele:** Zusammenfassung der Regeln, die seit Lektion 02 gelten: sprechende Namen nach Konvention; kleine Methoden auf einer Abstraktionsebene; **DRY** – doppelter Code wird eine Methode; **keine Magic Numbers** – `static final` mit Namen; **gegen Interfaces programmieren** – `List<String> namen = new ArrayList<>()`; `StringBuilder` in Schleifen; Code lesen und verbessern; Checkstyle und Review als Wächter
+- **Prüffrage:** Woran erkennt man, dass eine Methode zu viel tut? Und: Nenne die vier goldenen Regeln mit je einem Beispiel aus deinen Übungen.
 - **Übersetzung:** en: Clean code in the small | fr: Clean code au quotidien
 - **Stufe:** 2
