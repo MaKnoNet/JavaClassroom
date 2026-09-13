@@ -13,7 +13,9 @@ was die IDE im Hintergrund tut.
 
 Am Ende kann der Lernende eine `build.gradle` lesen und ergänzen, Abhängigkeiten
 hinzufügen, eigene Tasks schreiben, Tests im Build laufen lassen und ein Gradle-Projekt
-in Eclipse oder IntelliJ importieren.
+in Eclipse oder IntelliJ importieren. Die Lektionen 08 bis 12 machen aus dem Nutzer jemanden, der
+den Build *versteht*: warum er schnell ist, was ein Scope bedeutet, wo Versionen wohnen,
+wie aus dem Projekt eine lauffähige Datei wird – und wie man eine `build.gradle.kts` liest.
 
 ## Lektionen
 
@@ -51,8 +53,8 @@ in Eclipse oder IntelliJ importieren.
 - **Stufe:** 2
 
 ### 06 IDE-Integration und Multi-Projekt
-- **Ziele:** Import in Eclipse (Buildship) und IntelliJ; „Refresh Gradle Project" nach Änderungen; Grundidee Multi-Projekt (`include`)
-- **Prüffrage:** Warum sieht Eclipse eine neue Abhängigkeit erst nach dem Refresh?
+- **Ziele:** Import in Eclipse (Buildship) und IntelliJ; „Refresh Gradle Project" nach Änderungen; Multi-Projekt: `settings.gradle` mit `include 'kern', 'app'`, je Teilprojekt eine `build.gradle`, `implementation project(':kern')` als Abhängigkeit zwischen Teilprojekten, `./gradlew :app:test` für ein einzelnes; Gemeinsames in `subprojects { }` oder – sauberer – in Convention-Plugins (Stufe 3)
+- **Prüffrage:** Warum sieht Eclipse eine neue Abhängigkeit erst nach dem Refresh? Und: Was passiert bei `./gradlew :app:build`, wenn `app` von `kern` abhängt?
 - **Übersetzung:** en: IDE integration and multi-project builds | fr: Intégration IDE et multi-projets
 - **Stufe:** 2
 
@@ -62,3 +64,45 @@ in Eclipse oder IntelliJ importieren.
 - **Prüffrage:** Was prüft Checkstyle, was ein Test nie prüfen kann – und was prüft ein Test, was Checkstyle nie sieht?
 - **Übersetzung:** en: Quality gates in the build | fr: Garde-fous qualité dans le build
 - **Stufe:** 2
+
+### 08 Keine Zeit verschwenden: inkrementelle Builds und Caching
+- **Ziele:** Warum der zweite Lauf schneller ist: Up-to-date-Prüfung über Fingerabdrücke von Inputs und Outputs; `inputs`/`outputs` an eigenen Tasks deklarieren; `[UP-TO-DATE]` vs. `[FROM-CACHE]`; lokaler Build-Cache (`org.gradle.caching=true`) und Remote-Cache in der Pipeline; `--info` erklärt, warum ein Task läuft; Alltagsschalter `--offline`, `--refresh-dependencies`, `-q`, `--scan`; die zwei `gradle.properties`: Projekt (versioniert, für alle gleich) und `~/.gradle` (maschinenlokal – Proxy, Truststore, Daemon-Speicher – nie ins Repo)
+- **Übung:** uebungen/05-inkrementell
+- **Prüffrage:** Warum steht neben manchen Tasks `UP-TO-DATE` oder `FROM-CACHE`, was ist der Unterschied – und was bedeutet das für die Build-Zeit? Und: Welche Einstellung gehört in die `gradle.properties` des Projekts, welche in die unter `~/.gradle`?
+- **Übersetzung:** en: No wasted time: incremental builds and caching | fr: Pas de temps perdu : builds incrémentaux et cache
+- **Stufe:** 2
+
+Leitfaden: Mit Übung 02 beginnen – `zaehle` läuft jedes Mal, weil Gradle nichts über
+Eingaben und Ausgaben weiß. Dann `./gradlew test` zweimal: `compileJava UP-TO-DATE`. Die
+Frage „woher weiß Gradle das?" führt zur Übung.
+
+### 09 Feinarbeit am Klassenpfad: Scopes und Konflikte
+- **Ziele:** `implementation`, `compileOnly`, `runtimeOnly` und die `test`-Varianten – wer braucht die Bibliothek, und wann; typische Fälle: JDBC-Treiber `runtimeOnly` (Spring-Übung 03), Annotationen `compileOnly`, JUnit nur im Test; transitive Abhängigkeiten sichtbar machen: `./gradlew dependencies --configuration runtimeClasspath`, `dependencyInsight --dependency <name>`; Versionskonflikte: Gradle nimmt die höchste Version, `exclude group:/module:` wirft Mitgebrachtes raus (so hält die Vaadin-Übung die Pro-Komponenten draußen); `api` vs. `implementation` in Bibliotheken
+- **Übung:** uebungen/06-scopes
+- **Prüffrage:** Welchen Scope wählst du für einen PostgreSQL-Treiber, den du im Java-Code nie importierst, der aber zur Laufzeit da sein muss – und was passiert bei `compileOnly`?
+- **Übersetzung:** en: Fine-tuning the classpath: scopes and conflicts | fr: Réglage fin du classpath : scopes et conflits
+- **Stufe:** 2
+
+### 10 Ordnung im System: Version Catalog
+- **Ziele:** Weg von verstreuten Versionsnummern: `gradle/libs.versions.toml` mit `[versions]`, `[libraries]`, `[bundles]`, `[plugins]`; typsicherer Zugriff `libs.mockito.core`, `libs.bundles.test`, `platform(libs.junit.bom)`; Tippfehler fallen beim Laden auf; der Gewinn im Multi-Projekt (Lektion 06): eine Datei, alle Teilprojekte gleich; warum unsere Übungen trotzdem inline Versionen tragen (jede Übung allein lesbar)
+- **Übung:** uebungen/07-version-catalog
+- **Prüffrage:** Welchen Vorteil bietet `libs.versions.toml` in einem Build aus mehreren Teilprojekten – und was ändert sich, wenn JUnit angehoben werden soll?
+- **Übersetzung:** en: Order in the system: version catalogs | fr: De l'ordre : le catalogue de versions
+- **Stufe:** 2
+
+### 11 Bereit für den Server: ausführbare Uber-JARs
+- **Ziele:** Was im normalen `jar` steckt – und was nicht (`jar tf`); warum `java -jar` mit `NoClassDefFoundError` scheitert, obwohl IDE und `./gradlew run` funktionieren (Klassenpfad); Fat-/Uber-JAR von Hand (`Jar`-Task mit `zipTree` über `runtimeClasspath`) und mit dem Shadow-Plugin (`com.gradleup.shadow`, alte Kennung läuft mit Gradle 9 nicht mehr); `bootJar` bei Spring Boot als eingebaute Variante; wann *kein* Uber-JAR: Bibliotheken werden als normales JAR mit `maven-publish` veröffentlicht (Stufe 3)
+- **Übung:** uebungen/08-uber-jar
+- **Prüffrage:** Warum schlägt `java -jar app.jar` bei einem normalen Gradle-JAR fehl, sobald das Projekt externe Abhängigkeiten nutzt – und was enthält das Uber-JAR zusätzlich?
+- **Übersetzung:** en: Ready for the server: executable uber-JARs | fr: Prêt pour le serveur : uber-JARs exécutables
+- **Stufe:** 2
+
+### 12 Kotlin DSL lesen und übersetzen
+- **Ziele:** `build.gradle.kts` ist heute der Standard in Doku, Spring Initializr und vielen Projekten – lesen können ist Pflicht, schreiben Geschmackssache; die Unterschiede: `plugins { id("java") }`, `implementation("…")`, `tasks.register<Test>("integrationTest") { }`, `tasks.named<Test>("test") { useJUnitPlatform() }`, `val` statt `def`, doppelte Anführungszeichen; Vorteile (Typprüfung, IDE-Vervollständigung) und Preis (langsameres erstes Laden); eine bekannte `build.gradle` Zeile für Zeile übersetzen; keine Übung – wir bleiben in diesem Lernsystem bei Groovy
+- **Prüffrage:** Wie sieht `tasks.register('integrationTest', Test) { include '**/*IT.class' }` aus Übung 03 in der Kotlin DSL aus – und woran erkennst du auf den ersten Blick, welche DSL eine Build-Datei verwendet?
+- **Übersetzung:** en: Reading and translating the Kotlin DSL | fr: Lire et traduire le DSL Kotlin
+- **Stufe:** 2
+
+Leitfaden: Die `build.gradle` aus Übung 03 (Integrationstests) gemeinsam nach Kotlin
+übersetzen, Block für Block; der Lernende tippt, Claude prüft nur die Syntax. Danach eine
+fremde `build.gradle.kts` (Spring Initializr) vorlesen lassen.

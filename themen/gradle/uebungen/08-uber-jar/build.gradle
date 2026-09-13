@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+// Quellen enthalten Umlaute; ohne diese Zeile nimmt javac unter Windows Cp1252.
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.4'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'de.makno.lernen.App'
+    }
+}

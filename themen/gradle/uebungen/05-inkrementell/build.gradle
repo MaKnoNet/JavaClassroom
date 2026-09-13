@@ -1,0 +1,21 @@
+plugins {
+    id 'base'   // liefert `clean` und den build-Ordner, ohne Java
+}
+
+// Zählt die Zeilen jeder Datei in daten/ und schreibt build/bericht.txt.
+// Läuft bei jedem Aufruf komplett neu – auch wenn sich nichts geändert hat.
+tasks.register('bericht') {
+    description = 'Zählt die Zeilen jeder Datei in daten/'
+    group = 'reporting'
+    def quelle = layout.projectDirectory.dir('daten')
+    def ziel = layout.buildDirectory.file('bericht.txt')
+    doLast {
+        def zeilen = quelle.asFileTree.files.sort { it.name }.collect { datei ->
+            "${datei.name}: ${datei.readLines('UTF-8').size()} Zeilen"
+        }
+        def ausgabe = ziel.get().asFile
+        ausgabe.parentFile.mkdirs()
+        ausgabe.text = zeilen.join('\n') + '\n'
+        println "Bericht geschrieben: ${ausgabe}"
+    }
+}

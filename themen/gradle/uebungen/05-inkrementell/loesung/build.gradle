@@ -1,0 +1,24 @@
+plugins {
+    id 'base'   // liefert `clean` und den build-Ordner, ohne Java
+}
+
+// Zählt die Zeilen jeder Datei in daten/ und schreibt build/bericht.txt.
+// Gradle kennt Eingaben und Ausgabe – und überspringt den Task, wenn beides unverändert ist.
+tasks.register('bericht') {
+    description = 'Zählt die Zeilen jeder Datei in daten/'
+    group = 'reporting'
+    def quelle = layout.projectDirectory.dir('daten')
+    def ziel = layout.buildDirectory.file('bericht.txt')
+    inputs.dir(quelle)
+    outputs.file(ziel)
+    outputs.cacheIf { true }   // Ergebnis darf in den Build-Cache
+    doLast {
+        def zeilen = quelle.asFileTree.files.sort { it.name }.collect { datei ->
+            "${datei.name}: ${datei.readLines('UTF-8').size()} Zeilen"
+        }
+        def ausgabe = ziel.get().asFile
+        ausgabe.parentFile.mkdirs()
+        ausgabe.text = zeilen.join('\n') + '\n'
+        println "Bericht geschrieben: ${ausgabe}"
+    }
+}
