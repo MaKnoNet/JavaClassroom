@@ -77,7 +77,7 @@ sagt die Ausgabe voraus, dann ausführen.
 - **Stufe:** 1
 
 ### 06 Methoden
-- **Ziele:** Parameter, Rückgabewert, `return`; `static` vs. Instanzmethode; warum `public static void main(String[] args)`; Sichtbarkeit von Variablen (Scope); Methoden klein halten; Überladen
+- **Ziele:** Parameter, Rückgabewert, `return`; `static` vs. Instanzmethode; warum `public static void main(String[] args)`; `static`-Felder nur als Konstanten (`static final`) – eine veränderliche statische Liste lebt so lange wie das Programm, wächst unbemerkt (Speicherleck, `OutOfMemoryError`) und gehört allen Threads gleichzeitig (Lektion 17); Sichtbarkeit von Variablen (Scope); Methoden klein halten; Überladen
 - **Übung:** uebungen/02-rechner
 - **Prüffrage:** Was ist der Unterschied zwischen Parameter und Argument – und warum ist eine Variable aus `main` in einer anderen Methode unbekannt?
 - **Übersetzung:** en: Methods | fr: Méthodes
@@ -117,7 +117,7 @@ Klasse, die sie testen.
 - **Stufe:** 1
 
 ### 09 Strings, Dateien und Zeit
-- **Ziele:** `String`-API (`split`, `substring`, `strip`); `StringBuilder` in Schleifen (einfache Verkettung mit `+` optimiert der Compiler selbst – erst in einer Schleife entsteht bei jedem Durchlauf ein neuer String); Dateien lesen und schreiben mit `Path`/`Files` in UTF-8; `java.time` (`LocalDate`, `LocalDateTime`, `Duration`, Formatierung); Objekte speichern: Java-Serialisierung (`Serializable`, `transient`, `serialVersionUID`) kennen, aber für Dateien und Schnittstellen JSON oder Text bevorzugen
+- **Ziele:** `String`-API (`split`, `substring`, `strip`); `StringBuilder` in Schleifen (einfache Verkettung mit `+` optimiert der Compiler selbst – erst in einer Schleife entsteht bei jedem Durchlauf ein neuer String); Dateien lesen und schreiben mit `Path`/`Files` in UTF-8; `Files.readString` für kleine, `Files.lines` für große Dateien – der Stream hält die Datei offen und muss geschlossen werden (try-with-resources, Vorgriff auf Lektion 14); `java.time` (`LocalDate`, `LocalDateTime`, `Duration`, Formatierung); Objekte speichern: Java-Serialisierung (`Serializable`, `transient`, `serialVersionUID`) kennen, aber für Dateien und Schnittstellen JSON oder Text bevorzugen
 - **Prüffrage:** Warum sind Strings unveränderlich, und was bedeutet das für eine Schleife, die einen Text zusammenbaut?
 - **Übersetzung:** en: Strings, files and time | fr: Chaînes, fichiers et temps
 - **Stufe:** 2
@@ -155,14 +155,14 @@ erklären können.
 - **Stufe:** 2
 
 ### 13 Collections und Generics
-- **Ziele:** `List`, `Set`, `Map` und ihre Implementierungen (`ArrayList` vs. `LinkedList`, `HashSet`, `HashMap`) mit Kosten; warum `List<Integer>` und nicht `List<int>` (Generics brauchen Objekte – hier zahlt sich Lektion 08 aus); Generics lesen **und** schreiben (`<T>`, `<T extends Comparable<T>>`); typsichere eigene Klassen und Methoden
+- **Ziele:** `List`, `Set`, `Map` und ihre Implementierungen (`ArrayList` vs. `LinkedList`, `HashSet`, `HashMap`) mit Kosten; warum `List<Integer>` und nicht `List<int>` (Generics brauchen Objekte – hier zahlt sich Lektion 08 aus); **die goldene Regel**: Wer `equals` überschreibt, muss `hashCode` überschreiben – sonst findet `HashSet`/`HashMap` das Objekt nicht wieder (`contains` liefert `false`, obwohl es drin ist); Records (Lektion 15) liefern beides automatisch; Generics lesen **und** schreiben (`<T>`, `<T extends Comparable<T>>`); typsichere eigene Klassen und Methoden
 - **Übung:** uebungen/04-generics
-- **Prüffrage:** Wann `Set` statt `List` – und was verhindert `<T>` gegenüber `Object`?
+- **Prüffrage:** Wann `Set` statt `List` – und was verhindert `<T>` gegenüber `Object`? Und: Eine Klasse überschreibt `equals`, aber nicht `hashCode` – was passiert in einem `HashSet`?
 - **Übersetzung:** en: Collections and generics | fr: Collections et génériques
 - **Stufe:** 2
 
 ### 14 Exceptions
-- **Ziele:** `try`/`catch`/`finally`, `throw`/`throws`, checked vs. unchecked, eigene Exceptions; Fehler nicht verschlucken; try-with-resources; `assert` – standardmäßig abgeschaltet, deshalb nie für Eingabeprüfung, höchstens für interne Annahmen
+- **Ziele:** `try`/`catch`/`finally`, `throw`/`throws`, checked vs. unchecked, eigene Exceptions; Fehler nicht verschlucken – auch `catch (Exception e) { e.printStackTrace(); }` ist Verschlucken, nur lauter; try-with-resources statt `finally` zum Schließen von Dateien, Streams und Verbindungen; `assert` – standardmäßig abgeschaltet, deshalb nie für Eingabeprüfung, höchstens für interne Annahmen
 - **Prüffrage:** Warum ist ein leerer `catch`-Block gefährlich?
 - **Übersetzung:** en: Exceptions | fr: Exceptions
 - **Stufe:** 2
@@ -186,7 +186,7 @@ für Schritt in `filter`/`map`/`collect` übersetzen (Refactoring-Rätsel); dann
 `groupingBy` eine ganze Map-Schleife ersetzt.
 
 ### 17 Nebenläufigkeit
-- **Ziele:** `Thread` und `Runnable`; `ExecutorService` statt Threads von Hand; Race Conditions erkennen; Thread-Safety mit `synchronized`, `AtomicInteger`, `ConcurrentHashMap`; `volatile` – nur Sichtbarkeit, keine Atomarität (reicht für ein Stopp-Flag, nicht für einen Zähler); unveränderliche Objekte als sicherster Weg
+- **Ziele:** `Thread` und `Runnable`; `ExecutorService` statt Threads von Hand; Race Conditions erkennen; Thread-Safety mit `synchronized`, `AtomicInteger`, `ConcurrentHashMap`; `volatile` – nur Sichtbarkeit, keine Atomarität (reicht für ein Stopp-Flag, nicht für einen Zähler); unveränderliche Objekte als sicherster Weg; der Garbage Collector räumt nur auf, was von nirgends mehr erreichbar ist – statische Listen, Caches ohne Grenze und vergessene Listener sind die typischen Speicherlecks trotz GC (`OutOfMemoryError`, Heap Dump lesen)
 - **Übung:** uebungen/05-nebenlaeufigkeit
 - **Prüffrage:** Warum ist `zaehler++` aus zwei Threads nicht sicher, obwohl es wie eine Operation aussieht?
 - **Übersetzung:** en: Concurrency | fr: Concurrence
