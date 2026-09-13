@@ -63,3 +63,16 @@ Leitfaden: Faustregel – alles, was schon geteilt ist, wird mit `revert` zurüc
 - **Ziele:** Ablauf Branch → Push → Pull Request → Review → Merge; Branch-Namen, Commit-Konventionen (`feat:`, `fix:`)
 - **Prüffrage:** Was prüft ein Reviewer, was die Tests nicht prüfen können?
 - **Übersetzung:** en: Everyday teamwork | fr: Le quotidien en équipe
+
+### 09 Worktrees: mehrere Branches gleichzeitig
+- **Ziele:** `git worktree add`, `list`, `remove`; einen zweiten Branch in einem eigenen Ordner auschecken, ohne die laufende Arbeit zu stashen; wann Worktree, wann Stash, wann Clone
+- **Prüffrage:** Du arbeitest an einem Feature und sollst schnell einen Hotfix auf `main` machen – warum ist ein Worktree hier besser als `git stash`?
+- **Übersetzung:** en: Worktrees: several branches at once | fr: Worktrees : plusieurs branches en même temps
+
+Leitfaden: Ein Repository, mehrere Arbeitsverzeichnisse – jedes mit eigenem Branch, alle
+teilen dieselben Objekte und dieselbe Historie. `git worktree add ../hotfix main` legt
+neben dem Projekt einen Ordner an, in dem `main` ausgecheckt ist; die IDE kann beide
+gleichzeitig offen haben, Builds laufen getrennt. Typische Fehler zeigen: derselbe Branch
+kann nicht in zwei Worktrees ausgecheckt sein; `remove` räumt den Ordner, `prune` die
+Reste weg. Abgrenzung: Stash für „kurz weglegen", Worktree für „parallel arbeiten", Clone
+nur, wenn es wirklich ein zweites Repository sein soll.
