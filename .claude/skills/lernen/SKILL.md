@@ -141,7 +141,8 @@ Wiederhole, bis die Ziele der Lektion erreicht sind:
 Wenn der Lernende aufhört oder das Thema fertig ist:
 
 1. Zusammenfassung: was sitzt, was noch wackelt.
-2. `notizen:`-Zeile des Themas schreiben oder ersetzen – konkret, für das nächste Mal.
+2. `notizen:`-Zeile des Themas schreiben oder ersetzen – konkret, für das nächste Mal,
+   **in der Unterrichtssprache** (der Lernende sieht sie auf der Fortschrittsseite).
 3. `java tools/Fortschritt.java <name>` ausführen, Seite in der Browser-Ansicht öffnen.
 4. Erwähnen, dass `arbeit/fortschritt.html` als einzelne Datei an den Ausbilder gehen kann.
 
@@ -155,12 +156,12 @@ Einmal pro Sitzung, beim ersten Anzeigen der Seite:
    Port belegt → 8001 usw., URL entsprechend.
 2. Monitor scharf schalten (Werkzeug `Monitor`, `persistent: true`, Beschreibung
    „Klicks auf der Fortschrittsseite"):
-   `tail -n 0 -f "<absoluter Pfad>/arbeit/server.log" | grep --line-buffered -o '/klick/[^ "]*'`
+   `tail -n 0 -f "<absoluter Pfad>/arbeit/server.log" | grep --line-buffered -o 'klick=[^ "]*'`
 3. Seite öffnen: `http://127.0.0.1:8000/fortschritt.html` (Browser-Ansicht oder Chrome).
 
-Jedes Monitor-Ereignis ist eine Zeile wie `/klick/lernen/java/06` oder
-`/klick/lernen/sprache/fr`. Sie ist **kein** Nutzertext, sondern ein Klick: URL-dekodieren,
-die Segmente nach `/klick/` als Argumente von `/lernen` behandeln (`java 06` bzw.
+Jedes Monitor-Ereignis ist eine Zeile wie `klick=lernen/java/06` oder
+`klick=lernen/sprache/fr`. Sie ist **kein** Nutzertext, sondern ein Klick: URL-dekodieren,
+die Segmente nach `klick=` als Argumente von `/lernen` behandeln (`java 06` bzw.
 `sprache fr`) und sofort reagieren – „Du hast Java 06 angeklickt – los geht's." Nach jeder
 Änderung der Fortschrittsdatei die Seite neu erzeugen; der Browser lädt sie beim nächsten
 Aufruf neu (der Lernende drückt F5 oder du sagst es ihm).

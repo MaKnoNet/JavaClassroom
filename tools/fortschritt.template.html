@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lernfortschritt</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Ccircle cx=%278%27 cy=%278%27 r=%277%27 fill=%27%2316a34a%27/%3E%3C/svg%3E">
 <style>
   :root { --bg:#f6f7f9; --karte:#fff; --text:#1f2933; --grau:#6b7280; --rand:#e5e7eb;
           --fertig:#16a34a; --begonnen:#f59e0b; --offen:#d1d5db; }
@@ -45,6 +46,46 @@
 <section class="themen" id="themen"></section>
 <script>
 const DATEN = /*DATEN*/{};
+const TEXTE = {
+  de: { titel: "Lernfortschritt", eingeben: "In Claude Code eingeben:", kopieren: "Kopieren", sprache: "Sprache",
+        klick: "Klicken: Lektion starten", wechsel: "Wechsel erzeugt einen Befehl für Claude Code",
+        voraussetzung: "Voraussetzung noch offen", letzte: "Letzte Stunde", naechstes: "Nächstes Mal",
+        gesamt: (f, a, p) => `Gesamt: ${f} von ${a} Lektionen (${p} %)`,
+        gesendet: "an den Lehrer gesendet – schau in den Chat", nichtErreichbar: "Server nicht erreichbar – Befehl kopieren und im Chat einfügen",
+        kopiert: "kopiert – im Chat einfügen", markiert: "markiert – mit Strg+C kopieren" },
+  en: { titel: "Learning progress", eingeben: "Type into Claude Code:", kopieren: "Copy", sprache: "Language",
+        klick: "Click to start this lesson", wechsel: "Changing creates a command for Claude Code",
+        voraussetzung: "Prerequisite not finished", letzte: "Last session", naechstes: "Next time",
+        gesamt: (f, a, p) => `Total: ${f} of ${a} lessons (${p} %)`,
+        gesendet: "sent to the teacher – check the chat", nichtErreichbar: "Server not reachable – copy the command into the chat",
+        kopiert: "copied – paste into the chat", markiert: "selected – copy with Ctrl+C" },
+  fr: { titel: "Progression", eingeben: "Saisir dans Claude Code :", kopieren: "Copier", sprache: "Langue",
+        klick: "Cliquer pour démarrer cette leçon", wechsel: "Le changement crée une commande pour Claude Code",
+        voraussetzung: "Prérequis non terminé", letzte: "Dernière séance", naechstes: "La prochaine fois",
+        gesamt: (f, a, p) => `Total : ${f} sur ${a} leçons (${p} %)`,
+        gesendet: "envoyé au professeur – regarde le chat", nichtErreichbar: "Serveur injoignable – copier la commande dans le chat",
+        kopiert: "copié – coller dans le chat", markiert: "sélectionné – copier avec Ctrl+C" },
+  es: { titel: "Progreso", eingeben: "Escribir en Claude Code:", kopieren: "Copiar", sprache: "Idioma",
+        klick: "Clic para empezar esta lección", wechsel: "El cambio crea un comando para Claude Code",
+        voraussetzung: "Requisito previo pendiente", letzte: "Última sesión", naechstes: "La próxima vez",
+        gesamt: (f, a, p) => `Total: ${f} de ${a} lecciones (${p} %)`,
+        gesendet: "enviado al profesor – mira el chat", nichtErreichbar: "Servidor no disponible – copia el comando en el chat",
+        kopiert: "copiado – pégalo en el chat", markiert: "seleccionado – copia con Ctrl+C" },
+  it: { titel: "Progressi", eingeben: "Digita in Claude Code:", kopieren: "Copia", sprache: "Lingua",
+        klick: "Clicca per iniziare questa lezione", wechsel: "Il cambio crea un comando per Claude Code",
+        voraussetzung: "Prerequisito non completato", letzte: "Ultima sessione", naechstes: "La prossima volta",
+        gesamt: (f, a, p) => `Totale: ${f} di ${a} lezioni (${p} %)`,
+        gesendet: "inviato all'insegnante – guarda la chat", nichtErreichbar: "Server non raggiungibile – copia il comando nella chat",
+        kopiert: "copiato – incolla nella chat", markiert: "selezionato – copia con Ctrl+C" },
+  tr: { titel: "Öğrenme ilerlemesi", eingeben: "Claude Code'a yaz:", kopieren: "Kopyala", sprache: "Dil",
+        klick: "Dersi başlatmak için tıkla", wechsel: "Değişiklik Claude Code için bir komut oluşturur",
+        voraussetzung: "Ön koşul tamamlanmadı", letzte: "Son ders", naechstes: "Bir dahaki sefere",
+        gesamt: (f, a, p) => `Toplam: ${a} dersten ${f} (%${p})`,
+        gesendet: "öğretmene gönderildi – sohbete bak", nichtErreichbar: "Sunucuya ulaşılamıyor – komutu sohbete kopyala",
+        kopiert: "kopyalandı – sohbete yapıştır", markiert: "seçildi – Ctrl+C ile kopyala" },
+};
+let sprache = DATEN.profil.sprache in TEXTE ? DATEN.profil.sprache : "de";
+function t(schluessel) { return TEXTE[sprache][schluessel]; }
 const SYMBOL = { fertig: "✔", begonnen: "▶", offen: "○" };
 
 function standVon(thema) {
@@ -85,27 +126,32 @@ function karte(plan) {
   const stand = standVon(plan.thema);
   const datum = letztesDatum(lektionen);
   const zeilen = lektionen.map(l =>
-    `<li class="lektion ${l.status}" data-befehl="/lernen ${plan.thema} ${l.nummer}" title="Klicken: Lektion starten"><span class="status">${SYMBOL[l.status]}</span>` +
+    `<li class="lektion ${l.status}" data-befehl="/lernen ${plan.thema} ${l.nummer}" title="${t("klick")}"><span class="status">${SYMBOL[l.status]}</span>` +
     `<span>${l.nummer} ${escapeHtml(l.titel)}</span>` +
     (l.datum ? `<span class="datum">${l.datum}</span>` : "") + `</li>`).join("");
   return `<article class="thema ${fehlend.length ? "gesperrt" : ""}">
     <h2><span>${fehlend.length ? "🔒 " : ""}${escapeHtml(plan.titel)}</span><span class="zahl">${fertig} / ${lektionen.length}</span></h2>
     <div class="balken"><div style="width:${prozent}%"></div></div>
-    ${fehlend.length ? `<div class="hinweis">Voraussetzung noch offen: ${fehlend.map(escapeHtml).join(", ")}</div>` : ""}
-    ${datum ? `<div class="hinweis">Letzte Stunde: ${datum}</div>` : ""}
+    ${fehlend.length ? `<div class="hinweis">${t("voraussetzung")}: ${fehlend.map(escapeHtml).join(", ")}</div>` : ""}
+    ${datum ? `<div class="hinweis">${t("letzte")}: ${datum}</div>` : ""}
     <ul>${zeilen}</ul>
-    ${stand.notizen ? `<div class="notizen">Nächstes Mal: ${escapeHtml(stand.notizen)}</div>` : ""}
+    ${stand.notizen ? `<div class="notizen">${t("naechstes")}: ${escapeHtml(stand.notizen)}</div>` : ""}
   </article>`;
 }
 
 function render() {
   const p = DATEN.profil;
+  document.title = t("titel");
+  document.documentElement.lang = sprache;
+  document.querySelector("h1").textContent = t("titel");
+  document.querySelector("#befehl > span").textContent = t("eingeben");
+  document.getElementById("befehl-kopieren").textContent = t("kopieren");
   const sprachen = [["de", "Deutsch"], ["en", "English"], ["fr", "Français"], ["es", "Español"], ["it", "Italiano"], ["tr", "Türkçe"]];
   if (p.sprache && !sprachen.some(s => s[0] === p.sprache)) sprachen.push([p.sprache, p.sprache]);
   const optionen = sprachen.map(([code, name]) => `<option value="${code}" ${code === p.sprache ? "selected" : ""}>${name}</option>`).join("");
   document.getElementById("profil").innerHTML =
     `${escapeHtml(p.name)} · ${escapeHtml(p.rolle)}${p.niveau ? " (" + escapeHtml(p.niveau) + ")" : ""} · ` +
-    `<label>Sprache <select id="sprache" title="Wechsel erzeugt einen Befehl für Claude Code">${optionen}</select></label> · IDE ${escapeHtml(p.ide)}`;
+    `<label>${t("sprache")} <select id="sprache" title="${t("wechsel")}">${optionen}</select></label> · IDE ${escapeHtml(p.ide)}`;
   let gesamtFertig = 0, gesamtAlle = 0;
   for (const plan of DATEN.lehrplaene) {
     const lektionen = lektionenMitStatus(plan);
@@ -114,7 +160,7 @@ function render() {
   }
   const gesamtProzent = gesamtAlle ? Math.round(100 * gesamtFertig / gesamtAlle) : 0;
   document.getElementById("gesamt").innerHTML =
-    `<strong>Gesamt: ${gesamtFertig} von ${gesamtAlle} Lektionen (${gesamtProzent} %)</strong>` +
+    `<strong>${t("gesamt")(gesamtFertig, gesamtAlle, gesamtProzent)}</strong>` +
     `<div class="balken" style="margin-top:.5rem"><div style="width:${gesamtProzent}%"></div></div>`;
   document.getElementById("themen").innerHTML = DATEN.lehrplaene.map(karte).join("");
 }
@@ -131,13 +177,13 @@ function zeigeBefehl(text) {
 // Server-Log; Claude Code überwacht das Log und reagiert ohne Chat-Eingabe.
 async function sendeKlick(text) {
   if (!location.protocol.startsWith("http")) return;
-  const pfad = "/klick/" + text.replace(/^\//, "").split(/\s+/).map(encodeURIComponent).join("/");
+  const pfad = location.pathname + "?klick=" + text.replace(/^\//, "").split(/\s+/).map(encodeURIComponent).join("/");
   const ok = document.getElementById("befehl-ok");
   try {
     await fetch(pfad, { cache: "no-store" });
-    ok.textContent = "an den Lehrer gesendet – schau in den Chat";
+    ok.textContent = t("gesendet");
   } catch (e) {
-    ok.textContent = "Server nicht erreichbar – Befehl kopieren und im Chat einfügen";
+    ok.textContent = t("nichtErreichbar");
   }
 }
 
@@ -147,22 +193,27 @@ document.getElementById("themen").addEventListener("click", ev => {
   const zeile = ev.target.closest("li.lektion");
   if (zeile) zeigeBefehl(zeile.dataset.befehl);
 });
-document.getElementById("sprache").addEventListener("change", ev => {
-  zeigeBefehl(`/lernen sprache ${ev.target.value}`);
-});
+function bindeSprachwahl() {
+  document.getElementById("sprache").addEventListener("change", ev => {
+    const neu = ev.target.value;
+    if (neu in TEXTE) { sprache = neu; render(); bindeSprachwahl(); }
+    zeigeBefehl(`/lernen sprache ${neu}`);
+  });
+}
+bindeSprachwahl();
 document.getElementById("befehl-kopieren").addEventListener("click", async () => {
   const text = document.getElementById("befehl-text").textContent;
   const ok = document.getElementById("befehl-ok");
   try {
     await navigator.clipboard.writeText(text);
-    ok.textContent = "kopiert – im Chat einfügen";
+    ok.textContent = t("kopiert");
   } catch (e) {
     const bereich = document.createRange();
     bereich.selectNodeContents(document.getElementById("befehl-text"));
     const auswahl = window.getSelection();
     auswahl.removeAllRanges();
     auswahl.addRange(bereich);
-    ok.textContent = "markiert – mit Strg+C kopieren";
+    ok.textContent = t("markiert");
   }
 });
 </script>
