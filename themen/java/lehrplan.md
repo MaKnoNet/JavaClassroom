@@ -64,10 +64,18 @@ sagt die Ausgabe voraus, dann ausführen.
 - **Stufe:** 1
 
 ### 07 Klassen und Objekte
-- **Ziele:** Felder, Konstruktoren, `new`, `this`; Kapselung mit `private` und Getter; `toString`; Zustand und Verhalten
-- **Prüffrage:** Warum sind Felder `private`, wenn es doch Getter gibt?
+- **Ziele:** Felder, Konstruktoren, `new`, `this`; Zustand und Verhalten; **Kapselung**: Felder `private`, Zugriff nur über Methoden, die prüfen dürfen (Setter mit Validierung); `toString`
+- **Übung:** uebungen/06-bankkonto
+- **Prüffrage:** Warum sind Felder `private`, wenn es doch Getter gibt – und was kann ein Setter, was ein öffentliches Feld nicht kann?
 - **Übersetzung:** en: Classes and objects | fr: Classes et objets
 - **Stufe:** 1
+
+Leitfaden: Eckpunkte 1 und 2 der OOP. Klasse = Bauplan des Architekten, Objekt = das
+gemauerte Haus, in dem jemand wohnt (`Hund` vs. `meinHund = new Hund()`). Kapselung =
+geschlossene Motorhaube: Man fährt über das Gaspedal (Methode), man gießt kein Benzin
+mit dem Becher in den Motor (direkter Feldzugriff). Das Bankkonto in der Übung zeigt,
+warum: `einzahlen(-50)` darf nicht durchgehen – ein öffentliches Feld könnte das nicht
+verhindern.
 
 ### 08 Referenz und Wert
 - **Ziele:** Referenztypen vs. primitive Typen; `==` vs. `equals`; Objekte als Parameter; `null` und die `NullPointerException`
@@ -82,16 +90,30 @@ sagt die Ausgabe voraus, dann ausführen.
 - **Stufe:** 2
 
 ### 10 Vererbung und Polymorphie
-- **Ziele:** `extends`, `super`, Überschreiben, `@Override`; Vielgestaltigkeit; wann Vererbung passt und wann Komposition besser ist
-- **Prüffrage:** Was ist Polymorphie – mit einem Beispiel?
+- **Ziele:** **Vererbung**: `extends`, `super`, Überschreiben, `@Override`; **Polymorphie**: ein Aufruf, unterschiedliche Reaktion je nach Laufzeittyp; wann Vererbung passt und wann Komposition besser ist
+- **Prüffrage:** Was ist Polymorphie – mit einem Beispiel? Und welches Problem löst Vererbung, das mit Kopieren nicht zu lösen wäre?
 - **Übersetzung:** en: Inheritance and polymorphism | fr: Héritage et polymorphisme
 - **Stufe:** 2
 
+Leitfaden: Eckpunkte 3 und 4. Vererbung = das Smartphone erbt das Telefonieren vom
+Telefon und fügt Apps hinzu (`ElektroAuto extends Fahrzeug`). Polymorphie = „Sprich!" zu
+Hund und Katze – derselbe Befehl, Bellen oder Miauen (`Tier.macheGeraeusch()` überschrieben
+in `Hund` und `Katze`, aufgerufen über eine `List<Tier>`). Dann die Grenze: Nicht jede
+„ist-ein"-Beziehung ist Vererbung wert – ein `Auto` *hat* einen Motor, es *ist* keiner.
+
 ### 11 Interfaces und abstrakte Klassen
-- **Ziele:** `interface`, `implements`, Default- und statische Methoden; `abstract class`; wann Interface, wann abstrakte Klasse; Programmieren gegen Schnittstellen (Dependency Inversion)
-- **Prüffrage:** Warum nimmt eine Methode lieber ein `List<String>` entgegen als ein `ArrayList<String>` – und wann braucht man trotzdem eine abstrakte Klasse?
+- **Ziele:** **Abstraktion**: nur festlegen, *was* etwas kann, nicht *wie*; `interface`, `implements`, Default- und statische Methoden; `abstract class`; wann Interface, wann abstrakte Klasse; Programmieren gegen Schnittstellen (Dependency Inversion); die fünf Eckpunkte der OOP zusammenfassen
+- **Prüffrage:** Warum nimmt eine Methode lieber ein `List<String>` entgegen als ein `ArrayList<String>`? Und: Nenne die fünf Eckpunkte der OOP mit je einem Beispiel aus den Lektionen 07 bis 11.
 - **Übersetzung:** en: Interfaces and abstract classes | fr: Interfaces et classes abstraites
 - **Stufe:** 2
+
+Leitfaden: Eckpunkt 5. Abstraktion = der Startknopf der Kaffeemaschine: Man muss Pumpe
+und Heizung nicht kennen, um Kaffee zu bekommen (`interface Nachrichtenservice { void
+senden(String text); }` – `EmailService` versteckt SMTP dahinter, der Aufrufer sieht nur
+`senden`). Zum Abschluss die fünf Eckpunkte an die Tafel: Klassen/Objekte, Kapselung,
+Vererbung, Polymorphie, Abstraktion – je eine Metapher, je ein Codebeispiel aus den
+Übungen. Das ist Prüfungs- und Vorstellungsgesprächs-Vokabular; der Lernende soll es frei
+erklären können.
 
 ### 12 Lambdas und Optional
 - **Ziele:** Funktionale Interfaces (`Predicate`, `Function`, `Supplier`, `Consumer`); Lambda-Ausdrücke und Methodenreferenzen; Code als Argument übergeben; `Optional` statt `null` als Rückgabe
