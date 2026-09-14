@@ -5,7 +5,7 @@ Code ist der **Lehrer**, du bist der **Lernende**. Der Lehrer erklärt, fragt na
 Übungen an echten Projekten und prüft das echte Ergebnis – Tests laufen, Seiten öffnen sich
 im Browser, SQL läuft gegen eine echte Datenbank. Dein Fortschritt bleibt auf deinem Rechner.
 
-**16 Themen, 151 Lektionen, 83 Übungen** – jede Übung mit Startzustand (rot) und
+**16 Themen, 154 Lektionen, 86 Übungen** – jede Übung mit Startzustand (rot) und
 Referenzlösung (grün) durchgespielt.
 
 ## Themen
@@ -18,8 +18,8 @@ Referenzlösung (grün) durchgespielt.
 | **JavaScript** | 8 | 2 | HTML |
 | **Modernes Frontend und TypeScript** (Vite, TypeScript, Lit) | 4 | 4 | HTML, CSS, JavaScript |
 | **Java** | 19 | 8 | – |
-| **Gradle** | 12 | 9 | Java |
-| **JUnit** | 12 | 6 | Java, Gradle |
+| **Gradle** | 13 | 10 | Java |
+| **JUnit** | 13 | 7 | Java, Gradle |
 | **UML-Diagramme** (Klassen-, Sequenz-, Zustandsdiagramme mit PlantUML) | 8 | 7 | Java |
 | **Entwurfsmuster** (Strategie, Beobachter, Builder, Dekorierer, Kommando, Zustand …) | 11 | 9 | Java, UML |
 | **Datenbanken und SQL** (PostgreSQL, H2 oder SQLite; Flyway, Fensterfunktionen, Indizes) | 10 | 10 | – |
@@ -27,7 +27,7 @@ Referenzlösung (grün) durchgespielt.
 | **Vaadin** | 18 | 2 | Java, Gradle, JUnit, Spring Boot |
 | **Datenformate** (JSON, YAML/TOML/XML, CSV, Streaming, XXE) | 5 | 4 | Java, Gradle, JUnit |
 | **Sicherheit** (OWASP, SQL-Injection, XSS, Passwort-Hashing) | 5 | 3 | Java, Gradle, JUnit |
-| **Cloud-Native und Betrieb** (Docker, Compose, CI/CD, OAuth2/OIDC) | 4 | 2 | Java, Gradle, Git, Spring Boot |
+| **Cloud-Native und Betrieb** (Docker, Compose, CI/CD, OAuth2/OIDC, Fehlersuche) | 5 | 3 | Java, Gradle, Git, Spring Boot |
 
 Einstieg für Anfänger: Git oder HTML. Wer Java kennt: Gradle und JUnit. SQL braucht keine
 Programmierkenntnisse – die Übungen sind reine `.sql`-Dateien, geprüft von SQL selbst.

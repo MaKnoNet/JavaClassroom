@@ -9,7 +9,7 @@ reihenfolge: 140
 # Cloud-Native und Betrieb
 
 Die Brücke zwischen fertigem Quellcode und echtem Betrieb: Wie Software paketiert,
-automatisiert geprüft, sicher ausgerollt und im Team betrieben wird. Alle vier Lektionen
+automatisiert geprüft, sicher ausgerollt und im Team betrieben wird. Alle fünf Lektionen
 sind Stufe 3 – sie setzen den Java-Pfad bis Spring Boot voraus; Lektion 04 zusätzlich
 Vaadin-Lektion 17 (Spring Security mit Vaadin).
 
@@ -65,3 +65,16 @@ anlegen – von Hand, damit die Begriffe sitzen. Dann den Flow im Browser-Netzwe
 verfolgen: Redirect zum Provider, Login, Redirect zurück mit `code`, Token-Austausch im
 Hintergrund. Das JWT auf jwt.io einfügen (nur Test-Tokens!) und die Claims lesen. Erst
 dann Spring konfigurieren.
+
+### 05 Spurensuche auf dem Server
+- **Ziele:** „Auf dem Server geht's nicht" ist der Normalfall, nicht die Ausnahme – und der Code ist selten schuld; die Diagnoseleiter von oben nach unten: `compose ps` (lebt es?), `compose logs` (was sagt es?), `compose config` und `inspect` (womit wurde es wirklich gestartet?), `port` (kommt man hin?), `exec` (Blick von innen); einen Java-Stacktrace **von unten** lesen – die letzte `Caused by:` ist die Ursache, alles darüber Verpackung; Konfiguration gegen Wirklichkeit prüfen: `localhost` im Container, leere `${…}`-Variablen, Port-Abbildung links Host/rechts Container; die teuerste Reaktion (`down -v`, neu bauen) als letzte statt erste; eine Änderung pro Schritt, dann `up -d`; den Befund so aufschreiben, dass der nächste ihn nicht noch einmal suchen muss (Symptom, Beweis, Ursache, Behebung)
+- **Übung:** uebungen/03-spurensuche
+- **Prüffrage:** Das Log der App sagt `Tomcat started on port 8080`, aber `curl localhost:8080` bekommt keine Antwort. Welche zwei Befehle grenzen in unter einer Minute ein, ob der Fehler in der App, im Container oder zwischen Host und Container liegt – und warum wäre `podman compose down -v` jetzt die falsche Reaktion?
+- **Übersetzung:** en: Troubleshooting on the server | fr: Diagnostic sur le serveur
+- **Stufe:** 3
+
+Leitfaden: Die Übung hat drei versteckte Fehler, die sich nur nacheinander zeigen. Nicht
+vorsagen, welche – der Lernende arbeitet die Leiter ab, Claude fragt nach dem Beweis
+(„Woher weißt du, dass das die Ursache ist?"). Wer beim ersten `Connection refused` alles
+löschen will, wird gefragt, was auf einem Produktionsserver gerade verloren ginge. Die
+Prüffrage zielt auf `compose ps`/`port` gegen `logs`, und auf den Datenverlust im Volume.

@@ -1,0 +1,32 @@
+# Drei Fehler behoben – siehe LOESUNG.md.
+services:
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"   # Fehler 3: links Host, rechts Container – die App lauscht auf 8080
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}   # Fehler 1: localhost wäre der App-Container selbst
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}   # Fehler 2: DB_PASSWORD gibt es in .env nicht – war leer
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: docker.io/library/postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - kundendaten:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+volumes:
+  kundendaten:

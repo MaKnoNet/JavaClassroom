@@ -1,0 +1,10 @@
+# Beispiel für ~/.gradle/gradle.properties (GRADLE_USER_HOME) – NICHT ins Repository.
+# Gradle liest diese Datei vor der gradle.properties des Projekts; Werte hier gewinnen.
+#
+# Nur nötig, wenn Gradle das JDK nicht selbst findet oder herunterladen darf:
+# org.gradle.java.home=C:/Users/<ich>/.jdks/corretto-21.0.4
+#
+# Hinter einem TLS-inspizierenden Firmenproxy (Windows: Zertifikate aus dem Systemspeicher):
+# org.gradle.jvmargs=-Djavax.net.ssl.trustStoreType=Windows-ROOT
+# systemProp.https.proxyHost=proxy.firma.local
+# systemProp.https.proxyPort=8080

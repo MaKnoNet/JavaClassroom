@@ -134,3 +134,17 @@ Frage „woher weiß Gradle das?" führt zur Übung.
 Leitfaden: Die `build.gradle` aus Übung 03 (Integrationstests) gemeinsam nach Kotlin
 übersetzen, Block für Block; der Lernende tippt, Claude prüft nur die Syntax. Danach eine
 fremde `build.gradle.kts` (Spring Initializr) vorlesen lassen.
+
+### 13 Lokale Umgebung zähmen: JAVA_HOME, Toolchains, Firmenproxy
+- **Ziele:** „Bei mir läuft es" ist kein Zustand, sondern ein Symptom; die drei Ebenen, aus denen ein Build sein Java bezieht: `JAVA_HOME`/PATH (startet den Wrapper), `org.gradle.java.home` (startet den Daemon) und die **Toolchain** in `build.gradle` (kompiliert und testet) – nur die letzte gehört ins Repository; die Leseorder von `gradle.properties`: `-P` auf der Kommandozeile > `GRADLE_USER_HOME` (`~/.gradle`) > Projektordner > Installation, und dass maschinenlokales (JDK-Pfad, Proxy, Truststore, Zertifikate) *nur* in `~/.gradle/gradle.properties` richtig ist; Firmenproxy erkennen (`PKIX path building failed`, `UNABLE_TO_GET_ISSUER_CERT_LOCALLY`) und für Gradle, Wrapper-Download und npm getrennt beheben; `./gradlew --version`, `--info` und `-q` als Diagnosewerkzeuge; ein Test als Wächter, damit Maschinenpfade nicht zurück ins Repo rutschen
+- **Übung:** uebungen/10-umgebung-zaehmen
+- **Prüffrage:** Ein Kollege schreibt `org.gradle.java.home=C:/Users/kollege/.jdks/corretto-17` in die `gradle.properties` des Projekts, „damit die Toolchain nicht mehr meckert". Welche zwei Dinge sind daran falsch, und was steht stattdessen wo?
+- **Übersetzung:** en: Taming the local environment: JAVA_HOME, toolchains, corporate proxy | fr: Dompter l'environnement local : JAVA_HOME, toolchains, proxy d'entreprise
+- **Stufe:** 2
+
+Leitfaden: Die Übung beginnt mit einem Build, der nicht einmal startet – genau die
+Situation am ersten Arbeitstag. Erst diagnostizieren lassen (`--info`, Fehlermeldung lesen),
+dann aufräumen. Der Firmenproxy-Abschnitt aus `AGENTS.md` gehört hier hin; wer den Kurs im
+Firmennetz macht, hat ihn wahrscheinlich schon gebraucht. Die Prüffrage zielt auf beide
+Fehler: der falsche Ort (Repo statt `~/.gradle`) und der falsche Hebel (Daemon-JDK statt
+Toolchain).

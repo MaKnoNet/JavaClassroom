@@ -149,3 +149,16 @@ Ticket oder Bericht, nicht als roten Build.
 - **Prüffrage:** Warum ist „service darf nicht von ui abhängen" als Test wertvoller als als Satz im Wiki?
 - **Übersetzung:** en: Architecture rules as tests | fr: Règles d'architecture sous forme de tests
 - **Stufe:** 3
+
+### 13 Legacy-Code sicher umbauen
+- **Ziele:** Neunzig Prozent der Arbeit ist Ändern, nicht Schreiben – und alter Code hat keine Tests; **Charakterisierungstests**: erst festhalten, was der Code *heute* tut (auch seine Eigenheiten), dann anfassen – der Test beschreibt Ist, nicht Soll; Refactoring als Änderung der Form ohne Änderung der Funktion, in kleinen Schritten, Tests nach jedem; die **Refactoring-Werkzeuge der IDE** statt Hand und Tippfehler: Extract Method, Extract Constant, Rename, Inline, Change Signature (Eclipse Alt+Shift+T, IntelliJ Strg+Alt+M/C, Shift+F6); Code Smells als Auslöser: lange Methode, Magic Numbers, verschachtelte `if`s, doppelter Code (Java-Lektion 18); die Regel „Verhaltensänderung und Umbau nie im selben Commit"; Seams: wo man einen Test überhaupt ansetzen kann (Konstruktor-Injection, Java-Übung 07); Strukturtests als Wächter, damit der Umbau nicht zurückrutscht
+- **Übung:** uebungen/07-legacy-umbauen
+- **Prüffrage:** Was ist ein Charakterisierungstest, und warum schreibt man ihn, *bevor* man den Code versteht? Und: Beim Umbau fällt dir auf, dass die Steuer auf das Netto vor Rabatt gerechnet wird – vermutlich ein Fehler. Was tust du jetzt, und was nicht?
+- **Übersetzung:** en: Refactoring legacy code safely | fr: Refactoriser du code hérité en sécurité
+- **Stufe:** 2
+
+Leitfaden: Die Übung hat zwei Testklassen – die grünen Verhaltenstests sind das Netz, die
+roten Strukturtests das Ziel. Vorführen, wie *Extract Method* in der IDE Parameter und
+Rückgabe selbst findet, und einmal absichtlich per Hand umbauen, bis ein Verhaltenstest
+rot wird: Das ist der Moment, in dem das Netz sichtbar wird. Die zweite Prüffrage ist die
+wichtigere – die Antwort „ich fixe das gleich mit" ist der klassische Fehler.
