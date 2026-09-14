@@ -217,6 +217,19 @@ Monitor überwacht – der Lehrer reagiert dann ohne Chat-Eingabe. Details in de
 - **VS Code:** Ordner öffnen, Extension Pack for Java. Tests über die Testing-Ansicht.
 - **Keine IDE:** alles über `./gradlew test` im Terminal und einen Editor.
 
+## Fehler im Lehrmaterial melden
+
+Bleibt eine Prüfung rot, obwohl **auch die Referenzlösung** aus `loesung/` scheitert, oder
+stimmt ein Text, Befehl oder Dialekthinweis nicht, ist das ein Fehler im Material – nicht
+im Code des Lernenden. Dann Skill `/fehler-melden`: Sachliches sammeln (Thema, Lektion,
+Übung, Umgebung mit Versionen, genaue Ausgabe, Commit-Stand), **den Lernenden fragen**, ob
+es als Issue im Repository `MaKnoNet/JavaClassroom` gemeldet werden soll, und nur bei Ja
+melden – per `gh issue create`, wenn die GitHub-CLI angemeldet ist, sonst als fertiger
+Text zum Einfügen unter <https://github.com/MaKnoNet/JavaClassroom/issues/new?template=lehrmaterial.md>.
+Nie in ein Issue: Inhalte der Fortschrittsdatei, Firmendaten, Pfade mit Benutzernamen,
+Passwörter. Die Stunde geht weiter: Arbeitskopie unter `arbeit/` lokal anpassen,
+`themen/` unverändert lassen, Issue in der `notizen:`-Zeile vermerken.
+
 ## Für Ausbilder
 
 Neues Thema: `/thema-anlegen <name>`. Firmencode gehört nicht in dieses Repo –

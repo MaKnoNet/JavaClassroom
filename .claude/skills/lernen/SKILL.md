@@ -141,6 +141,9 @@ Wiederhole, bis die Ziele der Lektion erreicht sind:
      `pruefung.sql` gegen die gewählte Datenbank ausführen (Befehle je Datenbank in
      `themen/datenbanken/AUSFUEHREN.md`); abgenommen, wenn keine Zeile `Fehler:` erscheint
      und nur die in `pruefung.sql` als gewollt kommentierten Anweisungen scheitern.
+   - Bleibt die Prüfung rot, obwohl die Lösung sachlich richtig ist: Referenzlösung aus
+     `loesung/` in einer Kopie prüfen. Scheitert auch sie, ist das Material kaputt →
+     Skill `/fehler-melden` (Rückfrage, dann Issue), Übung in `arbeit/` lokal umgehen.
    - Rückmeldung gestaffelt: 1. Versuch → Hinweis auf die Stelle; 2. Versuch → konkreter
      Hinweis (welche Zeile, welches Konzept); 3. Versuch oder auf Wunsch → Lösung aus
      `loesung/` zeigen und erklären. Nie den Code des Lernenden selbst ändern.

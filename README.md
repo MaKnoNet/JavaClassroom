@@ -62,6 +62,8 @@ Ausbilder schicken kannst. Klicks auf der Seite starten die nächste Lektion im 
   `themen/_schablone/`.
 - Alle Konventionen, Umgebungsprüfung und Installationshilfen: `AGENTS.md`.
 - Firmencode gehört nicht in dieses Repo.
+- Fehler im Material: Der Lehrer meldet sie nach Rückfrage als Issue (`/fehler-melden`),
+  oder du öffnest selbst eines über die Vorlage „Fehler im Lehrmaterial".
 
 ## Aufbau
 
