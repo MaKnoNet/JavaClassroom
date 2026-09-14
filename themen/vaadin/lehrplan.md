@@ -2,7 +2,7 @@
 thema: vaadin
 titel: Vaadin
 voraussetzungen: [java, gradle, junit, spring]
-zielgruppe: [anfaenger, fortgeschritten, erfahren]
+zielgruppe: [fortgeschritten, erfahren]
 reihenfolge: 110
 ---
 
@@ -10,13 +10,13 @@ reihenfolge: 110
 
 Vaadin Flow baut Web-Oberflächen in reinem Java: Komponenten, Layouts, Ereignisse und
 Datenbindung laufen auf dem Server, der Browser zeigt nur an. Das ist unser
-UI-Framework; wer hier eine View anfasst, braucht Stufe 1 und 2 dieses Lehrplans. HTML und
+UI-Framework; wer hier eine View anfasst, braucht die Lektionen 01–14 dieses Lehrplans. HTML und
 CSS sind keine Voraussetzung, helfen aber ab Lektion 14 (Styling).
 
-Am Ende von Stufe 1 kann der Lernende eine Anwendung mit mehreren Views, Navigation und
-Ereignissen bauen und per Karibu testen. Nach Stufe 2 beherrscht er Formulare mit Binder,
-Grids mit Lazy Loading, die Trennung von View und Service und den Lebenszyklus. Stufe 3
-behandelt Speicher, Hintergrundarbeit, Sicherheit und eigene Komponenten.
+Nach Lektion 07 kann der Lernende eine Anwendung mit mehreren Views, Navigation und
+Ereignissen bauen und per Karibu testen. Nach Lektion 14 beherrscht er Formulare mit Binder,
+Grids mit Lazy Loading, die Trennung von View und Service und den Lebenszyklus. Die Lektionen 15–18
+behandeln Speicher, Hintergrundarbeit, Sicherheit und eigene Komponenten.
 
 Werkzeugkette der Übungen: Spring Boot 3.5.16, Vaadin 24.10.9, Karibu-Testing 2.5.0
 (UI-Tests ohne Browser, laufen in `./gradlew test`). Vaadin 24 bringt für
@@ -29,7 +29,7 @@ erst eigene npm-Pakete (Lektion 18) brauchen es.
 - **Ziele:** Spring-Boot-Projekt mit `vaadin-spring-boot-starter` und Vaadin-Gradle-Plugin; Anwendung starten (IDE und `./gradlew bootRun`), Dev-Modus und Hot Reload; was beim ersten Start passiert (Bundle, Frontend-Ordner); Eclipse/IntelliJ-Besonderheiten; Proxy-Stolperfallen
 - **Prüffrage:** Warum braucht ein Vaadin-24-Projekt mit Standardkomponenten kein npm – und ab wann doch?
 - **Übersetzung:** en: Project setup and dev mode | fr: Mise en place du projet et mode dev
-- **Stufe:** 1
+- **Stufe:** 2
 
 Leitfaden: Der erste Start dauert – Abhängigkeiten laden, Bundle entpacken. Vorher
 ankündigen. In Eclipse läuft die App als Java-Application über die `main`-Klasse; nach
@@ -44,32 +44,32 @@ und brauchen das nicht; die Übungen bleiben also auch ohne Konto prüfbar.
 - **Ziele:** `H1`, `Paragraph`, `TextField`, `EmailField`, `IntegerField`, `Button`, `ComboBox`, `DatePicker`, `Checkbox`; Wert lesen und setzen; Platzhalter, Pflichtfeld-Markierung; die Komponentendoku lesen
 - **Prüffrage:** Was ist der Unterschied zwischen `setValue` auf einem `TextField` und dem, was der Nutzer tippt – wann weiß der Server davon?
 - **Übersetzung:** en: Components | fr: Composants
-- **Stufe:** 1
+- **Stufe:** 2
 
 ### 03 Layouts
 - **Ziele:** `VerticalLayout`, `HorizontalLayout`, `FormLayout` mit Responsive Steps; Abstände (`setSpacing`, `setPadding`), Ausrichtung, `expand`; Verschachtelung ohne Layout-Suppe
 - **Prüffrage:** Zwei Buttons nebeneinander, darunter ein Text – welche Layouts, wie verschachtelt?
 - **Übersetzung:** en: Layouts | fr: Mises en page
-- **Stufe:** 1
+- **Stufe:** 2
 
 ### 04 Routing und Hauptlayout
 - **Ziele:** `@Route`, `@PageTitle`, `RouterLink`, Routen mit Parametern (`HasUrlParameter`); `AppLayout` mit Navigation als `@Layout`/`RouterLayout`; Startseite `@Route("")`
 - **Prüffrage:** Was passiert, wenn zwei Views dieselbe Route haben – und wann merkt man es?
 - **Übersetzung:** en: Routing and main layout | fr: Routage et mise en page principale
-- **Stufe:** 1
+- **Stufe:** 2
 
 ### 05 Ereignisse und Rückmeldung
 - **Ziele:** `addClickListener`, `addValueChangeListener`; `Notification.show`, Varianten (Erfolg, Fehler); Zustand in der View halten; Enter als Klick (`addClickShortcut`)
 - **Übung:** uebungen/01-erste-view
 - **Prüffrage:** Warum darf ein Click-Listener keine Sekunden dauern – und wo läuft er eigentlich?
 - **Übersetzung:** en: Events and feedback | fr: Événements et retour utilisateur
-- **Stufe:** 1
+- **Stufe:** 2
 
 ### 06 UI-Tests mit Karibu
 - **Ziele:** Warum ohne Browser (schnell, stabil, im RAM); `MockVaadin.setup`, `Routes`, `UI.getCurrent().navigate`; `_get`, `_setValue`, `_click`, `expectNotifications`; Tests neben die View legen
 - **Prüffrage:** Was prüft ein Karibu-Test nicht, was ein Browser-Test prüfen würde – und warum ist das meistens in Ordnung?
 - **Übersetzung:** en: UI tests with Karibu | fr: Tests d'interface avec Karibu
-- **Stufe:** 1
+- **Stufe:** 2
 
 Leitfaden: Der Test aus Übung 01 ist das Beispiel – der Lernende hat ihn schon grün
 gemacht, jetzt liest er ihn Zeile für Zeile. Ab Übung 02 schreibt er Karibu-Tests selbst.
@@ -78,7 +78,7 @@ gemacht, jetzt liest er ihn Zeile für Zeile. Ab Übung 02 schreibt er Karibu-Te
 - **Ziele:** Vaadin-Dev-Panel im Browser; Server-Log vs. Browser-Konsole – wo ein Fehler entsteht und wo er sichtbar wird; eigene Fehler-View (`HasErrorParameter`), 404-Seite; `ErrorHandler` für unbehandelte Exceptions; Debugger auf Listener setzen
 - **Prüffrage:** Eine Exception im Click-Listener – was sieht der Nutzer ohne `ErrorHandler`, was mit?
 - **Übersetzung:** en: Troubleshooting | fr: Recherche d'erreurs
-- **Stufe:** 1
+- **Stufe:** 2
 
 ### 08 Formulare mit Binder
 - **Ziele:** `Binder<T>`, `bind`, `bindInstanceFields`; Validierung (`asRequired`, `withValidator`, `EmailValidator`), Fehlermeldung am Feld; `writeBean`/`readBean` vs. `setBean`; Speichern nur bei gültigen Daten

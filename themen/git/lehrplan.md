@@ -51,18 +51,18 @@ Leitfaden: Faustregel – alles, was schon geteilt ist, wird mit `revert` zurüc
 - **Übersetzung:** en: Remote: clone, push, pull | fr: Dépôt distant : clone, push, pull
 - **Stufe:** 1
 
-### 05 Konflikte lösen
+### 05 .gitignore und gute Commits
+- **Ziele:** Build-Reste ausschließen; kleine, thematisch geschlossene Commits mit sprechender Nachricht schreiben; Zeilenenden im gemischten Team: `.gitattributes` mit `* text=auto eol=lf` (und `*.bat eol=crlf`) statt `core.autocrlf` auf jedem Rechner – sonst zeigt Git „300 geänderte Dateien", obwohl niemand etwas geändert hat
+- **Prüffrage:** Warum gehört `build/` nicht ins Repository, `build.gradle` aber schon? Und: Ein Kollege am Mac sieht nach deinem Windows-Commit jede Zeile als geändert – was ist passiert, und was verhindert es dauerhaft?
+- **Übersetzung:** en: .gitignore and good commits | fr: .gitignore et bons commits
+- **Stufe:** 1
+
+### 06 Konflikte lösen
 - **Ziele:** Einen Merge-Konflikt erkennen, die Markierungen lesen, auflösen und den Merge abschließen; `git merge --abort` als Notausgang
 - **Übung:** uebungen/03-konflikt
 - **Prüffrage:** Woran erkennt Git, dass es einen Konflikt gibt, und woran erkennt man ihn in der Datei?
 - **Übersetzung:** en: Resolving conflicts | fr: Résoudre les conflits
 - **Stufe:** 2
-
-### 06 .gitignore und gute Commits
-- **Ziele:** Build-Reste ausschließen; kleine, thematisch geschlossene Commits mit sprechender Nachricht schreiben; Zeilenenden im gemischten Team: `.gitattributes` mit `* text=auto eol=lf` (und `*.bat eol=crlf`) statt `core.autocrlf` auf jedem Rechner – sonst zeigt Git „300 geänderte Dateien", obwohl niemand etwas geändert hat
-- **Prüffrage:** Warum gehört `build/` nicht ins Repository, `build.gradle` aber schon? Und: Ein Kollege am Mac sieht nach deinem Windows-Commit jede Zeile als geändert – was ist passiert, und was verhindert es dauerhaft?
-- **Übersetzung:** en: .gitignore and good commits | fr: .gitignore et bons commits
-- **Stufe:** 1
 
 ### 07 Rebase und Historie
 - **Ziele:** `git rebase` verstehen, `git log --graph` lesen, den Unterschied zu Merge erklären; Regel „nie geteilte Historie umschreiben"

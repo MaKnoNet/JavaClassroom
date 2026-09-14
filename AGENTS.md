@@ -163,7 +163,7 @@ sich aus den `Stufe:`-Werten der Lektionen (Stufe 1 → anfaenger, 2 → fortges
 
 `reihenfolge:` (ganze Zahl) legt die Position des Themas auf der Fortschrittsseite fest –
 Lernpfad von oben nach unten: Git 10, HTML 20, CSS 30, JavaScript 40, Frontend 50, Java 60,
-Gradle 70, JUnit 80, Datenbanken 90, Spring 100, Vaadin 110, Datenformate 120, Sicherheit 130,
+Gradle 70, JUnit 80, UML 82, Entwurfsmuster 85, Datenbanken 90, Spring 100, Vaadin 110, Datenformate 120, Sicherheit 130,
 DevOps 140. Ohne Angabe landet ein Thema hinter allen anderen.
 
 Konvention: Lektionsnummer zweistellig, Überschrift Ebene 3, die Aufzählungspunkte in

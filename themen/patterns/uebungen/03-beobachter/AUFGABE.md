@@ -23,7 +23,7 @@ Beobachtern, die von außen registriert werden.
    jeden Beobachter damit. Das Interface mit einer Methode – dann sind Lambdas erlaubt
    (der Test nutzt sie).
 2. Für den Fehlerfall: `try`/`catch (RuntimeException e)` um *jeden einzelnen* Aufruf –
-   nicht um die Schleife. Im Betrieb würde man loggen (Java-Lektion 19).
+   nicht um die Schleife. Im Betrieb würde man loggen (Java-Lektion 15).
 3. `Anzeige` und `Protokoll`: `implements BestandsBeobachter`, die alte Methode wird zu
    `bestandGeaendert`. Ihre Getter bleiben.
 4. Wer sich im Ereignis selbst abmelden will, ändert die Liste während der Schleife.

@@ -44,7 +44,7 @@ public class Lager {
                 b.bestandGeaendert(ereignis);
             } catch (RuntimeException e) {
                 // Ein kaputter Beobachter darf weder das Lager noch die anderen Beobachter stoppen.
-                // Im Betrieb: loggen (Java-Lektion 19). Hier bewusst nur weiterlaufen.
+                // Im Betrieb: loggen (Java-Lektion 15). Hier bewusst nur weiterlaufen.
             }
         }
     }

@@ -39,4 +39,4 @@ das ein Build-Tool kennt:
    <pfad-zur-firmen-ca.pem>`. Das landet in `~/.npmrc`, dem Gegenstück zu
    `~/.gradle/gradle.properties`.
 4. `dist/` nie ins Repository: Es ist ein Build-Ergebnis wie `build/` bei Gradle
-   (Git-Lektion 06) und wird in der Pipeline neu erzeugt.
+   (Git-Lektion 05) und wird in der Pipeline neu erzeugt.

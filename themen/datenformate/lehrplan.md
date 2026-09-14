@@ -48,7 +48,7 @@ Leitfaden: Erst mit `split` scheitern lassen – die drei Tests zeigen drei vers
 Fehler. Erst dann Commons CSV; sonst bleibt „nie `split`" eine Behauptung.
 
 ### 04 Große Dateien: Streaming statt DOM
-- **Ziele:** Die Gigabyte-Falle: `readTree`/DOM lädt das ganze Dokument als Objektbaum – ein Vielfaches der Dateigröße, `OutOfMemoryError` (Java-Lektion 17); Streaming-Parser lesen Token für Token mit konstantem Speicher: Jacksons `JsonParser` (`nextToken`, `currentName`, `skipChildren`), StAX `XMLStreamReader` für XML, Commons CSV iteriert ohnehin zeilenweise; vorspulen und überspringen als die Handarbeit, die der Baum abnimmt; wann DOM richtig bleibt (kleine Dokumente, wahlfreier Zugriff); Server-Perspektive: tausend Anfragen mal Dateigröße; Tests mit kleinem Heap (`maxHeapSize`) als Beweis
+- **Ziele:** Die Gigabyte-Falle: `readTree`/DOM lädt das ganze Dokument als Objektbaum – ein Vielfaches der Dateigröße, `OutOfMemoryError` (Java-Lektion 18); Streaming-Parser lesen Token für Token mit konstantem Speicher: Jacksons `JsonParser` (`nextToken`, `currentName`, `skipChildren`), StAX `XMLStreamReader` für XML, Commons CSV iteriert ohnehin zeilenweise; vorspulen und überspringen als die Handarbeit, die der Baum abnimmt; wann DOM richtig bleibt (kleine Dokumente, wahlfreier Zugriff); Server-Perspektive: tausend Anfragen mal Dateigröße; Tests mit kleinem Heap (`maxHeapSize`) als Beweis
 - **Übung:** uebungen/03-json-streaming
 - **Prüffrage:** Warum stirbt `readTree` an einer 60-MB-Datei mit 64 MB Heap, obwohl die Datei kleiner ist als der Speicher? Und: Was muss ein Streaming-Parser selbst tun, was der Baum erledigt hätte?
 - **Übersetzung:** en: Large files: streaming instead of DOM | fr: Gros fichiers : streaming plutôt que DOM

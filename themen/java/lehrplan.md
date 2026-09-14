@@ -15,7 +15,7 @@ Code zu schreiben.
 
 Stufe 1 (Anfänger) endet mit Lektion 08: Danach kann der Lernende ein kleines Programm
 aus mehreren Klassen schreiben und starten. Stufe 2 (Fortgeschritten) endet mit
-Lektion 18: Danach beherrscht er das, was im Team für einen Pull Request nötig ist.
+Lektion 19: Danach beherrscht er das, was im Team für einen Pull Request nötig ist.
 Stufe 3 (Erfahren – JVM, Architektur, Betrieb) sind eigene Themen.
 
 ## Lektionen
@@ -78,7 +78,7 @@ sagt die Ausgabe voraus, dann ausführen.
 - **Stufe:** 1
 
 ### 06 Methoden
-- **Ziele:** Parameter, Rückgabewert, `return`; `static` vs. Instanzmethode; warum `public static void main(String[] args)`; `static`-Felder nur als Konstanten (`static final`) – eine veränderliche statische Liste lebt so lange wie das Programm, wächst unbemerkt (Speicherleck, `OutOfMemoryError`) und gehört allen Threads gleichzeitig (Lektion 17); Sichtbarkeit von Variablen (Scope); Methoden klein halten; Überladen
+- **Ziele:** Parameter, Rückgabewert, `return`; `static` vs. Instanzmethode; warum `public static void main(String[] args)`; `static`-Felder nur als Konstanten (`static final`) – eine veränderliche statische Liste lebt so lange wie das Programm, wächst unbemerkt (Speicherleck, `OutOfMemoryError`) und gehört allen Threads gleichzeitig (Lektion 18); Sichtbarkeit von Variablen (Scope); Methoden klein halten; Überladen
 - **Übung:** uebungen/02-rechner
 - **Prüffrage:** Was ist der Unterschied zwischen Parameter und Argument – und warum ist eine Variable aus `main` in einer anderen Methode unbekannt?
 - **Übersetzung:** en: Methods | fr: Méthodes
@@ -163,7 +163,7 @@ dieser Automat kehrt in Spring-Lektion 01 zurück, wo der Container das `new` ü
 - **Stufe:** 2
 
 ### 13 Collections und Generics
-- **Ziele:** `List`, `Set`, `Map` und ihre Implementierungen (`ArrayList` vs. `LinkedList`, `HashSet`, `HashMap`) mit Kosten; warum `List<Integer>` und nicht `List<int>` (Generics brauchen Objekte – hier zahlt sich Lektion 08 aus); **die goldene Regel**: Wer `equals` überschreibt, muss `hashCode` überschreiben – sonst findet `HashSet`/`HashMap` das Objekt nicht wieder (`contains` liefert `false`, obwohl es drin ist); Records (Lektion 15) liefern beides automatisch; Generics lesen **und** schreiben (`<T>`, `<T extends Comparable<T>>`); typsichere eigene Klassen und Methoden
+- **Ziele:** `List`, `Set`, `Map` und ihre Implementierungen (`ArrayList` vs. `LinkedList`, `HashSet`, `HashMap`) mit Kosten; warum `List<Integer>` und nicht `List<int>` (Generics brauchen Objekte – hier zahlt sich Lektion 08 aus); **die goldene Regel**: Wer `equals` überschreibt, muss `hashCode` überschreiben – sonst findet `HashSet`/`HashMap` das Objekt nicht wieder (`contains` liefert `false`, obwohl es drin ist); Records (Lektion 16) liefern beides automatisch; Generics lesen **und** schreiben (`<T>`, `<T extends Comparable<T>>`); typsichere eigene Klassen und Methoden
 - **Übung:** uebungen/04-generics
 - **Prüffrage:** Wann `Set` statt `List` – und was verhindert `<T>` gegenüber `Object`? Und: Eine Klasse überschreibt `equals`, aber nicht `hashCode` – was passiert in einem `HashSet`?
 - **Übersetzung:** en: Collections and generics | fr: Collections et génériques
@@ -175,13 +175,26 @@ dieser Automat kehrt in Spring-Lektion 01 zurück, wo der Container das `new` ü
 - **Übersetzung:** en: Exceptions | fr: Exceptions
 - **Stufe:** 2
 
-### 15 Records und Enums
+### 15 Fehlersuche: Debugger und Logging
+- **Ziele:** Abschied von `System.out.println` als Suchwerkzeug – der **Debugger** zeigt den Zustand zur Laufzeit: Breakpoint setzen, *Step Over* / *Step Into* / *Resume*, Variablen und Aufrufstapel lesen, bedingter Breakpoint (`i == 42`), Ausdruck auswerten; in jeder IDE dieselben drei Tasten, nur anders belegt (Eclipse F6/F5/F8, IntelliJ F8/F7/F9, VS Code F10/F11/F5); **Logging** als das, was im Betrieb bleibt: SLF4J als Fassade im Code, Logback als Implementierung dahinter (`logback.xml`), ein `private static final Logger` je Klasse; die vier Level und ihr Publikum – DEBUG für den Entwickler, INFO für Meilensteine, WARN für „unerwartet, läuft aber", ERROR für „kaputt, jemand muss ran"; `{}`-Platzhalter statt `+` (der Text entsteht nur, wenn das Level aktiv ist); Exception als letztes Argument ergibt den Stacktrace; loggen ersetzt die Behandlung nicht (Lektion 14); keine Passwörter, Tokens oder Personendaten ins Log
+- **Übung:** uebungen/08-logging
+- **Prüffrage:** Du willst wissen, warum `entnimm` `false` liefert – Debugger oder Log, und warum? Und: Was ist an `LOG.debug("Wert: " + teuresObjekt)` schlechter als an `LOG.debug("Wert: {}", teuresObjekt)`?
+- **Übersetzung:** en: Troubleshooting: debugger and logging | fr: Recherche d'erreurs : débogueur et journalisation
+- **Stufe:** 2
+
+Leitfaden: Erst den Debugger: Breakpoint in `entnimm`, Test im Debug-Modus starten, gemeinsam
+durchsteppen – wer das einmal gesehen hat, schreibt kein `println` mehr zum Suchen. Dann
+die Übung: Die Tests hängen sich an den Logger und verlangen das richtige Level. Bei
+`printStackTrace` fragen: „Wer liest das um drei Uhr nachts auf dem Server?" – die
+Antwort führt zu Logdatei, Level und Stacktrace als Argument.
+
+### 16 Records und Enums
 - **Ziele:** `record` für unveränderliche Datenklassen, `enum` statt Magic Strings, `switch` über Enums; `sealed`/`permits`/`non-sealed` – eine geschlossene Menge von Untertypen; zusammen mit Records und `switch` mit Pattern Matching (`case Kreis k ->`) das Java-21-Idiom für Datenmodelle, bei dem der Compiler Vollständigkeit prüft
 - **Prüffrage:** Was garantiert ein Record, das eine normale Klasse nicht garantiert? Und: Was gewinnt man, wenn `Form` `sealed` ist und `Kreis` sowie `Rechteck` `permits`?
 - **Übersetzung:** en: Records and enums | fr: Records et enums
 - **Stufe:** 2
 
-### 16 Streams
+### 17 Streams
 - **Ziele:** `stream()`, `filter`, `map`, `sorted`, `collect`; `Collectors.toList`, `joining`, `groupingBy`; `Optional` als Ergebnis von `max`/`findFirst`; wann eine Schleife lesbarer bleibt
 - **Übung:** uebungen/03-streams
 - **Prüffrage:** Was ist der Unterschied zwischen einer Zwischenoperation wie `filter` und einer Endoperation wie `collect` – und wann wird tatsächlich gerechnet?
@@ -193,7 +206,7 @@ Endoperation setzt das Band in Gang. Mit einer vorhandenen Schleife beginnen und
 für Schritt in `filter`/`map`/`collect` übersetzen (Refactoring-Rätsel); dann zeigen, wo
 `groupingBy` eine ganze Map-Schleife ersetzt.
 
-### 17 Nebenläufigkeit
+### 18 Nebenläufigkeit
 - **Ziele:** `Thread` und `Runnable`; `ExecutorService` statt Threads von Hand; Race Conditions erkennen; Thread-Safety mit `synchronized`, `AtomicInteger`, `ConcurrentHashMap`; `volatile` – nur Sichtbarkeit, keine Atomarität (reicht für ein Stopp-Flag, nicht für einen Zähler); unveränderliche Objekte als sicherster Weg; der Garbage Collector räumt nur auf, was von nirgends mehr erreichbar ist – statische Listen, Caches ohne Grenze und vergessene Listener sind die typischen Speicherlecks trotz GC (`OutOfMemoryError`, Heap Dump lesen)
 - **Übung:** uebungen/05-nebenlaeufigkeit
 - **Prüffrage:** Warum ist `zaehler++` aus zwei Threads nicht sicher, obwohl es wie eine Operation aussieht?
@@ -204,23 +217,8 @@ Leitfaden: Unsere Server sind Multiuser-Systeme – jeder Request ein Thread. Er
 erleben (Übung: Zähler verliert Erhöhungen), dann die Werkzeuge. Regel: kein geteilter
 veränderlicher Zustand; wenn doch, dann atomar oder synchronisiert, und dokumentiert.
 
-### 18 Clean Code im Kleinen
+### 19 Clean Code im Kleinen
 - **Ziele:** Zusammenfassung der Regeln, die seit Lektion 02 gelten: sprechende Namen nach Konvention; kleine Methoden auf einer Abstraktionsebene; **DRY** – doppelter Code wird eine Methode; **keine Magic Numbers** – `static final` mit Namen; **gegen Interfaces programmieren** – `List<String> namen = new ArrayList<>()`; `StringBuilder` in Schleifen; Code lesen und verbessern; Checkstyle und Review als Wächter
 - **Prüffrage:** Woran erkennt man, dass eine Methode zu viel tut? Und: Nenne die vier goldenen Regeln mit je einem Beispiel aus deinen Übungen.
 - **Übersetzung:** en: Clean code in the small | fr: Clean code au quotidien
 - **Stufe:** 2
-
-### 19 Fehlersuche: Debugger und Logging
-- **Ziele:** Abschied von `System.out.println` als Suchwerkzeug – der **Debugger** zeigt den Zustand zur Laufzeit: Breakpoint setzen, *Step Over* / *Step Into* / *Resume*, Variablen und Aufrufstapel lesen, bedingter Breakpoint (`i == 42`), Ausdruck auswerten; in jeder IDE dieselben drei Tasten, nur anders belegt (Eclipse F6/F5/F8, IntelliJ F8/F7/F9, VS Code F10/F11/F5); **Logging** als das, was im Betrieb bleibt: SLF4J als Fassade im Code, Logback als Implementierung dahinter (`logback.xml`), ein `private static final Logger` je Klasse; die vier Level und ihr Publikum – DEBUG für den Entwickler, INFO für Meilensteine, WARN für „unerwartet, läuft aber", ERROR für „kaputt, jemand muss ran"; `{}`-Platzhalter statt `+` (der Text entsteht nur, wenn das Level aktiv ist); Exception als letztes Argument ergibt den Stacktrace; loggen ersetzt die Behandlung nicht (Lektion 14); keine Passwörter, Tokens oder Personendaten ins Log
-- **Übung:** uebungen/08-logging
-- **Prüffrage:** Du willst wissen, warum `entnimm` `false` liefert – Debugger oder Log, und warum? Und: Was ist an `LOG.debug("Wert: " + teuresObjekt)` schlechter als an `LOG.debug("Wert: {}", teuresObjekt)`?
-- **Übersetzung:** en: Troubleshooting: debugger and logging | fr: Recherche d'erreurs : débogueur et journalisation
-- **Stufe:** 1
-
-Leitfaden: Diese Lektion steht am Ende, weil sie später dazukam – inhaltlich gehört sie
-direkt hinter Lektion 14 (Exceptions), und für Anfänger darf sie dort eingeschoben
-werden. Erst den Debugger: Breakpoint in `entnimm`, Test im Debug-Modus starten, gemeinsam
-durchsteppen – wer das einmal gesehen hat, schreibt kein `println` mehr zum Suchen. Dann
-die Übung: Die Tests hängen sich an den Logger und verlangen das richtige Level. Bei
-`printStackTrace` fragen: „Wer liest das um drei Uhr nachts auf dem Server?" – die
-Antwort führt zu Logdatei, Level und Stacktrace als Argument.

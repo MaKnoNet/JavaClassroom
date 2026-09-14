@@ -8,7 +8,7 @@ reihenfolge: 100
 
 # Spring Boot
 
-Die Brücke von Core-Java zur Anwendung im Betrieb: Wer Java 18 hinter sich hat, kann
+Die Brücke von Core-Java zur Anwendung im Betrieb: Wer Java 19 hinter sich hat, kann
 Klassen schreiben – hier lernt er, wie daraus ein Server wird, der über HTTP spricht,
 Daten dauerhaft speichert und dabei testbar bleibt. Spring Boot ist das Fundament unserer
 Vaadin-Anwendungen; alles hier Gelernte wird dort vorausgesetzt.
@@ -99,6 +99,6 @@ Lektion ist, das Muster künftig im Log zu *sehen*, bevor der Kunde es spürt.
 
 Leitfaden: Mit dem Bild des Sicherungskastens beginnen – und mit der Frage, was passiert,
 wenn hundert Nutzer gleichzeitig auf einen Dienst warten, der nicht antwortet (Threads,
-Verbindungen, Speicher – Java-Lektion 17). Die Übung zeigt es am `verify(times(3))`:
+Verbindungen, Speicher – Java-Lektion 18). Die Übung zeigt es am `verify(times(3))`:
 Aufruf vier und fünf erreichen den Dienst nicht mehr. HALF_OPEN im Gespräch durchspielen,
 nicht im Test – die Wartezeit macht einen Test langsam.
