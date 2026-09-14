@@ -51,7 +51,7 @@ Spring-Lektion 04: erst kaputt sehen, dann verstehen, warum die Lösung so aussi
 Leitfaden: Keine Übung – eine Pipeline läuft nicht lokal. Die Vorlage gemeinsam lesen,
 Zeile für Zeile: Was ist ein Trigger, was ein Job, warum `needs`. Wer ein eigenes
 GitHub-Repository hat, legt sie unter `.github/workflows/ci.yml` ab und schaut beim
-ersten Push zu. Die JUnit-Lektion 11 (Tests in der Pipeline) ist die inhaltliche Vorstufe.
+ersten Push zu. Die JUnit-Lektion 10 (Tests in der Pipeline) ist die inhaltliche Vorstufe.
 
 ### 04 Enterprise Security: OAuth2 und OpenID Connect
 - **Ziele:** Ablösung der lokalen Benutzertabelle durch einen Identity Provider (Keycloak aus Übung 02, Profil `auth`); OAuth2 als Autorisierung, OpenID Connect als Identität obendrauf; Authorization Code Flow mit PKCE Schritt für Schritt; ID-Token vs. Access-Token, JWT lesen (Header, Claims, Signatur); Spring Security als OIDC-Client (`spring-boot-starter-oauth2-client`, `spring.security.oauth2.client.registration.*`); Rollen aus dem Token: Spring liest sie **nicht** von selbst – `GrantedAuthoritiesMapper` (OIDC-Login) bzw. `JwtAuthenticationConverter` (Resource Server) bilden Keycloak-Rollen auf `ROLE_*` ab, erst dann greift `@RolesAllowed` in Vaadin (Lektion 17); Logout beim Provider; niemals Tokens loggen
