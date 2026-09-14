@@ -62,14 +62,15 @@ Prüfe per Shell, was das Thema braucht. Melde jedes Ergebnis kurz, leite bei Fe
 | Thema | Braucht | Prüfbefehl | Erwartung |
 |---|---|---|---|
 | alle | Git | `git --version` | `git version 2.x` |
-| java, gradle, junit, spring, vaadin, datenformate, security | JDK 21 | `java -version` | Zeile mit `21.` |
-| java, gradle, junit, spring, vaadin, datenformate, security | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 9.6.1` |
+| java, gradle, junit, spring, vaadin, datenformate, security, patterns, uml | JDK 21 | `java -version` | Zeile mit `21.` |
+| java, gradle, junit, spring, vaadin, datenformate, security, patterns, uml | Gradle via Wrapper | `./gradlew --version` in der Übung | lädt beim ersten Mal, dann `Gradle 9.6.1` |
 | html, css, javascript | JDK 21 (für `jwebserver`) und Browser-Ansicht von Claude Code oder ein Browser | `jwebserver -h` | Hilfetext erscheint |
 | frontend | Node.js LTS und npm | `node --version`, `npm --version` | `v22.` oder neuer; npm 10+ |
 | devops | Container-Laufzeit: Podman (oder Docker) mit Compose | `podman --version`, `podman compose version` | Podman 5.x; unter Windows vorher `podman machine start` |
 | alle, wenn `ide` nicht `keine` | Eclipse / IntelliJ / VS Code | Lernenden fragen | – |
 | vaadin | kostenloses Vaadin-Konto für den Dev-Modus (Lizenzprüfung ab 24.9); Tests brauchen es nicht | Lernenden fragen | – |
 | datenbanken | eine relationale Datenbank mit SQL-Konsole. Vorhandene prüfen: `psql --version`, `sqlite3 --version`, `mysql --version`, `sqlcmd -?`, `sqlplus -v`. Gefunden → Lernenden fragen, ob sie verwendet werden darf (eigene Übungsdatenbank nötig). Sonst H2 – braucht nur das JDK. Wahl als `- datenbank: …` in die Fortschrittsdatei | siehe `themen/datenbanken/lehrplan.md`, Abschnitt „Datenbank wählen" | – |
+| uml | PlantUML-Jar zum Rendern (die Tests laden es selbst über Gradle) | `ls arbeit/uml/plantuml-1.2026.8.jar` | Datei vorhanden; sonst Installationszeile unten |
 | optional | Chrome + Erweiterung „Claude in Chrome" – dann kann Claude die in Chrome geöffnete Fortschrittsseite lesen (Klick auf Lektion, dann „los" im Chat) | Lernenden fragen | – |
 
 Installationshilfe, wenn etwas fehlt (immer den Befehl zeigen, ausführen lassen, danach
@@ -86,6 +87,7 @@ erneut prüfen; die Installation selbst macht der Lernende, nicht Claude):
 | H2 (Standard für `datenbanken`) | kein Installer: `curl -O https://repo1.maven.org/maven2/com/h2database/h2/2.3.232/h2-2.3.232.jar` in `arbeit/datenbanken/`; Konsole `java -jar h2-2.3.232.jar` | dito | dito |
 | PostgreSQL (Alternative) | `winget install PostgreSQL.PostgreSQL.16` oder als Container `podman run -d --name lern-db -e POSTGRES_USER=lernen -e POSTGRES_PASSWORD=lernen -e POSTGRES_DB=uebung -p 5432:5432 docker.io/library/postgres:16` | `brew install postgresql@16` oder derselbe Container | `sudo apt install postgresql` oder derselbe Container |
 | Flyway (nur `datenbanken` 08) | kein Installer: Zip von `download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/13.6.0/flyway-commandline-13.6.0.zip` nach `arbeit/datenbanken/` entpacken (~500 MB, bringt Java und Treiber mit) | dito | dito |
+| PlantUML (nur `uml`) | kein Installer: `curl -O https://repo1.maven.org/maven2/net/sourceforge/plantuml/plantuml/1.2026.8/plantuml-1.2026.8.jar` in `arbeit/uml/`; rendern mit `java -jar plantuml-1.2026.8.jar -tsvg -Playout=smetana diagramm.puml` (kein Graphviz nötig) | dito | dito |
 | SQLite (Alternative) | `winget install SQLite.SQLite` | vorinstalliert (`sqlite3`) | `sudo apt install sqlite3` |
 | VS Code | `winget install Microsoft.VisualStudioCode` | `brew install --cask visual-studio-code` | Snap `code` |
 

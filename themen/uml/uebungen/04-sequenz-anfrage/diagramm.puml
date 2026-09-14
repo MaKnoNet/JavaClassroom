@@ -1,0 +1,15 @@
+@startuml
+' Übung 04: Ein HTTP-Aufruf durch die Schichten.
+'
+'   Der Client ruft GET /api/kunden/1 am KundenController.
+'   Der Controller ruft finde(1) am KundenService.
+'   Der Service ruft findById(1) am KundenRepository.
+'   Das Repository antwortet mit dem Kunden, der Service reicht ihn weiter,
+'   der Controller antwortet dem Client mit 200 OK.
+'
+' Teilnehmer in Aufrufreihenfolge, synchrone Aufrufe, Antworten gestrichelt,
+' Aktivierungsbalken zeigen, wer gerade arbeitet.
+
+actor Client
+
+@enduml

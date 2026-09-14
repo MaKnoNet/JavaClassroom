@@ -1,0 +1,11 @@
+@startuml
+' Lösung 06: Ereignis [Bedingung] / Aktion an den Pfeilen, do / im Zustand.
+
+[*] --> Offen
+Offen --> InBearbeitung : zuweisen [Bearbeiter gesetzt] / benachrichtigeBearbeiter
+InBearbeitung : do / bearbeite
+InBearbeitung --> Geloest : loesen
+Geloest --> Geschlossen : schliessen / archiviere
+Geloest --> Offen : wiedereroeffnen
+Geschlossen --> [*]
+@enduml

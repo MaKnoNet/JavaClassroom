@@ -1,0 +1,22 @@
+@startuml
+' Lösung 04: Zeit läuft nach unten, Aufrufe durchgezogen, Antworten gestrichelt.
+' Die Aktivierungsbalken zeigen: Der Client wartet, während drei Schichten arbeiten.
+
+actor Client
+participant KundenController
+participant KundenService
+participant KundenRepository
+
+Client -> KundenController : GET /api/kunden/1
+activate KundenController
+KundenController -> KundenService : finde(1)
+activate KundenService
+KundenService -> KundenRepository : findById(1)
+activate KundenRepository
+KundenRepository --> KundenService : Optional<Kunde>
+deactivate KundenRepository
+KundenService --> KundenController : Kunde
+deactivate KundenService
+KundenController --> Client : 200 OK + JSON
+deactivate KundenController
+@enduml

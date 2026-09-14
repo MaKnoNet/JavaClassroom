@@ -1,0 +1,31 @@
+@startuml
+' Übung 07: Vom Diagramm zum Code – und das Diagramm vorher reparieren.
+'
+' So sieht es heute aus. Zwei Sünden: Gehaltsrechner hängt an der konkreten Klasse
+' Mitarbeiter UND Mitarbeiter ruft den Gehaltsrechner zurück – ein Zyklus. Außerdem
+' kennt Firma ihre Mitarbeiter nicht als Sammlung.
+'
+' Aufgabe im Diagramm:
+'   1. Firma "1" *-- "*" Mitarbeiter (Komposition, viele Mitarbeiter)
+'   2. Interface Gehaltsregel mit + berechne(grundgehalt: double): double
+'   3. StandardRegel realisiert Gehaltsregel; Gehaltsrechner hängt nur noch an Gehaltsregel
+'   4. Den Pfeil Mitarbeiter --> Gehaltsrechner entfernen (kein Zyklus mehr)
+' Aufgabe im Code (src/main/java): dasselbe in Java – Tests prüfen beides.
+
+class Firma {
+  - name: String
+}
+
+class Mitarbeiter {
+  - name: String
+  - grundgehalt: double
+}
+
+class Gehaltsrechner {
+  + brutto(m: Mitarbeiter): double
+}
+
+Firma --> Mitarbeiter
+Gehaltsrechner --> Mitarbeiter
+Mitarbeiter --> Gehaltsrechner
+@enduml

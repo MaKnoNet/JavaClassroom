@@ -1,0 +1,7 @@
+@startuml
+' Übung 02: Bilde die Java-Klasse Konto (src/main/java) exakt ab.
+' Je Feld und Methode eine Zeile im Kasten: Sichtbarkeit, Name, Doppelpunkt, Typ.
+
+class Konto {
+}
+@enduml

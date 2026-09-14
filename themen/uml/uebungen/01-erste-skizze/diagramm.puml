@@ -1,0 +1,9 @@
+@startuml
+' Übung 01: Deine erste Skizze.
+' Szenario: Eine Bibliothek verleiht Bücher an Mitglieder. Jedes Buch hat einen Titel
+' und eine ISBN, jedes Mitglied einen Namen und eine Mitgliedsnummer. Die Bibliothek
+' kennt ihre Bücher und ihre Mitglieder.
+'
+' Zeichne drei Klassen mit ihren Attributen und zwei Beziehungen von der Bibliothek aus.
+
+@enduml

@@ -1,0 +1,17 @@
+@startuml
+' Übung 06: Lebenszyklus eines Support-Tickets.
+'
+'   Ein neues Ticket ist Offen.
+'   Offen -> InBearbeitung beim Ereignis zuweisen, aber nur mit Bedingung [Bearbeiter gesetzt];
+'     dabei Aktion: benachrichtigeBearbeiter
+'   InBearbeitung -> Geloest beim Ereignis loesen
+'   Geloest -> Geschlossen beim Ereignis schliessen, Aktion: archiviere
+'   Geloest -> Offen beim Ereignis wiedereroeffnen (der Kunde ist nicht zufrieden)
+'   Geschlossen ist der Endzustand.
+'   Im Zustand InBearbeitung läuft dauerhaft: do / bearbeite
+'
+' Notation am Pfeil: Ereignis [Bedingung] / Aktion
+
+[*] --> Offen
+
+@enduml

@@ -1,0 +1,40 @@
+@startuml
+' Lösung 03. Pfeile zeigen zur Abstraktion; Rauten sitzen am Ganzen.
+
+abstract class Person {
+  - name: String
+}
+
+interface Zahlungsfaehig {
+  + zahle(betrag: double): void
+}
+
+class Kunde {
+  - kundennummer: int
+}
+
+class Adresse {
+  - strasse: String
+  - ort: String
+}
+
+class Bestellung {
+  - datum: LocalDate
+}
+
+class Bestellposition {
+  - menge: int
+}
+
+class Artikel {
+  - bezeichnung: String
+  - preis: double
+}
+
+Kunde --|> Person
+Kunde ..|> Zahlungsfaehig
+Kunde "1" o-- "1" Adresse
+Kunde "1" --> "*" Bestellung
+Bestellung "1" *-- "1..*" Bestellposition
+Bestellposition "*" --> "1" Artikel
+@enduml

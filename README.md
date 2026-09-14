@@ -5,7 +5,7 @@ Code ist der **Lehrer**, du bist der **Lernende**. Der Lehrer erklärt, fragt na
 Übungen an echten Projekten und prüft das echte Ergebnis – Tests laufen, Seiten öffnen sich
 im Browser, SQL läuft gegen eine echte Datenbank. Dein Fortschritt bleibt auf deinem Rechner.
 
-**15 Themen, 143 Lektionen, 76 Übungen** – jede Übung mit Startzustand (rot) und
+**16 Themen, 151 Lektionen, 83 Übungen** – jede Übung mit Startzustand (rot) und
 Referenzlösung (grün) durchgespielt.
 
 ## Themen
@@ -20,6 +20,7 @@ Referenzlösung (grün) durchgespielt.
 | **Java** | 19 | 8 | – |
 | **Gradle** | 12 | 9 | Java |
 | **JUnit** | 12 | 6 | Java, Gradle |
+| **UML-Diagramme** (Klassen-, Sequenz-, Zustandsdiagramme mit PlantUML) | 8 | 7 | Java |
 | **Entwurfsmuster** (Strategie, Beobachter, Builder, Dekorierer, Kommando, Zustand …) | 11 | 9 | Java, UML |
 | **Datenbanken und SQL** (PostgreSQL, H2 oder SQLite; Flyway, Fensterfunktionen, Indizes) | 10 | 10 | – |
 | **Spring Boot** (IoC, REST, JPA, Transaktionen, N+1, Resilience4j) | 7 | 6 | Java, Gradle, JUnit, Datenbanken |

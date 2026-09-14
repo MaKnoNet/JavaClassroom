@@ -1,0 +1,20 @@
+@startuml
+' Übung 05: Eine Bestellung wird geprüft.
+'
+'   Der BestellService ruft am Lager für JEDE Position der Bestellung istVerfuegbar(artikel).
+'   Ist eine Position nicht verfügbar, wirft der Service eine BestellungUngueltigException
+'   zurück an den Controller – die weiteren Positionen werden nicht mehr geprüft.
+'   Sind alle verfügbar, ruft der Service speichere(bestellung) am Repository und
+'   antwortet dem Controller mit der Bestellnummer.
+'
+' Baue die Schleife mit loop, den Fehlerfall mit alt/else.
+
+participant BestellController
+participant BestellService
+participant Lager
+participant BestellRepository
+
+BestellController -> BestellService : bestelle(bestellung)
+activate BestellService
+
+@enduml

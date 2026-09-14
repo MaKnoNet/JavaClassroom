@@ -1,0 +1,16 @@
+@startuml
+' Lösung 02: Konto Zeile für Zeile. Attribute oben, Methoden unten; PlantUML trennt die
+' Fächer selbst. {static} unterstreicht, der Typ steht nach dem Doppelpunkt.
+
+class Konto {
+  + {static} MAX_STAND: double
+  - inhaber: String
+  - stand: double
+  # buchungen: int
+  + Konto(inhaber: String)
+  + stand(): double
+  + einzahlen(betrag: double): void
+  - pruefe(betrag: double): void
+  ~ inhaber(): String
+}
+@enduml

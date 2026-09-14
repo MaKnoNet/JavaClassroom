@@ -1,0 +1,39 @@
+@startuml
+' Übung 03: Beziehungen. Die Elemente stehen schon da – zeichne die Linien.
+'
+'   Kunde ist eine Person (abstrakt) und kann zahlen (Interface Zahlungsfaehig).
+'   Ein Kunde hat genau eine Adresse; die Adresse bleibt bestehen, wenn der Kunde geht.
+'   Ein Kunde gibt beliebig viele Bestellungen auf (0 bis *); jede gehört genau einem Kunden.
+'   Eine Bestellung besteht aus mindestens einer Position (1..*); ohne Bestellung keine Position.
+'   Jede Position verweist auf genau einen Artikel.
+
+abstract class Person {
+  - name: String
+}
+
+interface Zahlungsfaehig {
+  + zahle(betrag: double): void
+}
+
+class Kunde {
+  - kundennummer: int
+}
+
+class Adresse {
+  - strasse: String
+  - ort: String
+}
+
+class Bestellung {
+  - datum: LocalDate
+}
+
+class Bestellposition {
+  - menge: int
+}
+
+class Artikel {
+  - bezeichnung: String
+  - preis: double
+}
+@enduml

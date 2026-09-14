@@ -1,0 +1,28 @@
+@startuml
+' Lösung 07: Interface eingezogen, Pfeil umgedreht, Zyklus weg, Komposition benannt.
+
+class Firma {
+  - name: String
+  + stelleEin(m: Mitarbeiter): void
+}
+
+class Mitarbeiter {
+  - name: String
+  - grundgehalt: double
+}
+
+interface Gehaltsregel {
+  + berechne(grundgehalt: double): double
+}
+
+class StandardRegel
+
+class Gehaltsrechner {
+  + brutto(m: Mitarbeiter): double
+}
+
+Firma "1" *-- "*" Mitarbeiter
+StandardRegel ..|> Gehaltsregel
+Gehaltsrechner --> Gehaltsregel
+Gehaltsrechner ..> Mitarbeiter : benutzt
+@enduml

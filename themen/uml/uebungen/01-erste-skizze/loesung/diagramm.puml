@@ -1,0 +1,22 @@
+@startuml
+' Lösung 01: drei Klassen, zwei Beziehungen. Die Bibliothek kennt Bücher und Mitglieder;
+' Buch und Mitglied wissen nichts von der Bibliothek – deshalb zeigen die Pfeile nur in
+' eine Richtung.
+
+class Bibliothek {
+  - name: String
+}
+
+class Buch {
+  - titel: String
+  - isbn: String
+}
+
+class Mitglied {
+  - name: String
+  - mitgliedsnummer: int
+}
+
+Bibliothek "1" --> "*" Buch
+Bibliothek "1" --> "*" Mitglied
+@enduml

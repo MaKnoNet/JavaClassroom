@@ -1,0 +1,31 @@
+@startuml
+' Lösung 05: loop für die Positionen, alt/else für Fehler- und Erfolgsfall.
+' Die Exception ist eine gestrichelte Antwort aus dem alt-Zweig heraus – danach passiert
+' im Service nichts mehr.
+
+participant BestellController
+participant BestellService
+participant Lager
+participant BestellRepository
+
+BestellController -> BestellService : bestelle(bestellung)
+activate BestellService
+
+loop für jede Position der Bestellung
+  BestellService -> Lager : istVerfuegbar(artikel)
+  activate Lager
+  Lager --> BestellService : true / false
+  deactivate Lager
+end
+
+alt eine Position nicht verfügbar
+  BestellService --> BestellController : BestellungUngueltigException
+else alle verfügbar
+  BestellService -> BestellRepository : speichere(bestellung)
+  activate BestellRepository
+  BestellRepository --> BestellService : bestellnummer
+  deactivate BestellRepository
+  BestellService --> BestellController : bestellnummer
+end
+deactivate BestellService
+@enduml
