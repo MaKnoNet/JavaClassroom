@@ -21,6 +21,10 @@
   .profil { color:var(--grau); font-size:.95rem; }
   .gesamt, .thema { background:var(--karte); border:1px solid var(--rand); border-radius:.75rem; padding:1rem 1.25rem; }
   .gesamt { margin-bottom:1.5rem; }
+  .legende { display:flex; flex-wrap:wrap; gap:.4rem 1.25rem; margin-top:.75rem; font-size:.85rem; color:var(--grau); }
+  .legende span { display:inline-flex; align-items:center; gap:.4rem; }
+  .legende .stufe { flex:0 0 1.8rem; }
+  .legende .status { width:auto; }
   .balken { height:.6rem; background:var(--offen); border-radius:999px; overflow:hidden; }
   .balken > div { height:100%; background:var(--fertig); }
   .themen { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1rem; }
@@ -69,42 +73,42 @@
 <script>
 const DATEN = /*DATEN*/{};
 const TEXTE = {
-  de: { dunkel: "Dunkel", hell: "Hell", gesperrt: "gesperrt", bereichGesamt: "Gesamtfortschritt", bereichThemen: "Themen", status: { fertig: "fertig", begonnen: "begonnen", offen: "offen" },
+  de: { stufen: ["Anfänger", "Fortgeschritten", "Erfahren"], dunkel: "Dunkel", hell: "Hell", gesperrt: "gesperrt", bereichGesamt: "Gesamtfortschritt", bereichThemen: "Themen", status: { fertig: "fertig", begonnen: "begonnen", offen: "offen" },
         titel: "Lernfortschritt", stufe: "Stufe", eingeben: "In Claude Code eingeben:", kopieren: "Kopieren", sprache: "Sprache",
         klick: "Klicken: Lektion starten", wechsel: "Wechsel erzeugt einen Befehl für Claude Code",
         voraussetzung: "Voraussetzung noch offen", letzte: "Letzte Stunde", naechstes: "Nächstes Mal",
         gesamt: (f, a, p) => `Gesamt: ${f} von ${a} Lektionen (${p} %)`,
         gesendet: "an den Lehrer gesendet – schau in den Chat", nichtErreichbar: "Server nicht erreichbar – Befehl kopieren und im Chat einfügen",
         kopiert: "kopiert – im Chat einfügen", markiert: "markiert – mit Strg+C kopieren" },
-  en: { dunkel: "Dark", hell: "Light", gesperrt: "locked", bereichGesamt: "Overall progress", bereichThemen: "Topics", status: { fertig: "done", begonnen: "started", offen: "open" },
+  en: { stufen: ["Beginner", "Advanced", "Experienced"], dunkel: "Dark", hell: "Light", gesperrt: "locked", bereichGesamt: "Overall progress", bereichThemen: "Topics", status: { fertig: "done", begonnen: "started", offen: "open" },
         titel: "Learning progress", stufe: "Level", eingeben: "Type into Claude Code:", kopieren: "Copy", sprache: "Language",
         klick: "Click to start this lesson", wechsel: "Changing creates a command for Claude Code",
         voraussetzung: "Prerequisite not finished", letzte: "Last session", naechstes: "Next time",
         gesamt: (f, a, p) => `Total: ${f} of ${a} lessons (${p} %)`,
         gesendet: "sent to the teacher – check the chat", nichtErreichbar: "Server not reachable – copy the command into the chat",
         kopiert: "copied – paste into the chat", markiert: "selected – copy with Ctrl+C" },
-  fr: { dunkel: "Sombre", hell: "Clair", gesperrt: "verrouillé", bereichGesamt: "Progression globale", bereichThemen: "Thèmes", status: { fertig: "terminée", begonnen: "commencée", offen: "ouverte" },
+  fr: { stufen: ["Débutant", "Avancé", "Expérimenté"], dunkel: "Sombre", hell: "Clair", gesperrt: "verrouillé", bereichGesamt: "Progression globale", bereichThemen: "Thèmes", status: { fertig: "terminée", begonnen: "commencée", offen: "ouverte" },
         titel: "Progression", stufe: "Niveau", eingeben: "Saisir dans Claude Code :", kopieren: "Copier", sprache: "Langue",
         klick: "Cliquer pour démarrer cette leçon", wechsel: "Le changement crée une commande pour Claude Code",
         voraussetzung: "Prérequis non terminé", letzte: "Dernière séance", naechstes: "La prochaine fois",
         gesamt: (f, a, p) => `Total : ${f} sur ${a} leçons (${p} %)`,
         gesendet: "envoyé au professeur – regarde le chat", nichtErreichbar: "Serveur injoignable – copier la commande dans le chat",
         kopiert: "copié – coller dans le chat", markiert: "sélectionné – copier avec Ctrl+C" },
-  es: { dunkel: "Oscuro", hell: "Claro", gesperrt: "bloqueado", bereichGesamt: "Progreso total", bereichThemen: "Temas", status: { fertig: "terminada", begonnen: "empezada", offen: "abierta" },
+  es: { stufen: ["Principiante", "Avanzado", "Experimentado"], dunkel: "Oscuro", hell: "Claro", gesperrt: "bloqueado", bereichGesamt: "Progreso total", bereichThemen: "Temas", status: { fertig: "terminada", begonnen: "empezada", offen: "abierta" },
         titel: "Progreso", stufe: "Nivel", eingeben: "Escribir en Claude Code:", kopieren: "Copiar", sprache: "Idioma",
         klick: "Clic para empezar esta lección", wechsel: "El cambio crea un comando para Claude Code",
         voraussetzung: "Requisito previo pendiente", letzte: "Última sesión", naechstes: "La próxima vez",
         gesamt: (f, a, p) => `Total: ${f} de ${a} lecciones (${p} %)`,
         gesendet: "enviado al profesor – mira el chat", nichtErreichbar: "Servidor no disponible – copia el comando en el chat",
         kopiert: "copiado – pégalo en el chat", markiert: "seleccionado – copia con Ctrl+C" },
-  it: { dunkel: "Scuro", hell: "Chiaro", gesperrt: "bloccato", bereichGesamt: "Progresso complessivo", bereichThemen: "Temi", status: { fertig: "completata", begonnen: "iniziata", offen: "aperta" },
+  it: { stufen: ["Principiante", "Avanzato", "Esperto"], dunkel: "Scuro", hell: "Chiaro", gesperrt: "bloccato", bereichGesamt: "Progresso complessivo", bereichThemen: "Temi", status: { fertig: "completata", begonnen: "iniziata", offen: "aperta" },
         titel: "Progressi", stufe: "Livello", eingeben: "Digita in Claude Code:", kopieren: "Copia", sprache: "Lingua",
         klick: "Clicca per iniziare questa lezione", wechsel: "Il cambio crea un comando per Claude Code",
         voraussetzung: "Prerequisito non completato", letzte: "Ultima sessione", naechstes: "La prossima volta",
         gesamt: (f, a, p) => `Totale: ${f} di ${a} lezioni (${p} %)`,
         gesendet: "inviato all'insegnante – guarda la chat", nichtErreichbar: "Server non raggiungibile – copia il comando nella chat",
         kopiert: "copiato – incolla nella chat", markiert: "selezionato – copia con Ctrl+C" },
-  tr: { dunkel: "Koyu", hell: "Açık", gesperrt: "kilitli", bereichGesamt: "Genel ilerleme", bereichThemen: "Konular", status: { fertig: "tamamlandı", begonnen: "başlandı", offen: "açık" },
+  tr: { stufen: ["Başlangıç", "İleri", "Deneyimli"], dunkel: "Koyu", hell: "Açık", gesperrt: "kilitli", bereichGesamt: "Genel ilerleme", bereichThemen: "Konular", status: { fertig: "tamamlandı", begonnen: "başlandı", offen: "açık" },
         titel: "Öğrenme ilerlemesi", stufe: "Seviye", eingeben: "Claude Code'a yaz:", kopieren: "Kopyala", sprache: "Dil",
         klick: "Dersi başlatmak için tıkla", wechsel: "Değişiklik Claude Code için bir komut oluşturur",
         voraussetzung: "Ön koşul tamamlanmadı", letzte: "Son ders", naechstes: "Bir dahaki sefere",
@@ -219,7 +223,11 @@ function render() {
   const gesamtProzent = gesamtAlle ? Math.round(100 * gesamtFertig / gesamtAlle) : 0;
   document.getElementById("gesamt").innerHTML =
     `<strong>${t("gesamt")(gesamtFertig, gesamtAlle, gesamtProzent)}</strong>` +
-    `<div class="balken" style="margin-top:.5rem" aria-hidden="true"><div style="width:${gesamtProzent}%"></div></div>`;
+    `<div class="balken" style="margin-top:.5rem" aria-hidden="true"><div style="width:${gesamtProzent}%"></div></div>` +
+    `<div class="legende">` +
+    [1, 2, 3].map(n => `<span><span class="stufe stufe-${n}" aria-hidden="true">S${n}</span>${t("stufe")} ${n}: ${t("stufen")[n - 1]}</span>`).join("") +
+    ["offen", "begonnen", "fertig"].map(st => `<span class="${st}"><span class="status" aria-hidden="true">${SYMBOL[st]}</span>${t("status")[st]}</span>`).join("") +
+    `</div>`;
   document.getElementById("themen").innerHTML = DATEN.lehrplaene.map(karte).join("");
 }
 
