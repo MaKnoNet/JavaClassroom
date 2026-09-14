@@ -34,9 +34,11 @@
   li.lektion { padding:0; }
   li.lektion > button { all:unset; box-sizing:border-box; display:flex; gap:.5rem; align-items:center; width:100%; min-height:1.75rem; padding:.2rem .3rem; border-radius:.3rem; cursor:pointer; color:var(--text); }
   li.lektion.offen > button { color:var(--grau); }
-  li .datum { margin-left:auto; color:var(--grau); font-size:.85rem; }
+  li .titel { flex:1; }
+  li .datum { color:var(--grau); font-size:.85rem; white-space:nowrap; }
   .status { width:1.2rem; text-align:center; }
-  .stufe { font-size:.7rem; font-weight:600; padding:0 .35rem; border-radius:.3rem; margin-left:.4rem; color:#fff; align-self:center; }
+  /* Feste Spalte am rechten Rand, damit die Stufen untereinander eine ruhige Kante bilden. */
+  .stufe { flex:0 0 2rem; text-align:center; font-size:.7rem; font-weight:600; padding:.1rem 0; border-radius:.3rem; color:#fff; align-self:center; }
   .stufe-1 { background:var(--stufe-1); } .stufe-2 { background:var(--stufe-2); } .stufe-3 { background:var(--stufe-3); }
   .fertig .status { color:var(--fertig); }
   .begonnen .status { color:var(--begonnen); }
@@ -174,9 +176,10 @@ function karte(plan) {
   const zeilen = lektionen.map(l =>
     `<li class="lektion ${l.status}"><button type="button" data-befehl="/lernen ${plan.thema} ${l.nummer}" title="${t("klick")}">` +
     `<span class="status" role="img" aria-label="${t("status")[l.status]}">${SYMBOL[l.status]}</span>` +
-    `<span>${l.nummer} ${escapeHtml(lektionsTitel(l))}</span>` +
+    `<span class="titel">${l.nummer} ${escapeHtml(lektionsTitel(l))}</span>` +
+    (l.datum ? `<span class="datum">${l.datum}</span>` : "") +
     (l.stufe ? `<span class="stufe stufe-${l.stufe}" title="${t("stufe")} ${l.stufe}"><span aria-hidden="true">S${l.stufe}</span><span class="sr-only">${t("stufe")} ${l.stufe}</span></span>` : "") +
-    (l.datum ? `<span class="datum">${l.datum}</span>` : "") + `</button></li>`).join("");
+    `</button></li>`).join("");
   return `<article class="thema ${fehlend.length ? "gesperrt" : ""}">
     <h2><span>${fehlend.length ? `<span aria-hidden="true">🔒 </span><span class="sr-only">${t("gesperrt")}: </span>` : ""}${escapeHtml(plan.titel)}</span><span class="zahl"><span class="sr-only">, </span>${fertig} / ${lektionen.length}</span></h2>
     <div class="balken" aria-hidden="true"><div style="width:${prozent}%"></div></div>
