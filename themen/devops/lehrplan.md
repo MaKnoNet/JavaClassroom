@@ -2,7 +2,7 @@
 thema: devops
 titel: Cloud-Native und Betrieb
 voraussetzungen: [java, gradle, git, spring]
-zielgruppe: [azubi, student, kollege]
+zielgruppe: [erfahren]
 reihenfolge: 140
 ---
 

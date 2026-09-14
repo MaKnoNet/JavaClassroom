@@ -2,7 +2,7 @@
 thema: security
 titel: Sicherheit
 voraussetzungen: [java, gradle, junit]
-zielgruppe: [azubi, student, kollege]
+zielgruppe: [fortgeschritten, erfahren]
 reihenfolge: 130
 ---
 

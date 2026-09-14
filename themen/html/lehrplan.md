@@ -2,7 +2,7 @@
 thema: html
 titel: HTML
 voraussetzungen: []
-zielgruppe: [azubi, student]
+zielgruppe: [anfaenger, fortgeschritten]
 reihenfolge: 20
 ---
 

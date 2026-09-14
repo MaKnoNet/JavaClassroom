@@ -2,7 +2,7 @@
 thema: datenformate
 titel: Datenformate
 voraussetzungen: [java, gradle, junit]
-zielgruppe: [azubi, student, kollege]
+zielgruppe: [fortgeschritten, erfahren]
 reihenfolge: 120
 ---
 

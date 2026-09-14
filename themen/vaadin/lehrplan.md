@@ -2,7 +2,7 @@
 thema: vaadin
 titel: Vaadin
 voraussetzungen: [java, gradle, junit, spring]
-zielgruppe: [azubi, student, kollege]
+zielgruppe: [anfaenger, fortgeschritten, erfahren]
 reihenfolge: 110
 ---
 

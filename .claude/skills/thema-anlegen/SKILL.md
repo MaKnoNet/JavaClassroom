@@ -11,7 +11,9 @@ Du hilfst einem Ausbilder, ein Thema anzulegen. Formate und Konventionen: `AGENT
 ## 1. Klären (eine Frage pro Nachricht)
 
 1. Titel des Themas?
-2. Zielgruppe: Azubi, Student, Kollege – mehrere möglich?
+2. Zielgruppe als **Niveau**: anfaenger, fortgeschritten, erfahren – mehrere möglich?
+   (Nicht die Rolle – Azubi, Student, Kollege sagt nichts über das Können. Sie muss zu den
+   `Stufe:`-Werten der Lektionen passen.)
 3. Voraussetzungen: welche vorhandenen Themen (`ls themen`) sollten vorher fertig sein?
 4. Was soll am Ende sitzen? Zwei bis drei Sätze.
 5. Quellmaterial: Für Allgemeinthemen keines. Für Firmenthemen: Pfad zu Code oder Doku

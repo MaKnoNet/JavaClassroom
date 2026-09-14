@@ -2,7 +2,7 @@
 thema: css
 titel: CSS
 voraussetzungen: [html]
-zielgruppe: [azubi, student]
+zielgruppe: [anfaenger, fortgeschritten]
 reihenfolge: 30
 ---
 

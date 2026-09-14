@@ -2,7 +2,7 @@
 thema: NAME
 titel: Titel des Themas
 voraussetzungen: []
-zielgruppe: [azubi, student, kollege]
+zielgruppe: [anfaenger, fortgeschritten, erfahren]
 ---
 
 # Titel des Themas

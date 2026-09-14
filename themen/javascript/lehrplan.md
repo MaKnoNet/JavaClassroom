@@ -2,7 +2,7 @@
 thema: javascript
 titel: JavaScript
 voraussetzungen: [html]
-zielgruppe: [azubi, student]
+zielgruppe: [anfaenger, fortgeschritten]
 reihenfolge: 40
 ---
 

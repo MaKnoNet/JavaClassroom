@@ -2,7 +2,7 @@
 thema: gradle
 titel: Gradle
 voraussetzungen: [java]
-zielgruppe: [azubi, student, kollege]
+zielgruppe: [anfaenger, fortgeschritten]
 reihenfolge: 70
 ---
 

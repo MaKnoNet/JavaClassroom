@@ -135,7 +135,7 @@ im Unterricht; nutze sie, um Rückmeldung zu geben.
 thema: java
 titel: Java
 voraussetzungen: []
-zielgruppe: [azubi, student]
+zielgruppe: [anfaenger, fortgeschritten]
 reihenfolge: 60
 ---
 
@@ -152,6 +152,12 @@ Worum es geht, was am Ende sitzen soll.
 - **Übersetzung:** en: First class | fr: Première classe
 - **Stufe:** 1
 ```
+
+`zielgruppe:` nennt das **Niveau**, für das das Thema gedacht ist – `anfaenger`,
+`fortgeschritten`, `erfahren` (dieselben Werte wie `niveau` in der Fortschrittsdatei), nicht
+die Rolle: Azubi, Student oder Kollege sagt nichts über das Können. In der Regel ergibt sie
+sich aus den `Stufe:`-Werten der Lektionen (Stufe 1 → anfaenger, 2 → fortgeschritten,
+3 → erfahren).
 
 `reihenfolge:` (ganze Zahl) legt die Position des Themas auf der Fortschrittsseite fest –
 Lernpfad von oben nach unten: Git 10, HTML 20, CSS 30, JavaScript 40, Frontend 50, Java 60,
