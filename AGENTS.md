@@ -171,8 +171,11 @@ dieser Reihenfolge. `Übung:` und `Übersetzung:` dürfen fehlen. `Übersetzung:
 Lektionstitel in weiteren Sprachen (`code: Titel`, durch `|` getrennt) – die
 Fortschrittsseite zeigt ihn in der gewählten Sprache; ohne Eintrag bleibt der deutsche
 Titel. `Stufe:` ist 1 (Anfänger), 2 (Fortgeschritten) oder 3 (Erfahren) und steuert
-zusammen mit dem `niveau` des Lernenden, welche Lektionen nach bestandener Prüffrage
-übersprungen werden dürfen (siehe Skill `/lernen`). Der übrige Lehrplantext bleibt Deutsch. Weiterer Text ist frei und dient als Leitfaden –
+zusammen mit dem `niveau` des Lernenden, welche Lektionen nach bestandener Prüfung
+übersprungen werden dürfen (siehe Skill `/lernen`). Die Prüfung besteht aus der Prüffrage
+(Konzept) und – sobald die Lektion eine `Übung:` hat – einer **Schreibprobe** (Können): ein
+Kernstück aus dem Kopf schreiben, geprüft am echten Ergebnis, nicht am Wortlaut.
+Konzeptwissen allein hakt keine Lektion ab. Der übrige Lehrplantext bleibt Deutsch. Weiterer Text ist frei und dient als Leitfaden –
 unterrichte *entlang*, nicht *aus* dem Text.
 
 ## Dateiformat Fortschritt (`fortschritt/<name>.md`)

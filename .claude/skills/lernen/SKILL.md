@@ -99,11 +99,23 @@ braucht. Jeden Befehl per Bash ausführen, Ergebnis in einem Satz melden:
 5. Beim ersten Start eines Themas fragen: „Was kennst du von <Thema> schon?" – daraus und
    aus `niveau` und der `Stufe:` jeder Lektion ergibt sich das Vorgehen:
    - `anfaenger`: jede Lektion der Reihe nach, kleine Häppchen.
-   - `fortgeschritten`: Lektionen der Stufe 1 nur per Prüffrage – sitzt sie, Lektion als
+   - `fortgeschritten`: Lektionen der Stufe 1 nur per **Prüfung** – sitzt sie, Lektion als
      `fertig` eintragen und weiter; sonst unterrichten. Stufe 2 und 3 normal.
-   - `erfahren`: Stufe 1 und 2 per Prüffrage, Stufe 3 normal.
+   - `erfahren`: Stufe 1 und 2 per Prüfung, Stufe 3 normal.
    Ohne `Stufe:`-Zeile gilt die Lektion als Stufe 2. Übersprungene Lektionen zählen als
    `fertig`, damit Fortschrittsseite und Voraussetzungen stimmen.
+
+   **Die Prüfung ist zweiteilig, sobald die Lektion eine `Übung:` hat:** die Prüffrage
+   (Konzept) *und* eine **Schreibprobe** (Können). Konzeptwissen allein reicht nicht – wer
+   erklären kann, was in `head` und `body` gehört, kann noch lange kein gültiges Gerüst
+   tippen. Schreibprobe heißt: ein Kernstück der Lektion **aus dem Kopf** schreiben, ohne
+   Vorlage – das HTML-Grundgerüst, die Befehlsfolge für ein neues Repository mit erstem
+   Commit, eine Java-Klasse mit `main`, ein `CREATE TABLE` mit Primärschlüssel, ein
+   `git merge` mit aufgelöstem Konflikt. Claude prüft das **echte Ergebnis** (Datei anlegen
+   und im Browser öffnen, `javac`/`./gradlew test`, `git log`, `pruefung.sql`), nicht den
+   Wortlaut. Beides bestanden → `fertig`. Scheitert die Schreibprobe, wird die Lektion
+   normal unterrichtet – ohne Wertung: Die Prüfung hat genau das gefunden, wofür sie da ist.
+   Lektionen ohne `Übung:` (reine Konzeptlektionen) bleiben bei der Prüffrage allein.
    Beim Thema `datenbanken` gehört zum ersten Start die **Datenbankwahl** (Lehrplan,
    Abschnitt „Datenbank wählen"): erst prüfen, ob eine Datenbank vorhanden ist, dann
    fragen, ob sie verwendet werden darf, sonst H2 einrichten; Ergebnis als
