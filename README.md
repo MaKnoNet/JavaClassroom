@@ -67,6 +67,19 @@ Ausbilder schicken kannst. Klicks auf der Seite starten die nächste Lektion im 
 - Fehler im Material: Der Lehrer meldet sie nach Rückfrage als Issue (`/fehler-melden`),
   oder du öffnest selbst eines über die Vorlage „Fehler im Lehrmaterial".
 
+## classroom.json
+
+Die Datei `classroom.json` im Wurzelordner ist das Manifest dieses Classrooms für
+[XYZClassroom](https://github.com/MaKnoNet/XYZClassroom), die Desktop-App, die diesen
+Classroom als Quelle einbindet. Sie ist optional für die Nutzung mit Claude Code allein.
+
+| Feld | Bedeutung |
+|---|---|
+| `id` | stabile Kennung (`javaclassroom`); bestehender Fortschritt wird darüber demselben Classroom zugeordnet – nicht ändern |
+| `name` | Anzeigename („Java Classroom") |
+| `formatVersion` | Version des Manifest-Formats; aktuell `1` |
+| `description` | ein Satz zum Inhalt, höchstens 300 Zeichen |
+
 ## Aufbau
 
 | Pfad | Inhalt |
